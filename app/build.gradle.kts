@@ -43,8 +43,10 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    // FIREBASE
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+    implementation(platform("com.google.firebase:firebase-ui-auth:6.4.0"))
 
     // When using the BoM, you don't specify versions in Firebase library dependencies
 
