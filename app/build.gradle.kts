@@ -1,5 +1,8 @@
 plugins {
     id("com.android.application")
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -44,9 +47,9 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.9.0")
     implementation ("com.square.retrofit2:retrofit:2.5.0")
     implementation ("com.square.retrofit2:converter-gson:2.5.0")
-    implementation ("com.squareup.picasso:picasso:2.71828")
-    implementation ("com.squareup.okio:okio:2.2.2")
-    implementation ("com.squareup.okhttp3:okhttp:3.14.9")
+    implementation ("com.square.picasso:picasso:2.71828")
+    implementation ("com.square.okio:okio:2.2.2")
+    implementation ("com.square.okhttp3:okhttp:3.14.9")
     implementation ("android.arch.lifecycle:view-model:1.1.1")
     implementation ("android.arch.lifecycle:extensions:1.1.1")
     androidTestImplementation ("androidx.test:runner:1.6.0-alpha04")
@@ -57,11 +60,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     // FIREBASE UI
     implementation ("com.firebase:firebase-ui-auth:6.4.0")
-
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation("com.google.firebase:firebase-analytics")
+
+    // Also add the dependency for the Google Play services library and specify its version
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     //VIEW MODEL & LIVE DATA
     implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.example.p7_daa_alexandre.databinding.ActivityMainBinding;
 import com.example.p7_daa_alexandre.home.HomeFragment;
 import com.google.android.material.snackbar.Snackbar;

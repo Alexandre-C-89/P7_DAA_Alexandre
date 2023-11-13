@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "958761183747",
+    "project_id": "p7-daa-alexandre",
+    "storage_bucket": "p7-daa-alexandre.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958761183747:android:44374587bb82b0c8db3c36",
+        "android_client_info": {
+          "package_name": "com.example.p7_daa_alexandre"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6OgLXU-fUAIYyG6mbEC1WwSXu7JPArow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
