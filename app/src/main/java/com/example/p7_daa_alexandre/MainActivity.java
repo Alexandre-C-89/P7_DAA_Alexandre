@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.example.p7_daa_alexandre.databinding.ActivityMainBinding;
+import com.example.p7_daa_alexandre.manager.UserManager;
+import com.example.p7_daa_alexandre.ui.ProfileActivity;
 import com.example.p7_daa_alexandre.ui.home.HomeFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -21,6 +23,8 @@ import java.util.List;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private ActivityMainBinding binding;
+    private UserManager userManager = UserManager.getInstance();
+
 
     private static final int RC_SIGN_IN = 123;
 
@@ -35,10 +39,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         setupListeners();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateLoginButton();
+    }
+
     private void setupListeners(){
-        // Login Button
+        // Login/Profile Button
         binding.loginButton.setOnClickListener(view -> {
-            startSignInActivity();
+            if(userManager.isCurrentUserLogged()){
+                startProfileActivity();
+            }else{
+                startSignInActivity();
+            }
         });
     }
 
@@ -60,5 +74,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                         .build(),
                 RC_SIGN_IN);
     }
+
+    // Launching Profile Activity
+    private void startProfileActivity(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    // Update Login Button when activity is resuming
+    private void updateLoginButton(){
+        binding.loginButton.setText(userManager.isCurrentUserLogged() ? getString(R.string.button_login_text_logged) : getString(R.string.button_login_text_not_logged));
+    }
+
 
 }

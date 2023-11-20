@@ -2,7 +2,6 @@ package com.example.p7_daa_alexandre.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
@@ -10,6 +9,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.p7_daa_alexandre.BaseActivity;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.databinding.ActivityProfileBinding;
+import com.example.p7_daa_alexandre.manager.UserManager;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends BaseActivity<ActivityProfileBinding> {
