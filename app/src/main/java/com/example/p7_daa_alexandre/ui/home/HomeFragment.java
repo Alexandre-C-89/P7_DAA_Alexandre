@@ -1,4 +1,4 @@
-package com.example.p7_daa_alexandre.home;
+package com.example.p7_daa_alexandre.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 import android.content.Intent;

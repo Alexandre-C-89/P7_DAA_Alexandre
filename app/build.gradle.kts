@@ -59,9 +59,10 @@ dependencies {
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     // FIREBASE UI
-    implementation ("com.firebase:firebase-ui-auth:6.4.0")
+    implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
 
     // Also add the dependency for the Google Play services library and specify its version
     implementation("com.google.android.gms:play-services-auth:20.7.0")
