@@ -1,9 +1,7 @@
 package com.example.p7_daa_alexandre.repository;
 
 import android.content.Context;
-
 import androidx.annotation.Nullable;
-
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

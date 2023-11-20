@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
-abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
+public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
     protected abstract T getViewBinding();
     protected T binding;

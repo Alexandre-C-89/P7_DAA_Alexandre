@@ -22,10 +22,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
-    private ActivityMainBinding binding;
     private UserManager userManager = UserManager.getInstance();
-
-
     private static final int RC_SIGN_IN = 123;
 
     @Override
@@ -46,7 +43,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void setupListeners(){
-        // Login/Profile Button
         binding.loginButton.setOnClickListener(view -> {
             if(userManager.isCurrentUserLogged()){
                 startProfileActivity();

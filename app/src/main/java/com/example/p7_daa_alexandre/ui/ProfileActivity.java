@@ -19,6 +19,11 @@ public class ProfileActivity extends BaseActivity<ActivityProfileBinding> {
 
 
     @Override
+    protected ActivityProfileBinding getViewBinding() {
+        return null;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupListeners();
