@@ -1,6 +1,7 @@
 package com.example.p7_daa_alexandre.manager;
 
 import com.example.p7_daa_alexandre.repository.UserRepository;
+import com.google.firebase.auth.FirebaseUser;
 
 public class UserManager {
 
@@ -22,6 +23,14 @@ public class UserManager {
             }
             return instance;
         }
+    }
+
+    public FirebaseUser getCurrentUser(){
+        return userRepository.getCurrentUser();
+    }
+
+    public Boolean isCurrentUserLogged(){
+        return (this.getCurrentUser() != null);
     }
 
 }

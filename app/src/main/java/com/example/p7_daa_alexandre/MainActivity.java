@@ -25,7 +25,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private static final int RC_SIGN_IN = 123;
 
     @Override
-    ActivityMainBinding getViewBinding() {
+    protected ActivityMainBinding getViewBinding() {
         return null;
     }
 
@@ -45,8 +45,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private void startSignInActivity(){
 
         // Choose authentication providers
-        List<AuthUI.IdpConfig> providers =
-                Collections.singletonList(new AuthUI.IdpConfig.EmailBuilder().build());
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.GoogleBuilder().build(),
+                new AuthUI.IdpConfig.EmailBuilder().build());
 
         // Launch the activity
         startActivityForResult(

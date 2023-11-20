@@ -34,6 +34,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    repositories{
+
+    }
 }
 
 dependencies {
@@ -73,5 +76,8 @@ dependencies {
     //ROOM
     implementation ("androidx.room:room-runtime:2.6.0")
     annotationProcessor ("androidx.room:room-compiler:2.6.0")
+
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 
 }

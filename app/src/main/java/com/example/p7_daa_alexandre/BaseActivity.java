@@ -9,7 +9,7 @@ import androidx.viewbinding.ViewBinding;
 
 abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
-    abstract T getViewBinding();
+    protected abstract T getViewBinding();
     protected T binding;
 
     @Override

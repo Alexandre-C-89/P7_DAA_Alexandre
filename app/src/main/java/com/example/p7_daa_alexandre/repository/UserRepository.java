@@ -1,5 +1,10 @@
 package com.example.p7_daa_alexandre.repository;
 
+import androidx.annotation.Nullable;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public final class UserRepository {
 
     private static volatile UserRepository instance;
@@ -17,6 +22,11 @@ public final class UserRepository {
             }
             return instance;
         }
+    }
+
+    @Nullable
+    public FirebaseUser getCurrentUser(){
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
 }
