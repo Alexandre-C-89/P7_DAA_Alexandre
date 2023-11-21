@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.example.p7_daa_alexandre.databinding.ActivityMainBinding;
+import com.example.p7_daa_alexandre.repository.CoworkerRepository;
 import com.example.p7_daa_alexandre.ui.home.HomeFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         List<AuthUI.IdpConfig> providers =
                 Arrays.asList(
-                        new AuthUI.IdpConfig.FacebookBuilder().build(),
                         new AuthUI.IdpConfig.GoogleBuilder().build(),
                         new AuthUI.IdpConfig.EmailBuilder().build(),
                         new AuthUI.IdpConfig.TwitterBuilder().build()
@@ -40,28 +40,29 @@ public class MainActivity extends AppCompatActivity {
                         .setTheme(R.style.LoginTheme)
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false, true)
-                        .setLogo(R.mipmap.ic_launcher_round)
+                        .setLogo(R.drawable.ic_logo_auth)
                         .build(),
                 RC_SIGN_IN);
     }
 
 
-    /**@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         this.handleResponseAfterSignIn(requestCode, resultCode, data);
-    }*/
-    // Method that handles response after SignIn Activity close
-    //Nous avons créé une méthode  handleResponseAfterSignIn permettant de récupérer plus facilement
-    // le résultat renvoyé par l'activité de connexion/inscription auto-générée par FirebaseUI
+    }
+
+    /**
+     * handleResponseAfterSignIn récupére plus facilement
+     * le résultat renvoyé par l'activité de connexion/inscription auto-générée par FirebaseUI
+     */
     private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data){
 
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
             // SUCCESS
             if (resultCode == RESULT_OK) {
-                //userManager.createUser();
-                //WorkmateRepository.getInstance().createWorkmates();
+                CoworkerRepository.getInstance().createWorkmates();
                 showSnackBar("connection_succeed");
                 Toast.makeText( this, "connection_succeed", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getApplicationContext(), HomeFragment.class);
@@ -82,9 +83,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    // Show Snack Bar with a message
+
+    /**
+     * Show Snack Bar with a message
+     */
     private void showSnackBar( String message){
-        //Snackbar.make(binding.mainLayout, message, Snackbar.LENGTH_SHORT).show();
         Toast.makeText( this, message, Toast.LENGTH_SHORT).show();
     }
 

@@ -18,14 +18,14 @@ public class Restaurant implements Serializable {
     @Nullable
     private String webSite;
     @Nullable
-    private String adresse;
+    private String address;
 
     private String hourClosed;
 
     public Restaurant() {
     }
 
-    public Restaurant(String idR, String name, @Nullable String phone, Float rating, @Nullable String type, @Nullable String urlPicture, @Nullable String webSite, @Nullable String adresse, String hourClosed, boolean isChoosedForLunchToday) {
+    public Restaurant(String idR, String name, @Nullable String phone, Float rating, @Nullable String type, @Nullable String urlPicture, @Nullable String webSite, @Nullable String address, String hourClosed, boolean isChoosedForLunchToday) {
         this.idR = idR;
         this.name = name;
         this.phone = phone;
@@ -33,11 +33,11 @@ public class Restaurant implements Serializable {
         this.type = type;
         this.urlPicture = urlPicture;
         this.webSite = webSite;
-        this.adresse = adresse;
+        this.address = address;
         this.hourClosed = hourClosed;
     }
 
-    public Restaurant(String idR,String name, @Nullable String phone, Float rating, @Nullable String type, @Nullable String urlPicture, @Nullable String webSite, @Nullable String adresse, String hourClosed) {
+    public Restaurant(String idR, String name, @Nullable String phone, Float rating, @Nullable String type, @Nullable String urlPicture, @Nullable String webSite, @Nullable String address, String hourClosed) {
         this.idR=idR;
         this.name = name;
         this.phone = phone;
@@ -45,7 +45,7 @@ public class Restaurant implements Serializable {
         this.type = type;
         this.urlPicture = urlPicture;
         this.webSite = webSite;
-        this.adresse = adresse;
+        this.address = address;
         this.hourClosed = hourClosed;
     }
 
@@ -111,16 +111,16 @@ public class Restaurant implements Serializable {
     }
 
     @Nullable
-    public String getAdresse() {
-        return adresse;
+    public String getAddress() {
+        return address;
     }
 
     public String getHourClosed() {
         return hourClosed;
     }
 
-    public void setAdresse(@Nullable String adresse) {
-        this.adresse = adresse;
+    public void setAddress(@Nullable String address) {
+        this.address = address;
     }
 
     public void setHourClosed(String hourClosed) {
