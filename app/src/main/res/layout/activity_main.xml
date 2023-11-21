@@ -7,32 +7,4 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="238dp"
-        android:layout_height="79dp"
-        android:layout_marginTop="400dp"
-        android:src="@drawable/logo_no_background"
-        android:contentDescription="@string/image_arriere_plan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/chatButton"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_large_margin"
-        android:background="@drawable/button_radius_accent_color"
-        android:padding="@dimen/default_large_margin"
-        android:text="@string/chat_with_mentor"
-        android:textColor="#fff"
-        android:textSize="@dimen/default_text_size"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
