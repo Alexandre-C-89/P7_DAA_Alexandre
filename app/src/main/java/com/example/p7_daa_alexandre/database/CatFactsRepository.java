@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.p7_daa_alexandre.model.CatFact;
 import com.example.p7_daa_alexandre.model.CatFactsResponse;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,4 +61,18 @@ public class CatFactsRepository {
 
         return catFactsMutableLiveData;
     }
+
+    // Create a Workmate in Firestore
+    /**public void createWorkmates() {
+        FirebaseUser workmates = getCurrentWorkmate();
+        if (workmates != null) {
+            String urlPicture = (workmates.getPhotoUrl() != null) ? workmates.getPhotoUrl().toString() : null;
+            String name = workmates.getDisplayName();
+            String uid = workmates.getUid();
+            String email = workmates.getEmail();
+            Workmate workmatesToCreate = new Workmate(uid, name, email, urlPicture);
+            this.getWorkmatesCollection().document(uid).set(workmatesToCreate);
+        }
+    }*/
+
 }

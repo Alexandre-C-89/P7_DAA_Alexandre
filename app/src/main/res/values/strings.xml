@@ -19,8 +19,6 @@
     <string name="connection_succeed">Login successful!</string>
     <string name="button_login_text_logged">View your profile</string>
     <string name="button_login_text_not_logged">Log In</string>
-    <item name="login_btn" type="id">bouton login</item>
-    <item name="loginButton" type="id">login button</item>
 
 
     <!-- LOGIN ACTIVITY -->

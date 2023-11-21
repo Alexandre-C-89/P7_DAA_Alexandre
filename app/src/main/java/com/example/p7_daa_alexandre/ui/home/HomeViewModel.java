@@ -5,10 +5,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
-
 import com.example.p7_daa_alexandre.database.CatFactsRepository;
 import com.example.p7_daa_alexandre.model.CatFact;
-
 import java.util.ArrayList;
 import java.util.List;
 
