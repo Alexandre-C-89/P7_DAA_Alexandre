@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                         .setTheme(R.style.LoginTheme)
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false, true)
-                        .setLogo(R.drawable.ic_logo_auth)
+                        .setLogo(R.drawable.go4lunch_logo)
                         .build(),
                 RC_SIGN_IN);
     }
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 CoworkerRepository.getInstance().createWorkmates();
                 showSnackBar("connection_succeed");
                 Toast.makeText( this, "connection_succeed", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getApplicationContext(), HomeFragment.class);
+                Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
 
             } else {

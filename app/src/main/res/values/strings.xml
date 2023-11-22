@@ -46,5 +46,7 @@
         additional permissions.
     </string>
     <string name="toast_title_no_image_chosen">No image chosen</string>
+    <string name="search">search</string>
+    <string name="search_restaurant">search restaurant</string>
 
 </resources>
