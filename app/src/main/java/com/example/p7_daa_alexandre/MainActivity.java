@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 CoworkerRepository.getInstance().createWorkmates();
                 showSnackBar("connection_succeed");
                 Toast.makeText( this, "connection_succeed", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getApplicationContext(), HomeActivity.class);
+                Intent intent= new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
 
             } else {
