@@ -1,10 +1,13 @@
 package com.example.p7_daa_alexandre;
 
+
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import android.os.Bundle;
+
 import com.example.p7_daa_alexandre.databinding.ActivityHomeBinding;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerFragment;
 import com.example.p7_daa_alexandre.ui.list.ListFragment;
@@ -22,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
 
         replaceFragment(new MapFragment());
 
-        /**binding.bottomNavigation.setOnItemSelectedListener(item -> {
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.map_view:
                     replaceFragment(new MapFragment());
@@ -35,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
                     break;
             }
             return true;
-        });*/
+        });
 
     }
 
