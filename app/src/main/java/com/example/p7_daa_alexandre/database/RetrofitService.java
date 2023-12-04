@@ -14,15 +14,20 @@ public class RetrofitService {
     /**
      * Url à changer selon l'API que je veux utiliser
      */
-    private static final String BASE_URL = "https://catfact.ninja/";
+    //private static final String BASE_URL = "https://catfact.ninja/";
+    private static final String BASE_URL = "https:///";
     private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 
-    public static CatFactsApi getCatApi() {
+    /**public static CatFactsApi getCatApi() {
         return retrofit.create(CatFactsApi.class);
+    }*/
+
+    public static RestaurantApi getRestaurantApi() {
+        return retrofit.create(RestaurantApi.class);
     }
 
 }

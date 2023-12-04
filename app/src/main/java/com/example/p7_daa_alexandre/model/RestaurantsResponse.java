@@ -1,21 +1,19 @@
 package com.example.p7_daa_alexandre.model;
 
 import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 import java.util.Objects;
 
-public class CatFactsResponse {
+public class RestaurantsResponse {
 
     @SerializedName("current_page")
     @Expose
     private final Integer currentPage;
     @SerializedName("data")
     @Expose
-    private final List<CatFact> catFacts;
+    private final List<Restaurant> restaurants;
     @SerializedName("first_page_url")
     @Expose
     private final String firstPageUrl;
@@ -28,9 +26,9 @@ public class CatFactsResponse {
     @SerializedName("last_page_url")
     @Expose
     private final String lastPageUrl;
-    @SerializedName("links")
+    /**@SerializedName("links")
     @Expose
-    private final List<Link> links;
+    private final List<Link> links;*/
     @SerializedName("next_page_url")
     @Expose
     private final String nextPageUrl;
@@ -50,14 +48,14 @@ public class CatFactsResponse {
     @Expose
     private final Integer total;
 
-    public CatFactsResponse(Integer currentPage, List<CatFact> catFacts, String firstPageUrl, Integer from, Integer lastPage, String lastPageUrl, List<Link> links, String nextPageUrl, String path, Integer perPage, String prevPageUrl, Integer to, Integer total) {
+    public RestaurantsResponse(Integer currentPage, List<Restaurant> restaurants, String firstPageUrl, Integer from, Integer lastPage, String lastPageUrl, String nextPageUrl, String path, Integer perPage, String prevPageUrl, Integer to, Integer total) {
         this.currentPage = currentPage;
-        this.catFacts = catFacts;
+        this.restaurants = restaurants;
         this.firstPageUrl = firstPageUrl;
         this.from = from;
         this.lastPage = lastPage;
         this.lastPageUrl = lastPageUrl;
-        this.links = links;
+        //this.links = links;
         this.nextPageUrl = nextPageUrl;
         this.path = path;
         this.perPage = perPage;
@@ -70,8 +68,8 @@ public class CatFactsResponse {
         return currentPage;
     }
 
-    public List<CatFact> getCatFacts() {
-        return catFacts;
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
     }
 
     public String getFirstPageUrl() {
@@ -88,10 +86,6 @@ public class CatFactsResponse {
 
     public String getLastPageUrl() {
         return lastPageUrl;
-    }
-
-    public List<Link> getLinks() {
-        return links;
     }
 
     public String getNextPageUrl() {
@@ -122,14 +116,13 @@ public class CatFactsResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CatFactsResponse that = (CatFactsResponse) o;
+        RestaurantsResponse that = (RestaurantsResponse) o;
         return Objects.equals(currentPage, that.currentPage) &&
-                Objects.equals(catFacts, that.catFacts) &&
+                Objects.equals(restaurants, that.restaurants) &&
                 Objects.equals(firstPageUrl, that.firstPageUrl) &&
                 Objects.equals(from, that.from) &&
                 Objects.equals(lastPage, that.lastPage) &&
                 Objects.equals(lastPageUrl, that.lastPageUrl) &&
-                Objects.equals(links, that.links) &&
                 Objects.equals(nextPageUrl, that.nextPageUrl) &&
                 Objects.equals(path, that.path) &&
                 Objects.equals(perPage, that.perPage) &&
@@ -140,7 +133,7 @@ public class CatFactsResponse {
 
     @Override
     public int hashCode() {
-        return Objects.hash(currentPage, catFacts, firstPageUrl, from, lastPage, lastPageUrl, links, nextPageUrl, path, perPage, prevPageUrl, to, total);
+        return Objects.hash(currentPage, restaurants, firstPageUrl, from, lastPage, lastPageUrl, nextPageUrl, path, perPage, prevPageUrl, to, total);
     }
 
     @NonNull
@@ -148,12 +141,11 @@ public class CatFactsResponse {
     public String toString() {
         return "CatFactsResponse{" +
                 "currentPage=" + currentPage +
-                ", catFacts=" + catFacts +
+                ", restaurants=" + restaurants +
                 ", firstPageUrl='" + firstPageUrl + '\'' +
                 ", from=" + from +
                 ", lastPage=" + lastPage +
                 ", lastPageUrl='" + lastPageUrl + '\'' +
-                ", links=" + links +
                 ", nextPageUrl='" + nextPageUrl + '\'' +
                 ", path='" + path + '\'' +
                 ", perPage=" + perPage +
@@ -162,4 +154,5 @@ public class CatFactsResponse {
                 ", total=" + total +
                 '}';
     }
+
 }

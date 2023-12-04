@@ -15,6 +15,7 @@ import com.example.p7_daa_alexandre.databinding.FragmentListBinding;
 import com.example.p7_daa_alexandre.model.Restaurant;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListFragment extends Fragment {
@@ -24,6 +25,8 @@ public class ListFragment extends Fragment {
     private RestaurantAdapter adapter;
 
     private List<Restaurant> restaurants = new ArrayList<>();
+
+    private ListViewModel listViewModel;
 
 
     @NonNull
@@ -46,29 +49,14 @@ public class ListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Observe la liste de tâches
-        homeViewModel.getTasks().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
+        listViewModel.getRestaurants().observe(getViewLifecycleOwner(), new Observer<List<Restaurant>>() {
             @Override
-            public void onChanged(List<Task> tasks) {
+            public void onChanged(List<Restaurant> restaurants) {
                 // Mettre à jour la liste de meetings
-                updateList(tasks);
+                updateList(restaurants);
             }
         });
         initRecyclerViews();
-
-        // Récupérer la nouvelle tâche passée en tant qu'argument
-        Bundle args = getArguments();
-        if (args != null && args.containsKey("newTask")) {
-            Task newTask = args.getParcelable("newTask");
-            // Ajouter la nouvelle tâches à la liste des tâches
-            homeViewModel.addTask(newTask);
-        }
-        binding.addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddTaskDialog();
-            }
-        });
-
     }
 
     private void initRecyclerViews() {
@@ -86,5 +74,38 @@ public class ListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
+
+    private void updateList(List<Restaurant> listRestaurants){
+        restaurants.clear();
+        restaurants.addAll(listRestaurants);
+        updateTasks();
+    }
+
+    private void updateTasks() {
+        if (restaurants.size() == 0) {
+            binding.textViewNoRestaurant.setVisibility(View.VISIBLE);
+            binding.listRestaurants.setVisibility(View.GONE);
+        } else {
+            binding.textViewNoRestaurant.setVisibility(View.GONE);
+            binding.listRestaurants.setVisibility(View.VISIBLE);
+            /**switch (sortMethod) {
+                case ALPHABETICAL:
+                    Collections.sort(restaurants, new Restaurant.TaskAZComparator());
+                    break;
+                case ALPHABETICAL_INVERTED:
+                    Collections.sort(tasks, new Re.TaskZAComparator());
+                    break;
+                case RECENT_FIRST:
+                    Collections.sort(tasks, new Task.TaskRecentComparator());
+                    break;
+                case OLD_FIRST:
+                    Collections.sort(tasks, new Task.TaskOldComparator());
+                    break;
+
+            }*/
+            adapter.updateTasks(restaurants);
+        }
+    }
+
 
 }
