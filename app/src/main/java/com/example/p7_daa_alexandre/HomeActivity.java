@@ -12,8 +12,13 @@ import com.example.p7_daa_alexandre.databinding.ActivityHomeBinding;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerFragment;
 import com.example.p7_daa_alexandre.ui.list.ListFragment;
 import com.example.p7_daa_alexandre.ui.map.MapFragment;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     ActivityHomeBinding binding;
 
@@ -27,28 +32,44 @@ public class HomeActivity extends AppCompatActivity {
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
-                case R.id.map_view:
+                case R.id.map:
                     replaceFragment(new MapFragment());
                     break;
-                case R.id.list_view:
+                case R.id.list:
                     replaceFragment(new ListFragment());
                     break;
-                case R.id.coworker_view:
+                case R.id.coworker:
                     replaceFragment(new CoworkerFragment());
                     break;
             }
             return true;
         });
 
+        SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_map, supportMapFragment).commit();
+        supportMapFragment.getMapAsync(this);
     }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng leBourget = new LatLng(48.936752, 2.425377);
+        googleMap.addMarker(new MarkerOptions()
+                .position(leBourget)
+                .title("Marker in Le bourget"));
+    }
+
+
 
     private void replaceFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.replace(R.id.container_map, fragment);
         fragmentTransaction.commit();
 
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
+    }
 }

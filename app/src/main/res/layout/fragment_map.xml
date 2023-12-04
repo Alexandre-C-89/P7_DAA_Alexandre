@@ -3,16 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.map.MapFragment"
     android:backgroundTint="@color/colorPrimary"
+    android:id="@+id/fragment_map"
     >
 
-    <TextView
+    <fragment
+        android:id="@+id/map_view"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Map Fragment"
-        android:gravity="center"
-        android:textSize="32sp"
-        />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
 </FrameLayout>
