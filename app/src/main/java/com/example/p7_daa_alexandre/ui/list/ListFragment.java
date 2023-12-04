@@ -15,7 +15,6 @@ import com.example.p7_daa_alexandre.databinding.FragmentListBinding;
 import com.example.p7_daa_alexandre.model.Restaurant;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ListFragment extends Fragment {
@@ -78,10 +77,10 @@ public class ListFragment extends Fragment {
     private void updateList(List<Restaurant> listRestaurants){
         restaurants.clear();
         restaurants.addAll(listRestaurants);
-        updateTasks();
+        updateRestaurants();
     }
 
-    private void updateTasks() {
+    private void updateRestaurants() {
         if (restaurants.size() == 0) {
             binding.textViewNoRestaurant.setVisibility(View.VISIBLE);
             binding.listRestaurants.setVisibility(View.GONE);
@@ -103,7 +102,7 @@ public class ListFragment extends Fragment {
                     break;
 
             }*/
-            adapter.updateTasks(restaurants);
+            adapter.updateRestaurants(restaurants);
         }
     }
 

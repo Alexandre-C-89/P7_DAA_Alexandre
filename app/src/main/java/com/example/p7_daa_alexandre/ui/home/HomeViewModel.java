@@ -7,18 +7,20 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.example.p7_daa_alexandre.model.CatFact;
+import com.example.p7_daa_alexandre.repository.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
-    private final CatFactsRepository repository;
+    private final Repository repository;
 
     private final MutableLiveData<Integer> currentPageMutableLiveData = new MutableLiveData<>();
 
     private final LiveData<HomeViewState> homeViewStateLiveData;
 
-    public HomeViewModel(CatFactsRepository catFactsRepository) {
-        repository = catFactsRepository;
+    public HomeViewModel(Repository repository) {
+        repository = Repository;
 
         // We start the page at 0 (this will trigger the switchMap to query the first page from the server)
         currentPageMutableLiveData.setValue(0);
@@ -26,9 +28,9 @@ public class HomeViewModel extends ViewModel {
         // If the LiveData that contains the current page information changes...
         homeViewStateLiveData = Transformations.switchMap(currentPageMutableLiveData, currentPage ->
                 // ... we query the repository to get the page (with a Transformations.switchMap)...
-                Transformations.map(repository.getCatFactsLiveData(currentPage), catFacts ->
+                Transformations.map(repository.getRestaurantsLiveData(currentPage), restaurants ->
                         // ... and we transform the data from the server to the ViewState (with a Transformations.map)
-                        mapDataToViewState(catFacts, currentPage)
+                        mapDataToViewState(restaurants)
                 )
         );
     }

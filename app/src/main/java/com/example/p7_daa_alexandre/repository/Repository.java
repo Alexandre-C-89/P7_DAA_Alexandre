@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.p7_daa_alexandre.database.RestaurantApi;
+import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.model.Restaurant;
 import com.example.p7_daa_alexandre.model.RestaurantsResponse;
 import com.google.android.gms.common.api.Response;
@@ -59,6 +60,10 @@ public class Repository {
         }
 
         return restaurantsMutableLiveData;
+    }
+
+    public LiveData<List<Coworker>> getCoworkers() {
+
     }
 
 }

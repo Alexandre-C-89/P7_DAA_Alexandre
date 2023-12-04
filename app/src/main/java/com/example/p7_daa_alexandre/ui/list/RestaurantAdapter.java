@@ -3,16 +3,13 @@ package com.example.p7_daa_alexandre.ui.list;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p7_daa_alexandre.R;
-import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.model.Restaurant;
 
 import java.util.List;
@@ -75,7 +72,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         return new ViewHolder(itemView, mListener);
     }
 
-    void updateTasks(@NonNull final List<Restaurant> restaurants) {
+    void updateRestaurants(@NonNull final List<Restaurant> restaurants) {
         this.mRestaurant = restaurants;
         notifyDataSetChanged();
     }
