@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.p7_daa_alexandre.model.CatFact;
 import com.example.p7_daa_alexandre.model.CatFactsResponse;
+import com.example.p7_daa_alexandre.model.Restaurant;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
@@ -16,15 +17,17 @@ import retrofit2.Response;
 
 public class CatFactsRepository {
 
-    private final CatFactsApi catFactsApi;
+    //private final CatFactsApi catFactsApi;
+
+    private final RestaurantApi restaurantApiApi;
 
     // In this Map we will store the responses we get from the server (corresponding to their page number),
     // so if needed we can "get back in time", this will act like a cache !
     // (Check 'caching' on Google or ask your mentor for more information)
     private final Map<Integer, CatFactsResponse> alreadyFetchedResponses = new HashMap<>();
 
-    public CatFactsRepository(CatFactsApi catFactsApi) {
-        this.catFactsApi = catFactsApi;
+    public CatFactsRepository(RestaurantApi restaurantApiApi) {
+        this.restaurantApiApi = restaurantApiApi;
     }
 
     public LiveData<List<CatFact>> getCatFactsLiveData(int page) {

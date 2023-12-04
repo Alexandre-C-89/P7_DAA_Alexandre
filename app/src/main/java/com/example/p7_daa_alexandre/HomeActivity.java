@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().add(R.id.container_map, supportMapFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_fragment, supportMapFragment).commit();
         supportMapFragment.getMapAsync(this);
     }
     @Override
@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_map, fragment);
+        fragmentTransaction.replace(R.id.container_fragment, fragment);
         fragmentTransaction.commit();
 
     }

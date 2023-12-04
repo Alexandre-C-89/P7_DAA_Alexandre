@@ -1,11 +1,22 @@
 package com.example.p7_daa_alexandre.model;
 
 import androidx.annotation.Nullable;
-
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
+
+@Entity(tableName = "Restaurants",
+        foreignKeys = {@ForeignKey(entity = Coworker.class,
+                parentColumns = "id",
+                childColumns = "CoworkerId",
+                onDelete = ForeignKey.CASCADE,
+                onUpdate = ForeignKey.CASCADE)
+        })
 public class Restaurant implements Serializable {
 
+    @PrimaryKey(autoGenerate = true)
     private String idR;
     private String name;
     @Nullable

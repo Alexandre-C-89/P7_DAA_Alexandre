@@ -9,4 +9,7 @@ public interface CatFactsApi {
         @GET("facts")
         Call<CatFactsResponse> getListOfCats(@Query("page") int page);
 
+        @GET("restaurants")
+        Call<CatFactsResponse> getListOfCats(@Query("restaurants") int list);
+
 }
