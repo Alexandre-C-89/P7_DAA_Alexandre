@@ -25,7 +25,7 @@ public class ListFragment extends Fragment {
 
     private List<Restaurant> restaurants = new ArrayList<>();
 
-    private ListViewModel listViewModel;
+    //private ListViewModel listViewModel;
 
 
     @NonNull
@@ -48,13 +48,13 @@ public class ListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Observe la liste de tâches
-        listViewModel.getRestaurants().observe(getViewLifecycleOwner(), new Observer<List<Restaurant>>() {
+        /**listViewModel.getRestaurants().observe(getViewLifecycleOwner(), new Observer<List<Restaurant>>() {
             @Override
             public void onChanged(List<Restaurant> restaurants) {
                 // Mettre à jour la liste de meetings
                 updateList(restaurants);
             }
-        });
+        });*/
         initRecyclerViews();
     }
 

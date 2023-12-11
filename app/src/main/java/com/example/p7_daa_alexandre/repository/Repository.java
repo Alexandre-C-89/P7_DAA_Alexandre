@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-public class Repository {
+/**public class Repository {
     private final RestaurantApi restaurantApi;
 
     // In this Map we will store the responses we get from the server (corresponding to their page number),
@@ -66,4 +66,4 @@ public class Repository {
 
     }
 
-}
+}*/

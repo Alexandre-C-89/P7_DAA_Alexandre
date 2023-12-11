@@ -18,7 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class HomeActivity extends AppCompatActivity {
 
     ActivityHomeBinding binding;
 
@@ -45,25 +45,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             return true;
         });
 
-        SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().add(R.id.container_fragment, supportMapFragment).commit();
-        supportMapFragment.getMapAsync(this);
     }
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        LatLng leBourget = new LatLng(48.936752, 2.425377);
-        googleMap.addMarker(new MarkerOptions()
-                .position(leBourget)
-                .title("Marker in Le bourget"));
-    }
-
-
 
     private void replaceFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
     }

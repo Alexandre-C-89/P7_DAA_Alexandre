@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p7_daa_alexandre.database.RetrofitService;
-import com.example.p7_daa_alexandre.repository.Repository;
-import com.example.p7_daa_alexandre.ui.list.ListViewModel;
+//import com.example.p7_daa_alexandre.repository.Repository;
+//import com.example.p7_daa_alexandre.ui.list.ListViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
@@ -29,10 +29,10 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     );*/
 
 
-    private final Repository repository = new Repository(
+    /**private final Repository repository = new Repository(
             // We inject the CatApi in the Repository constructor
             RetrofitService.getRestaurantApi()
-    );
+    );*/
 
     private ViewModelFactory() {
 
@@ -49,7 +49,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         throw new IllegalArgumentException("Unknown ViewModel class");
     }*/
 
-    @NonNull
+    /**@NonNull
     @Override
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(Class<T> modelClass) {
@@ -58,6 +58,6 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new ListViewModel(repository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
-    }
+    }*/
 
 }

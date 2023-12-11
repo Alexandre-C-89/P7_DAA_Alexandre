@@ -25,7 +25,7 @@ public class CoworkerFragment extends Fragment {
 
     private List<Coworker> coworkers = new ArrayList<>();
 
-    private CoworkerViewModel coworkerViewModel;
+    //private CoworkerViewModel coworkerViewModel;
 
 
     @NonNull
@@ -48,13 +48,13 @@ public class CoworkerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Observe la liste de tâches
-        coworkerViewModel.getCoworkers().observe(getViewLifecycleOwner(), new Observer<List<Coworker>>() {
+        /**coworkerViewModel.getCoworkers().observe(getViewLifecycleOwner(), new Observer<List<Coworker>>() {
             @Override
             public void onChanged(List<Coworker> coworkers) {
                 // Mettre à jour la liste de meetings
                 updateList(coworkers);
             }
-        });
+        });*/
         initRecyclerViews();
     }
 

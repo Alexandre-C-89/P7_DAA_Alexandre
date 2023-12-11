@@ -7,12 +7,12 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.example.p7_daa_alexandre.model.CatFact;
-import com.example.p7_daa_alexandre.repository.Repository;
+//import com.example.p7_daa_alexandre.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeViewModel extends ViewModel {
+/**public class HomeViewModel extends ViewModel {
     private final Repository repository;
 
     private final MutableLiveData<Integer> currentPageMutableLiveData = new MutableLiveData<>();
@@ -71,4 +71,4 @@ public class HomeViewModel extends ViewModel {
                 isPreviousPageButtonClickable
         );
     }
-}
+}*/

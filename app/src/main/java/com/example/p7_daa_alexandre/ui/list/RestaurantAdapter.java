@@ -40,18 +40,18 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         private final TextView restaurantDistance;
 
-        private final TextView restaurantType;
+        //private final TextView restaurantType;
 
         private final TextView restaurantAddress;
 
-        private final TextView restaurantCoworkerLike;
+        //private final TextView restaurantCoworkerLike;
 
         public ViewHolder (View itemView, final OnItemClickListener listener) {
             super(itemView);
             imgRestaurant = itemView.findViewById(R.id.linear_layout_restaurant_img);
             restaurantName = itemView.findViewById(R.id.linear_layout_restaurant_name);
-            restaurantType = itemView.findViewById(R.id.linear_layout_restaurant_type);
-            restaurantCoworkerLike = itemView.findViewById(R.id.linear_layout_restaurant_coworker_like);
+            //restaurantType = itemView.findViewById(R.id.linear_layout_restaurant_type);
+            //restaurantCoworkerLike = itemView.findViewById(R.id.linear_layout_restaurant_coworker_like);
             //restaurantTime = itemView.findViewById(R.id.linear_layout_restaurant_time);
             restaurantAddress = itemView.findViewById(R.id.linear_layout_restaurant_address);
             restaurantDistance = itemView.findViewById(R.id.linear_layout_restaurant_distance);
