@@ -15,7 +15,7 @@ public class RetrofitService {
      * Url à changer selon l'API que je veux utiliser
      */
     //private static final String BASE_URL = "https://catfact.ninja/";
-    private static final String BASE_URL = "https:///";
+    private static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/";
     private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(httpClient)

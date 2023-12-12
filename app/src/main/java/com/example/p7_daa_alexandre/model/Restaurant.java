@@ -4,138 +4,40 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 
-@Entity(tableName = "Restaurants",
-        foreignKeys = {@ForeignKey(entity = Coworker.class,
-                parentColumns = "id",
-                childColumns = "CoworkerId",
-                onDelete = ForeignKey.CASCADE,
-                onUpdate = ForeignKey.CASCADE)
-        })
 public class Restaurant implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
     private String idR;
+    @SerializedName("restaurant_name")
     private String name;
-    @Nullable
+    @SerializedName("phone")
     private String phone;
+    @SerializedName("rating")
     private Float rating;
-    @Nullable
+    @SerializedName("restaurant_type")
     private String type;
-    @Nullable
+    @SerializedName("picture")
     private String urlPicture;
-    @Nullable
+    @SerializedName("website")
     private String webSite;
-    @Nullable
+    @SerializedName("address")
     private String address;
 
     private String hourClosed;
 
-    public Restaurant() {
-    }
-
-    public Restaurant(String idR, String name, @Nullable String phone, Float rating, @Nullable String type, @Nullable String urlPicture, @Nullable String webSite, @Nullable String address, String hourClosed, boolean isChoosedForLunchToday) {
-        this.idR = idR;
+    public Restaurant(String name, String phone, Float rating, String type, String picture, String website, String address) {
         this.name = name;
         this.phone = phone;
         this.rating = rating;
         this.type = type;
-        this.urlPicture = urlPicture;
-        this.webSite = webSite;
+        this.urlPicture = picture;
+        this.webSite = website;
         this.address = address;
-        this.hourClosed = hourClosed;
-    }
-
-    public Restaurant(String idR, String name, @Nullable String phone, Float rating, @Nullable String type, @Nullable String urlPicture, @Nullable String webSite, @Nullable String address, String hourClosed) {
-        this.idR=idR;
-        this.name = name;
-        this.phone = phone;
-        this.rating = rating;
-        this.type = type;
-        this.urlPicture = urlPicture;
-        this.webSite = webSite;
-        this.address = address;
-        this.hourClosed = hourClosed;
-    }
-
-    // --- GETTERS ---
-    public String getIdR() {
-        return idR;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Nullable
-    public String getPhone() {
-        return phone;
-    }
-
-    public Float getRating() {
-        return rating;
-    }
-
-    @Nullable
-    public String getType() {
-        return type;
-    }
-
-    @Nullable
-    public String getUrlPicture() {
-        return urlPicture;
-    }
-
-    @Nullable
-    public String getWebSite() {
-        return webSite;
-    }
-    // --- SETTERS ---
-    public void setIdR(String idR) {
-        this.idR = idR;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPhone(@Nullable String phone) {
-        this.phone = phone;
-    }
-
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
-
-    public void setType(@Nullable String type) {
-        this.type = type;
-    }
-
-    public void setUrlPicture(@Nullable String urlPicture) {
-        this.urlPicture = urlPicture;
-    }
-
-    public void setWebSite(@Nullable String webSite) {
-        this.webSite = webSite;
-    }
-
-    @Nullable
-    public String getAddress() {
-        return address;
-    }
-
-    public String getHourClosed() {
-        return hourClosed;
-    }
-
-    public void setAddress(@Nullable String address) {
-        this.address = address;
-    }
-
-    public void setHourClosed(String hourClosed) {
-        this.hourClosed = hourClosed;
     }
 
 }
