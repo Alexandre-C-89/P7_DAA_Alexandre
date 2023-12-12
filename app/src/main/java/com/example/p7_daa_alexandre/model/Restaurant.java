@@ -13,19 +13,12 @@ import java.io.Serializable;
 public class Restaurant implements Serializable {
 
     private String idR;
-    @SerializedName("restaurant_name")
     private String name;
-    @SerializedName("phone")
     private String phone;
-    @SerializedName("rating")
     private Float rating;
-    @SerializedName("restaurant_type")
     private String type;
-    @SerializedName("picture")
     private String urlPicture;
-    @SerializedName("website")
     private String webSite;
-    @SerializedName("address")
     private String address;
 
     private String hourClosed;
@@ -40,4 +33,63 @@ public class Restaurant implements Serializable {
         this.address = address;
     }
 
+    public String getIdR() {
+        return idR;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String setName(String name) {
+        return this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getUrlPicture() {
+        return urlPicture;
+    }
+
+    public void setUrlPicture(String urlPicture) {
+        this.urlPicture = urlPicture;
+    }
+
+    public String getWebSite() {
+        return webSite;
+    }
+
+    public void setWebSite(String webSite) {
+        this.webSite = webSite;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

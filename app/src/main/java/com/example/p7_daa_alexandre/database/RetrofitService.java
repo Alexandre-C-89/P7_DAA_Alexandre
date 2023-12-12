@@ -2,9 +2,11 @@ package com.example.p7_daa_alexandre.database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitService {
 
@@ -16,17 +18,37 @@ public class RetrofitService {
      */
     //private static final String BASE_URL = "https://catfact.ninja/";
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/";
-    private static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build();
+    private static RetrofitService instance;
+    private Retrofit retrofit;
 
-    /**public static CatFactsApi getCatApi() {
-        return retrofit.create(CatFactsApi.class);
-    }*/
+    private RetrofitService() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
 
-    public static RestaurantApi getRestaurantApi() {
+    public static synchronized RetrofitService getInsance() {
+        if (instance == null) {
+            instance = new RetrofitService();
+        }
+        return instance;
+    }
+
+    /**private static final Retrofit retrofit = new Retrofit.Builder()
+     .baseUrl(BASE_URL)
+     .client(httpClient)
+     .addConverterFactory(GsonConverterFactory.create(gson))
+     .build();*/
+
+    /**
+     * public static CatFactsApi getCatApi() {
+     * return retrofit.create(CatFactsApi.class);
+     * }
+     */
+
+    public RestaurantApi getRestaurantApi() {
         return retrofit.create(RestaurantApi.class);
     }
 

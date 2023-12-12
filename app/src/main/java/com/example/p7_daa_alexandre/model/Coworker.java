@@ -20,13 +20,6 @@ public class Coworker {
         this.urlPicture = urlPicture;
         this.isNotificationActive=isNotificationActive;
     }
-    public Coworker(String idCoworker, String name, String email, String urlPicture) {
-        this.idCoworker = idCoworker;
-        this.name = name;
-        this.email = email;
-        this.urlPicture = urlPicture;
-        this.isNotificationActive=true;
-    }
 
     // --- GETTERS ---
 
