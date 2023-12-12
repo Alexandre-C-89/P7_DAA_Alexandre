@@ -29,7 +29,7 @@ public class RetrofitService {
                 .build();
     }
 
-    public static synchronized RetrofitService getInsance() {
+    public static synchronized RetrofitService getInstance() {
         if (instance == null) {
             instance = new RetrofitService();
         }

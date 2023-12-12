@@ -1,69 +1,99 @@
 package com.example.p7_daa_alexandre.repository;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.p7_daa_alexandre.database.RestaurantApi;
+import com.example.p7_daa_alexandre.database.RetrofitService;
 import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.model.Restaurant;
 import com.example.p7_daa_alexandre.model.RestaurantsResponse;
-import com.google.android.gms.common.api.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 
-/**public class Repository {
-    private final RestaurantApi restaurantApi;
+public class Repository {
+    private final MutableLiveData<ArrayList<Restaurant>> allRestaurant;
+    private final ArrayList<Restaurant> restaurantList;
 
-    // In this Map we will store the responses we get from the server (corresponding to their page number),
-    // so if needed we can "get back in time", this will act like a cache !
-    // (Check 'caching' on Google or ask your mentor for more information)
-    private final Map<Integer, RestaurantsResponse> alreadyFetchedResponses = new HashMap<>();
 
-    public Repository(RestaurantApi restaurantApi) {
-        this.restaurantApi = restaurantApi;
+    public Repository(Application application) { //application is subclass of context
+
+        //cant call abstract func but since instance is there we can do this
+        restaurantList = new ArrayList<>();
+        allRestaurant = new MutableLiveData<>();
+
+
     }
 
-    public LiveData<List<Restaurant>> getRestaurantsLiveData() {
-        MutableLiveData<List<Restaurant>> restaurantsMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<Restaurant>> callAPI(){
 
-        // Check in our cache if we already queried and stored the response
 
-        RestaurantsResponse response = alreadyFetchedResponses.get();
+        Call<ResponseBody> call = RetrofitService.getInstance().getRestaurantApi().getListOfRestaurants();
+        call.enqueue(new Callback<ResponseBody>() {
 
-        if (response != null) {
-            // We already have the response (because we already queried this page in the past) ! No need to call the api !
-            restaurantsMutableLiveData.setValue(response.getRestaurants());
-        } else {
-            // First time this page is queried, let's call the server ('enqueue()' makes the request on another thread)...
-            restaurantApi.getListOfRestaurants().enqueue(new Callback<RestaurantsResponse>() {
-                @Override
-                public void onResponse(@NonNull Call<RestaurantsResponse> call, @NonNull Response<RestaurantsResponse> response) {
-                    if (response.body() != null) {
-                        // ... and once we have the result, we store it in our Map for potential future use !
-                        alreadyFetchedResponses.put(response.body());
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                        // Publish the result to the LiveData, we can use 'setValue()' instead of 'postValue()'
-                        // because Retrofit goes back to the Main Thread once the query is finished !
-                        restaurantsMutableLiveData.setValue(response.body().getCatFacts());
+                if(response.code() == 200) {
+
+                    try {
+                        assert response.body() != null;
+
+                        JSONArray dataArray = new JSONArray(response.body().string());
+
+                        for (int i = 0; i < dataArray.length(); i++) {
+
+                            Restaurant modelRecycler = new Restaurant();
+                            JSONObject dataobj = dataArray.getJSONObject(i);
+
+                            modelRecycler.setName(dataobj.getString("name"));
+                            modelRecycler.setRegion(dataobj.getString("region"));
+                            modelRecycler.setCapital(dataobj.getString("capital"));
+                            modelRecycler.setFlag(dataobj.getString("flag"));
+
+                            modelRecycler.setSubregion(dataobj.getString("subregion"));
+                            modelRecycler.setPopulation(dataobj.getLong("population"));
+                            modelRecycler.setBorders(dataobj.getJSONArray("borders"));
+
+                            modelRecycler.setLanguages(dataobj.getJSONArray("languages"));
+                            countryList.add(modelRecycler);
+
+                        }
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+
                     }
+                    allRestaurant.setValue(restaurantList);
                 }
 
-                @Override
-                public void onFailure(@NonNull Call<RestaurantsResponse> call, @NonNull Throwable t) {
-                    restaurantsMutableLiveData.setValue(null);
-                }
-            });
-        }
+            }
 
-        return restaurantsMutableLiveData;
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //failed
+                allRestaurant.postValue(null);
+                System.out.println("t.getMessage() = " + t.getMessage());
+
+            }
+        });
+        return allRestaurant;
+
     }
 
-    public LiveData<List<Coworker>> getCoworkers() {
-
-    }
-
-}*/
+}
