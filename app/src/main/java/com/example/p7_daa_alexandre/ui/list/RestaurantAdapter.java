@@ -36,34 +36,46 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final AppCompatImageView imgRestaurant;
-
         private final TextView restaurantName;
-
         private final TextView restaurantDistance;
-
+        private final AppCompatImageView imgRestaurant;
         //private final TextView restaurantType;
-
         private final TextView restaurantAddress;
-
-        //private final TextView restaurantCoworkerLike;
+        private final TextView restaurantCoworker;
+        private final TextView restaurantHour;
+        private final TextView restaurantRating;
 
         public ViewHolder (View itemView, final OnItemClickListener listener) {
             super(itemView);
-            imgRestaurant = itemView.findViewById(R.id.linear_layout_restaurant_img);
+
+            //onClickRestaurant = itemView.findViewById(R.id.list_restaurants);
             restaurantName = itemView.findViewById(R.id.linear_layout_restaurant_name);
-            //restaurantType = itemView.findViewById(R.id.linear_layout_restaurant_type);
-            //restaurantCoworkerLike = itemView.findViewById(R.id.linear_layout_restaurant_coworker_like);
-            //restaurantTime = itemView.findViewById(R.id.linear_layout_restaurant_time);
-            restaurantAddress = itemView.findViewById(R.id.linear_layout_restaurant_address);
             restaurantDistance = itemView.findViewById(R.id.linear_layout_restaurant_distance);
+            imgRestaurant = itemView.findViewById(R.id.linear_layout_restaurant_img);
+            restaurantAddress = itemView.findViewById(R.id.linear_layout_restaurant_address);
+            restaurantCoworker = itemView.findViewById(R.id.linear_layout_restaurant_number_of_coworker);
+            restaurantHour = itemView.findViewById(R.id.linear_layout_restaurant_hour);
+            restaurantRating = itemView.findViewById(R.id.linear_layout_restaurant_rating);
+
+            /**onClickRestaurant.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
+                    }
+                }
+            });*/
         }
 
         public void bind(ResultsItem restaurant) {
             restaurantName.setText(restaurant.getName());
-            //imgRestaurant.setTag(restaurant);
-
-            //final Coworker coworker = restaurant.getCoworker();
+            restaurantDistance.setText(restaurant.getBusinessStatus());
+            imgRestaurant.setTag(restaurant.getPhotos());
+            restaurantAddress.setTag(restaurant.getVicinity());
+            restaurantCoworker.setTag(restaurant.getRating());
+            restaurantHour.setTag(restaurant.getOpeningHours());
+            restaurantRating.setTag(restaurant.getRating());
         }
     }
 
