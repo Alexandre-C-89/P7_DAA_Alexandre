@@ -12,12 +12,11 @@ public interface RestaurantApi {
     @GET("details/json")
     Call <DetailsResponse> getDetailsRestaurant();// Passer des paramètres pour les détails
 
-    @GET("nearbysearch/json")
+    @GET("nearbysearch/json?type=restaurant")
     Call <NearbysearchResponse>getListOfRestaurants(
-            @Query("keyword") String keyword,
             @Query("location") String location,
             @Query("radius") int radius,
-            @Query("type") String type,
+            //@Query("type") String type,
             @Query("key") String apiKey
     );
 }

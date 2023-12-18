@@ -10,17 +10,19 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p7_daa_alexandre.R;
+import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.model.Restaurant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
 
-    private List<Restaurant> mRestaurant;
+    private ArrayList<ResultsItem> mRestaurant;
 
     private OnItemClickListener mListener;
 
-    public RestaurantAdapter(List<Restaurant> restaurants) {
+    public RestaurantAdapter(ArrayList<ResultsItem> restaurants) {
         mRestaurant = restaurants;
     }
 
@@ -57,9 +59,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             restaurantDistance = itemView.findViewById(R.id.linear_layout_restaurant_distance);
         }
 
-        public void bind(Restaurant restaurant) {
+        public void bind(ResultsItem restaurant) {
             restaurantName.setText(restaurant.getName());
-            imgRestaurant.setTag(restaurant);
+            //imgRestaurant.setTag(restaurant);
 
             //final Coworker coworker = restaurant.getCoworker();
         }
@@ -72,7 +74,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         return new ViewHolder(itemView, mListener);
     }
 
-    void updateRestaurants(@NonNull final List<Restaurant> restaurants) {
+    void updateRestaurants(@NonNull final ArrayList<ResultsItem> restaurants) {
         this.mRestaurant = restaurants;
         notifyDataSetChanged();
     }
@@ -80,7 +82,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Restaurant restaurant = mRestaurant.get(position);
+        ResultsItem restaurant = mRestaurant.get(position);
         holder.bind(restaurant);
     }
 

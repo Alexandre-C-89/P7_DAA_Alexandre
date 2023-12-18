@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 import com.example.p7_daa_alexandre.databinding.ActivityMainBinding;
 import com.example.p7_daa_alexandre.repository.CoworkerRepository;
-import com.example.p7_daa_alexandre.ui.home.HomeFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;

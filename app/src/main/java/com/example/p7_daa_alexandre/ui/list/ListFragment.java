@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentListBinding;
 import com.example.p7_daa_alexandre.model.Restaurant;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -28,7 +30,7 @@ public class ListFragment extends Fragment {
 
     private RestaurantAdapter adapter;
 
-    private List<Restaurant> restaurants = new ArrayList<>();
+    private ArrayList<ResultsItem> restaurants = new ArrayList<>();
 
     private ListViewModel viewModel;
 
@@ -54,6 +56,19 @@ public class ListFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(ListViewModel.class);
 
         initRecyclerViews();
+
+        loadData();
+    }
+
+    private void loadData() {
+        viewModel.loadData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ResultsItem>>() {
+            @Override
+            public void onChanged(ArrayList<ResultsItem> resultsItems) {
+                restaurants.clear();
+                restaurants.addAll(resultsItems);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initRecyclerViews() {

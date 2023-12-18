@@ -60,7 +60,7 @@ public class CoworkerRepository {
             String name = coworkers.getDisplayName();
             String uid = coworkers.getUid();
             String email = coworkers.getEmail();
-            Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture);
+            Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, true);
             this.getCoworkersCollection().document(uid).set(workmatesToCreate);
         }
     }
