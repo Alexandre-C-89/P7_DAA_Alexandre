@@ -1,5 +1,6 @@
 package com.example.p7_daa_alexandre.ui.list;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.model.Restaurant;
+import com.example.p7_daa_alexandre.ui.details.DetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,10 +73,17 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         public void bind(ResultsItem restaurant) {
             restaurantName.setText(restaurant.getName());
+            // Calcule de la distance par rapport à ma position
             restaurantDistance.setText(restaurant.getBusinessStatus());
+            // Utiliser une librairie pour l'image avec le lien
             imgRestaurant.setTag(restaurant.getPhotos());
-            restaurantAddress.setTag(restaurant.getVicinity());
-            restaurantCoworker.setTag(restaurant.getRating());
+            String ref= "restaurant/"+restaurant.getIcon();
+            Glide.with(imgRestaurant.getRootView())
+                    .load(restaurant.getIcon())
+                    .into(imgRestaurant);
+            restaurantAddress.setText(restaurant.getVicinity());
+            restaurantCoworker.setTag(restaurant.getUserRatingsTotal());
+            // utiliser open_now pour récupérer le boolean
             restaurantHour.setTag(restaurant.getOpeningHours());
             restaurantRating.setTag(restaurant.getRating());
         }
@@ -96,6 +106,14 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ResultsItem restaurant = mRestaurant.get(position);
         holder.bind(restaurant);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), DetailsActivity.class);
+                intent.putExtra("restaurant", restaurant.getPlaceId());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

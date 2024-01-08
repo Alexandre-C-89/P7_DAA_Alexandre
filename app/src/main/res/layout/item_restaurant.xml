@@ -9,6 +9,7 @@
         android:id="@+id/linear_layout_restaurant_img"
         android:layout_width="80dp"
         android:layout_height="80dp"
+
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
@@ -36,6 +37,7 @@
         android:layout_below="@+id/linear_layout_restaurant_name"
         android:ellipsize="end"
         android:lines="1"
+        android:maxLength="18"
         android:text="restaurant address"
         android:textSize="16sp"
         android:textStyle="bold" />

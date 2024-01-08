@@ -27,7 +27,7 @@ public class ResultsItem{
 	private String reference;
 
 	@SerializedName("user_ratings_total")
-	private int userRatingsTotal;
+	private Float userRatingsTotal;
 
 	@SerializedName("price_level")
 	private int priceLevel;
@@ -84,7 +84,7 @@ public class ResultsItem{
 		return reference;
 	}
 
-	public int getUserRatingsTotal(){
+	public Float getUserRatingsTotal(){
 		return userRatingsTotal;
 	}
 

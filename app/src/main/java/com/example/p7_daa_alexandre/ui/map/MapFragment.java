@@ -50,4 +50,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+    /**
+     * Relance la même requête
+     */
+
 }

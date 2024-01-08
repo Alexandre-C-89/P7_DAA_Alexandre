@@ -33,6 +33,6 @@
         android:gravity="center"
         android:text="Aucun restaurant trouvé !"
         android:textSize="22sp"
-        tools:visibility="gone" />
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

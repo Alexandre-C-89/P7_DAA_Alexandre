@@ -27,7 +27,7 @@ public class Repository {
 
     public MutableLiveData<ArrayList<ResultsItem>> callAPI() {
 
-        Call<NearbysearchResponse> call = restaurantApi.getListOfRestaurants("43.81079988174095,1.3702626490971737", 1500, "AIzaSyBKc-guxXiTa3i-JcZVWNffI8Cfd64U2jY");
+        Call<NearbysearchResponse> call = restaurantApi.getListOfRestaurants("48.936752,2.425377", 1500, "AIzaSyBKc-guxXiTa3i-JcZVWNffI8Cfd64U2jY");
         call.enqueue(new Callback<NearbysearchResponse>() {
 
             @Override
