@@ -10,7 +10,12 @@ import retrofit2.http.Query;
 public interface RestaurantApi {
 
     @GET("details/json")
-    Call <DetailsResponse> getDetailsRestaurant();// Passer des paramètres pour les détails
+    Call <DetailsResponse> getRestaurantDetails(
+            // placeId
+            @Query("palceId") String placeId,
+            // Key
+            @Query("key") String apiKey
+    );// Passer des paramètres pour les détails
 
     @GET("nearbysearch/json?type=restaurant")
     Call <NearbysearchResponse>getListOfRestaurants(

@@ -1,7 +1,15 @@
 package com.example.p7_daa_alexandre.ui.details;
 
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import com.example.p7_daa_alexandre.database.response.details.DetailsResponse;
+import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.repository.Repository;
-public class DetailsViewModel {
+
+import java.util.ArrayList;
+
+public class DetailsViewModel extends ViewModel {
 
     private final Repository repository ;
 
@@ -9,7 +17,8 @@ public class DetailsViewModel {
     public DetailsViewModel() {
         repository = new Repository();
     }
-    public MutableLiveData<ArrayList<RestaurantDetails>> getRestaurantDetails() {
+
+    public MutableLiveData<DetailsResponse> getRestaurantDetails() {
         return repository.getRestaurantDetails();
     }
 

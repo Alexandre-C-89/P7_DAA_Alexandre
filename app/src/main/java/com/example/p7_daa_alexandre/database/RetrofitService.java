@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitService {
 
@@ -47,7 +46,7 @@ public class RetrofitService {
      * }
      */
 
-    public RestaurantApi getRestaurantApi() {
+    public RestaurantApi getRestaurantDetails() {
         return retrofit.create(RestaurantApi.class);
     }
 
