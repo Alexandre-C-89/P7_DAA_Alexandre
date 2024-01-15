@@ -23,18 +23,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     private ArrayList<ResultsItem> mRestaurant;
 
-    private OnItemClickListener mListener;
+    //private OnItemClickListener mListener;
 
     public RestaurantAdapter(ArrayList<ResultsItem> restaurants) {
         mRestaurant = restaurants;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -48,7 +40,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         private final TextView restaurantHour;
         private final TextView restaurantRating;
 
-        public ViewHolder (View itemView, final OnItemClickListener listener) {
+        public ViewHolder (View itemView) {
             super(itemView);
 
             //onClickRestaurant = itemView.findViewById(R.id.list_restaurants);
@@ -60,15 +52,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             restaurantHour = itemView.findViewById(R.id.linear_layout_restaurant_hour);
             restaurantRating = itemView.findViewById(R.id.linear_layout_restaurant_rating);
 
-            /**onClickRestaurant.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position);
-                    }
-                }
-            });*/
         }
 
         public void bind(ResultsItem restaurant) {
@@ -93,7 +76,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_restaurant, parent, false);
-        return new ViewHolder(itemView, mListener);
+        return new ViewHolder(itemView);
     }
 
     void updateRestaurants(@NonNull final ArrayList<ResultsItem> restaurants) {
