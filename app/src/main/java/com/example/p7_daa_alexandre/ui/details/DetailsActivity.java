@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.p7_daa_alexandre.R;
+import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.databinding.ActivityDetailsBinding;
 import com.example.p7_daa_alexandre.databinding.ActivityHomeBinding;
+import com.example.p7_daa_alexandre.model.Restaurant;
 import com.example.p7_daa_alexandre.ui.list.ListViewModel;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -21,34 +23,22 @@ public class DetailsActivity extends AppCompatActivity {
 
     private DetailsViewModel viewModel;
 
+    private RecyclerView recyclerView;
+
+    private DetailsAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
 
-        viewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(DetailsViewModel.class);
 
-        viewModel.getRestaurantDetails().observe();
+        //Restaurant restaurant= (Restaurant) getIntent().getSerializableExtra(KEY_RESTAURANT_ITEM);
 
-        //Bundle extras = getIntent().getIntExtras();
+        recyclerView.setAdapter(adapter);
 
         setContentView(binding.getRoot());
-    }
-
-    private void initRecyclerViews() {
-        adapter = new DetailsAdapter(tasks);
-        adapter.setOnItemClickListener(new DetailsAdapter().OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                // Ici, tu peux gérer les clics sur les éléments de la liste
-                // Avant la suppression ou effectuer d'autres actions si nécessaire
-                deleteMeeting(position);
-            }
-        });
-
-        RecyclerView recyclerView = binding.listTasks;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
     }
 
 
