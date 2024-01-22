@@ -75,7 +75,7 @@ public class Repository {
     }
 
     public MutableLiveData<DetailsResponse> getRestaurantDetails(){
-        Call<DetailsResponse> call = restaurantApi.getRestaurantDetails(placeId = "", apiKey = "AIzaSyBKc-guxXiTa3i-JcZVWNffI8Cfd64U2jY");
+        Call<DetailsResponse> call = restaurantApi.getRestaurantDetails(placeId = , apiKey = "AIzaSyBKc-guxXiTa3i-JcZVWNffI8Cfd64U2jY");
 
         call.enqueue(new Callback<DetailsResponse>() {
             @Override
