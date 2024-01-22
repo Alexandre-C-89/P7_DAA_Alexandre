@@ -18,8 +18,8 @@ public class DetailsViewModel extends ViewModel {
         repository = new Repository();
     }
 
-    public MutableLiveData<DetailsResponse> getRestaurantDetails() {
-        return repository.getRestaurantDetails();
+    public MutableLiveData<DetailsResponse> getRestaurantDetails(String placeId) {
+        return repository.getRestaurantDetails(placeId);
     }
 
 }

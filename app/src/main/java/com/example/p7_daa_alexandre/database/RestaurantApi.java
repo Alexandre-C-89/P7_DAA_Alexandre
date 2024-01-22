@@ -15,7 +15,7 @@ public interface RestaurantApi {
             @Query("palceId") String placeId,
             // Key
             @Query("key") String apiKey
-    );// Passer des paramètres pour les détails
+    );
 
     @GET("nearbysearch/json?type=restaurant")
     Call <NearbysearchResponse>getListOfRestaurants(
