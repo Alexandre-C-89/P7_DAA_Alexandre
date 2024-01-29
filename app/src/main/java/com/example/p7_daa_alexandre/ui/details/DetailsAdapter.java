@@ -47,10 +47,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
         public void bind(DetailsResponse restaurant) {
             restaurantName.setText(restaurant.getResult().getName());
             restaurantAddress.setText(restaurant.getResult().getAdrAddress());
-            /**Glide.with(itemView.getRootView())
-                    .load()
-                    .transform(new CenterCrop(), new RoundedCorner(50))
-                    .into(DetailsAdapter);*/
         }
     }
 

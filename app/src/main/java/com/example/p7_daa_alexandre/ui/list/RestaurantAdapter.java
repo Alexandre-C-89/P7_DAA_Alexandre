@@ -58,12 +58,22 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             restaurantName.setText(restaurant.getName());
             // Calcule de la distance par rapport à ma position
             restaurantDistance.setText(restaurant.getBusinessStatus());
-            // Utiliser une librairie pour l'image avec le lien
-            imgRestaurant.setTag(restaurant.getPhotos());
-            String ref= "restaurant/"+restaurant.getIcon();
-            Glide.with(imgRestaurant.getRootView())
-                    .load(restaurant.getIcon())
-                    .into(imgRestaurant);
+            // Vérifiez si la liste de photos n'est pas null et qu'elle a au moins une photo
+            if (restaurant.getPhotos() != null && !restaurant.getPhotos().isEmpty()) {
+                imgRestaurant.setTag(restaurant.getPhotos());
+
+                String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="
+                        + restaurant.getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
+
+                Glide.with(imgRestaurant.getRootView())
+                        .load(urlPhoto)
+                        .centerCrop()
+                        .into(imgRestaurant);
+            } else {
+                // Gérez le cas où la liste de photos est null ou vide
+                imgRestaurant.setImageResource(R.drawable.no_image_icon); // Remplacez avec votre image par défaut
+            }
+
             restaurantAddress.setText(restaurant.getVicinity());
             restaurantCoworker.setTag(restaurant.getUserRatingsTotal());
             // utiliser open_now pour récupérer le boolean
