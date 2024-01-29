@@ -4,6 +4,9 @@ import androidx.annotation.Nullable;
 
 public class Coworker {
 
+    /**
+     * modifier le model
+     */
     private String idCoworker;
     private String name;
     private String email;
