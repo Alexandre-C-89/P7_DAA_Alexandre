@@ -12,7 +12,7 @@ public interface RestaurantApi {
     @GET("details/json")
     Call <DetailsResponse> getRestaurantDetails(
             // placeId
-            @Query("palceId") String placeId,
+            @Query("place_id") String placeId,
             // Key
             @Query("key") String apiKey
     );

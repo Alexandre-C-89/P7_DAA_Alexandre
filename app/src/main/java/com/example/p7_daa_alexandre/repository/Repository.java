@@ -1,5 +1,7 @@
 package com.example.p7_daa_alexandre.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import com.example.p7_daa_alexandre.database.RestaurantApi;
 import com.example.p7_daa_alexandre.database.RetrofitService;
@@ -18,17 +20,14 @@ public class Repository {
 
     //private static final String API_KEY = BuildConfig.API_KEY;
 
-    private final MutableLiveData<DetailsResponse> restaurantDetails;
+    private MutableLiveData<DetailsResponse> restaurantDetails;
 
 
-    public Repository() { //application is subclass of context
-
-        //cant call abstract func but since instance is there we can do this
+    public Repository() {
         restaurantList = new ArrayList<>();
         allRestaurant = new MutableLiveData<>();
         restaurantApi = RetrofitService.getInstance().getRestaurantDetails();
-        restaurantDetails = (MutableLiveData<DetailsResponse>) restaurantApi.getRestaurantDetails("1", "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
-
+        restaurantDetails = new MutableLiveData<>();
     }
 
     public MutableLiveData<ArrayList<ResultsItem>> callAPI() {
@@ -56,7 +55,7 @@ public class Repository {
     }
 
     public MutableLiveData<DetailsResponse> getRestaurantDetails(String placeId){
-        Call<DetailsResponse> call = restaurantApi.getRestaurantDetails(placeId , "AIzaSyBKc-guxXiTa3i-JcZVWNffI8Cfd64U2jY");
+        Call<DetailsResponse> call = restaurantApi.getRestaurantDetails(placeId , "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
 
         call.enqueue(new Callback<DetailsResponse>() {
             @Override
@@ -68,7 +67,7 @@ public class Repository {
 
             @Override
             public void onFailure(Call<DetailsResponse> call, Throwable t) {
-
+                Log.d("Erreur de la requête !", t.getStackTrace().toString());
             }
         });
         return restaurantDetails;

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p7_daa_alexandre.database.RetrofitService;
+import com.example.p7_daa_alexandre.ui.details.DetailsViewModel;
 import com.example.p7_daa_alexandre.ui.list.ListViewModel;
 //import com.example.p7_daa_alexandre.repository.Repository;
 //import com.example.p7_daa_alexandre.ui.list.ListViewModel;
@@ -57,6 +58,11 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(ListViewModel.class)) {
             // We inject the Repository in the ViewModel constructor
             return (T) new ListViewModel();
+        }
+
+        if (modelClass.isAssignableFrom(DetailsViewModel.class)) {
+            // We inject the Repository in the ViewModel constructor
+            return (T) new DetailsViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

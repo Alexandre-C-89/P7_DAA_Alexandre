@@ -24,7 +24,7 @@ public class Result{
 	private String icon;
 
 	@SerializedName("rating")
-	private int rating;
+	private Float rating;
 
 	@SerializedName("icon_background_color")
 	private String iconBackgroundColor;
@@ -101,7 +101,7 @@ public class Result{
 		return icon;
 	}
 
-	public int getRating(){
+	public Float getRating(){
 		return rating;
 	}
 
