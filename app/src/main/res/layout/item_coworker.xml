@@ -20,14 +20,14 @@
         />
 
     <TextView
-        android:id="@+id/linear_layout_coworker_name"
+        android:id="@+id/linear_layout_coworker_name_restaurant_liked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/linear_layout_coworker_img"
         android:layout_toEndOf="@+id/linear_layout_coworker_img"
         android:ellipsize="end"
         android:lines="1"
-        android:text="coworker name"
+        android:text="coworker name restaurant liked"
         android:textSize="16sp"
         android:textStyle="bold" />
 

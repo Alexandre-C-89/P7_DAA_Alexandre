@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.p7_daa_alexandre.databinding.FragmentCoworkerBinding;
 import com.example.p7_daa_alexandre.model.Coworker;
+import com.example.p7_daa_alexandre.ui.list.ListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +25,9 @@ public class CoworkerFragment extends Fragment {
 
     private CoworkerAdapter adapter;
 
-    private List<Coworker> coworkers = new ArrayList<>();
+    private ArrayList<Coworker> coworkers = new ArrayList<>();
 
-    //private CoworkerViewModel coworkerViewModel;
+    private CoworkerViewModel viewModel;
 
 
     @NonNull
@@ -47,15 +49,18 @@ public class CoworkerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Observe la liste de tâches
-        /**coworkerViewModel.getCoworkers().observe(getViewLifecycleOwner(), new Observer<List<Coworker>>() {
+        viewModel = new ViewModelProvider(this).get(CoworkerViewModel.class);
+
+        viewModel.getAllCoworkers().observe(getViewLifecycleOwner(), new Observer<List<Coworker>>() {
             @Override
             public void onChanged(List<Coworker> coworkers) {
                 // Mettre à jour la liste de meetings
                 updateList(coworkers);
             }
-        });*/
+        });
+
         initRecyclerViews();
+
     }
 
     private void initRecyclerViews() {
@@ -75,8 +80,8 @@ public class CoworkerFragment extends Fragment {
     }
 
     private void updateList(List<Coworker> listCoworkers){
-        listCoworkers.clear();
-        listCoworkers.addAll(listCoworkers);
+        coworkers.clear();
+        coworkers.addAll(listCoworkers);
         updateCoworkers();
     }
 

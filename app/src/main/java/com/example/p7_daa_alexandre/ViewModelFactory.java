@@ -3,12 +3,9 @@ package com.example.p7_daa_alexandre;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.example.p7_daa_alexandre.database.RetrofitService;
+import com.example.p7_daa_alexandre.ui.coworker.CoworkerViewModel;
 import com.example.p7_daa_alexandre.ui.details.DetailsViewModel;
 import com.example.p7_daa_alexandre.ui.list.ListViewModel;
-//import com.example.p7_daa_alexandre.repository.Repository;
-//import com.example.p7_daa_alexandre.ui.list.ListViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
@@ -63,6 +60,10 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(DetailsViewModel.class)) {
             // We inject the Repository in the ViewModel constructor
             return (T) new DetailsViewModel();
+        }
+        if (modelClass.isAssignableFrom(CoworkerViewModel.class)) {
+            // We inject the Repository in the ViewModel constructor
+            return (T) new CoworkerViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

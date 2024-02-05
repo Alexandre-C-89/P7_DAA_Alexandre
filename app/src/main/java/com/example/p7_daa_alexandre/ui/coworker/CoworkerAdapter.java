@@ -9,15 +9,17 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.model.Coworker;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHolder> {
 
-    private List<Coworker> mCoworker;
+    private ArrayList<Coworker> mCoworker;
 
     private OnItemClickListener mListener;
 
-    public CoworkerAdapter(List<Coworker> coworkers) {
+    public CoworkerAdapter(ArrayList<Coworker> coworkers) {
         mCoworker = coworkers;
     }
 
@@ -33,17 +35,17 @@ public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHo
 
         private final AppCompatImageView imgCoworker;
 
-        private final TextView coworkerName;
+        private final TextView coworkerRestaurantNameLiked;
 
 
         public ViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             imgCoworker = itemView.findViewById(R.id.linear_layout_coworker_img);
-            coworkerName = itemView.findViewById(R.id.linear_layout_coworker_name);
+            coworkerRestaurantNameLiked = itemView.findViewById(R.id.linear_layout_coworker_name_restaurant_liked);
         }
 
         public void bind(Coworker coworker) {
-            coworkerName.setText(coworker.getName());
+            coworkerRestaurantNameLiked.setText(coworker.getName());
             imgCoworker.setTag(coworker);
         }
     }
@@ -55,8 +57,9 @@ public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHo
         return new CoworkerAdapter.ViewHolder(itemView, mListener);
     }
 
-    void updateCoworkers(@NonNull final List<Coworker> coworkers) {
-        this.mCoworker = coworkers;
+    void updateCoworkers(ArrayList<Coworker> coworkers) {
+        mCoworker.clear();
+        mCoworker.addAll(coworkers);
         notifyDataSetChanged();
     }
 
