@@ -25,7 +25,7 @@ public class CoworkerFragment extends Fragment {
 
     private CoworkerAdapter adapter;
 
-    private ArrayList<Coworker> coworkers = new ArrayList<>();
+    private List<Coworker> coworkers = new ArrayList<>();
 
     private CoworkerViewModel viewModel;
 
@@ -86,13 +86,13 @@ public class CoworkerFragment extends Fragment {
     }
 
     private void updateCoworkers() {
-        if (coworkers.size() == 0) {
+        if (coworkers.isEmpty()) {
             binding.textViewNoCoworker.setVisibility(View.VISIBLE);
             binding.listCoworkers.setVisibility(View.GONE);
         } else {
             binding.textViewNoCoworker.setVisibility(View.GONE);
             binding.listCoworkers.setVisibility(View.VISIBLE);
-            adapter.updateCoworkers(coworkers);
+            adapter.notifyDataSetChanged();
         }
     }
 }

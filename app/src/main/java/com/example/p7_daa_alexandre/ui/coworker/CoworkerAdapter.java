@@ -15,11 +15,11 @@ import java.util.List;
 
 public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHolder> {
 
-    private ArrayList<Coworker> mCoworker;
+    private List<Coworker> mCoworker;
 
     private OnItemClickListener mListener;
 
-    public CoworkerAdapter(ArrayList<Coworker> coworkers) {
+    public CoworkerAdapter(List<Coworker> coworkers) {
         mCoworker = coworkers;
     }
 
@@ -56,13 +56,6 @@ public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHo
                 .inflate(R.layout.item_coworker, parent, false);
         return new CoworkerAdapter.ViewHolder(itemView, mListener);
     }
-
-    void updateCoworkers(ArrayList<Coworker> coworkers) {
-        mCoworker.clear();
-        mCoworker.addAll(coworkers);
-        notifyDataSetChanged();
-    }
-
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
