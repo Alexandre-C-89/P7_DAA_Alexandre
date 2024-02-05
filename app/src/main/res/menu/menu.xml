@@ -3,15 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_filter"
-        android:icon="@drawable/search"
+        android:id="@+id/menu"
+        android:icon="@drawable/icon_menu"
         android:title="menu"
         app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@+id/search_restaurant"
                 android:title="@string/search_restaurant"
-                app:showAsAction="never|withText" />
+                app:showAsAction="always|withText" />
+
+            <item
+                android:id="@+id/btn_logout"
+                android:title="Disconnect"
+                app:showAsAction="always|withText" />
         </menu>
     </item>
 
