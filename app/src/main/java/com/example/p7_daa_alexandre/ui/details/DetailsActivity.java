@@ -17,6 +17,8 @@ import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.database.response.details.DetailsResponse;
 import com.example.p7_daa_alexandre.databinding.ActivityDetailsBinding;
 import com.example.p7_daa_alexandre.model.Coworker;
+import com.example.p7_daa_alexandre.model.Restaurant;
+import com.example.p7_daa_alexandre.repository.CoworkerRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,28 +133,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         // clique sur le bouton de choix
 
-        binding.websiteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+        binding.choiceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Assurez-vous que l'URL du site web est disponible dans les détails du restaurant
-                if (details != null && details.getResult().getWebsite() != null && !details.getResult().getWebsite().isEmpty()) {
-                    // Récupérez l'URL du site web du restaurant
-                    String websiteUrl = details.getResult().getWebsite();
-
-                    // Créez l'intent pour ouvrir le site web
-                    Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl));
-
-                    // Vérifiez si l'application pour gérer l'intent est disponible
-                    if (webIntent.resolveActivity(getPackageManager()) != null) {
-                        // Lancez l'intent pour ouvrir le site web
-                        startActivity(webIntent);
-                    } else {
-                        // Gérez le cas où aucune application pour gérer l'intent n'est disponible
-                        Toast.makeText(DetailsActivity.this, "Aucune application pour ouvrir le site web n'est disponible.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    // Gérez le cas où l'URL du site web n'est pas disponible
-                    Toast.makeText(DetailsActivity.this, "Aucun site web disponible pour ce restaurant.", Toast.LENGTH_SHORT).show();
+                if (details != null) {
+                    // Appelez directement la méthode addLikeRestaurant du CoworkerRepository
+                    CoworkerRepository coworkerRepository = CoworkerRepository.getInstance();
+                    Restaurant restaurant = new Restaurant(details.getResult().getName(), details.getResult().getName(), details.getResult().getRating(), details.getResult().getBusinessStatus(), details.getResult().getIcon(), details.getResult().getWebsite(), details.getResult().getAdrAddress());
+                    coworkerRepository.addLikeRestaurant(restaurant);
+                    Toast.makeText(DetailsActivity.this, "Restaurant ajouté à vos favoris", Toast.LENGTH_SHORT).show();
                 }
             }
         });

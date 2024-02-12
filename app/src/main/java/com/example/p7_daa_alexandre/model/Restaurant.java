@@ -33,6 +33,48 @@ public class Restaurant implements Serializable {
         this.address = address;
     }
 
+
+    // -- SETTER --
+
+    public String setName(String name) {
+        return this.name = name;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setUrlPicture(String urlPicture) {
+        this.urlPicture = urlPicture;
+    }
+
+    public void setWebSite(String webSite) {
+        this.webSite = webSite;
+    }
+
+    public void setHourClosed(String hourClosed) {
+        this.hourClosed = hourClosed;
+    }
+
+    public void setIdR(String idR) {
+        this.idR = idR;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+
+    // -- GETTER --
+
     public String getIdR() {
         return idR;
     }
@@ -41,55 +83,31 @@ public class Restaurant implements Serializable {
         return name;
     }
 
-    public String setName(String name) {
-        return this.name = name;
-    }
-
     public String getPhone() {
         return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public Float getRating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
-
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getUrlPicture() {
         return urlPicture;
     }
 
-    public void setUrlPicture(String urlPicture) {
-        this.urlPicture = urlPicture;
-    }
-
     public String getWebSite() {
         return webSite;
-    }
-
-    public void setWebSite(String webSite) {
-        this.webSite = webSite;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public String getHourClosed() {
+        return hourClosed;
     }
 }
