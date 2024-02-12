@@ -3,6 +3,7 @@ package com.example.p7_daa_alexandre.repository;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.p7_daa_alexandre.model.Coworker;
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CoworkerRepository {
 
@@ -60,7 +62,7 @@ public class CoworkerRepository {
             String name = coworkers.getDisplayName();
             String uid = coworkers.getUid();
             String email = coworkers.getEmail();
-            Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, true);
+            Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "", new ArrayList<>());
             this.getCoworkersCollection().document(uid).set(workmatesToCreate);
         }
     }
@@ -135,7 +137,7 @@ public class CoworkerRepository {
                 );
         return isLiked;
     }
-    public void setIsNotificationActiveOfCurrentCoworkers(Boolean isNotificationActive) {
+    /**public void setIsNotificationActiveOfCurrentCoworkers(Boolean isNotificationActive) {
         FirebaseUser coworkers = getCurrentCoworker();
         if (coworkers != null) {
             String urlPicture = (coworkers.getPhotoUrl() != null) ? coworkers.getPhotoUrl().toString() : null;
@@ -143,10 +145,11 @@ public class CoworkerRepository {
             String uid = coworkers.getUid();
             String email = coworkers.getEmail();
             System.out.println("email "+email);
-            Coworker coworkersToUpdate = new Coworker(uid, name, email, urlPicture,isNotificationActive);
+            Coworker coworkersToUpdate = new Coworker(uid, name, email, urlPicture,isNotificationActive, placeId, restaurantName, like, like1);
             this.getCoworkersCollection().document(uid).set(coworkersToUpdate);
         }
     }
+
     public MutableLiveData<Boolean> getIsNotificationActiveOfCurrentCoworkers() {
         FirebaseUser coworkers = getCurrentCoworker();
         String uid = coworkers.getUid();
@@ -155,7 +158,7 @@ public class CoworkerRepository {
                 .get()
                 .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                isNotificationActiveOfCurrentCoworkers.postValue(task.getResult().toObjects(Coworker.class).get(0).getIsNotificationActive());
+                                isNotificationActiveOfCurrentCoworkers.postValue(task.getResult().toObjects(Coworker.class).get(0).getLikedRestaurants());
                             }
                             else {
                                 Log.d("Error", "Error getting documents: ", task.getException());
@@ -163,6 +166,35 @@ public class CoworkerRepository {
                         }
                 );
         return isNotificationActiveOfCurrentCoworkers;
+    }*/
+
+    // Récupérer les coworkers qui ont liké un restaurant spécifique
+    public LiveData<List<Coworker>> getCoworkersLikedRestaurant(String restaurantId) {
+        MutableLiveData<List<Coworker>> likedCoworkersLiveData = new MutableLiveData<>();
+        List<Coworker> likedCoworkers = new ArrayList<>();
+
+        // Obtenez la référence de la collection des coworkers
+        CollectionReference coworkersCollection = FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
+
+        // Requête pour obtenir les coworkers qui ont liké le restaurant
+        coworkersCollection.whereEqualTo("likedRestaurants." + restaurantId, true)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Ajoutez chaque coworker à la liste
+                            likedCoworkers.add(document.toObject(Coworker.class));
+                        }
+                        // Mettez à jour les données LiveData avec la liste des coworkers qui ont liké le restaurant
+                        likedCoworkersLiveData.setValue(likedCoworkers);
+                    } else {
+                        // Gérez les erreurs
+                        likedCoworkersLiveData.setValue(null);
+                        Log.d("CoworkerRepository", "Error getting liked coworkers: ", task.getException());
+                    }
+                });
+
+        return likedCoworkersLiveData;
     }
 
 

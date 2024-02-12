@@ -3,6 +3,7 @@ package com.example.p7_daa_alexandre.ui.details;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,7 +16,10 @@ import com.bumptech.glide.Glide;
 import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.database.response.details.DetailsResponse;
 import com.example.p7_daa_alexandre.databinding.ActivityDetailsBinding;
+import com.example.p7_daa_alexandre.model.Coworker;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -30,6 +34,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     private DetailsResponse details;
 
+    private List<Coworker> coworkerList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +43,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(DetailsViewModel.class);
+        adapter = new DetailsAdapter(coworkerList);
 
         binding.listworkmatesjoining.setAdapter(adapter);
         String restaurant = getIntent().getStringExtra("restaurant");
@@ -56,6 +63,16 @@ public class DetailsActivity extends AppCompatActivity {
                         .load(urlPhoto)
                         .centerCrop()
                         .into(binding.pictureResto);
+            }
+
+        });
+
+        viewModel.getCoworkersLikedRestaurant(restaurant).observe(this, new Observer<List<Coworker>>() {
+            @Override
+            public void onChanged(List<Coworker> coworkers) {
+                coworkerList.clear();
+                coworkerList.addAll(coworkers);
+                adapter.notifyDataSetChanged();
             }
 
         });
@@ -85,6 +102,34 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         // clique sur website
+
+        binding.websiteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Assurez-vous que l'URL du site web est disponible dans les détails du restaurant
+                if (details != null && details.getResult().getWebsite() != null && !details.getResult().getWebsite().isEmpty()) {
+                    // Récupérez l'URL du site web du restaurant
+                    String websiteUrl = details.getResult().getWebsite();
+
+                    // Créez l'intent pour ouvrir le site web
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl));
+
+                    // Vérifiez si l'application pour gérer l'intent est disponible
+                    if (webIntent.resolveActivity(getPackageManager()) != null) {
+                        // Lancez l'intent pour ouvrir le site web
+                        startActivity(webIntent);
+                    } else {
+                        // Gérez le cas où aucune application pour gérer l'intent n'est disponible
+                        Toast.makeText(DetailsActivity.this, "Aucune application pour ouvrir le site web n'est disponible.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Gérez le cas où l'URL du site web n'est pas disponible
+                    Toast.makeText(DetailsActivity.this, "Aucun site web disponible pour ce restaurant.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // clique sur le bouton de choix
 
         binding.websiteButton.setOnClickListener(new View.OnClickListener() {
             @Override
