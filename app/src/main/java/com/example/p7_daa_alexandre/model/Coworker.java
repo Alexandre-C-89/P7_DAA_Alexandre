@@ -31,38 +31,6 @@ public class Coworker {
         this.like = like;
     }
 
-    public String getIdCoworker() {
-        return idCoworker;
-    }
-
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
-    }
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setLike(List<String> like) {
-        this.like = like;
-    }
-
     // --- GETTERS ---
 
     public String getName() {
@@ -84,6 +52,22 @@ public class Coworker {
         return like;
     }
 
+    public String getIdCoworker() {
+        return idCoworker;
+    }
+
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
     // --- SETTERS ---
     public void setIdCoworker(String idCoworker) {
         this.idCoworker = idCoworker;
@@ -96,6 +80,22 @@ public class Coworker {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setLike(List<String> like) {
+        this.like = like;
+    }
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
 }
