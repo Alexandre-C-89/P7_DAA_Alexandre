@@ -20,6 +20,8 @@ public class Coworker {
 
     private List<String> like;
 
+    public Coworker() {}
+
     public Coworker(String idCoworker, String name, String email, String picture, String placeId, String restaurantName, String address, List<String> like) {
         this.idCoworker = idCoworker;
         this.name = name;
