@@ -1,5 +1,7 @@
 package com.example.p7_daa_alexandre.ui.details;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -46,7 +49,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(DetailsViewModel.class);
         adapter = new DetailsAdapter(coworkerList);
-
+        binding.listworkmatesjoining.setLayoutManager(new LinearLayoutManager(this));
         binding.listworkmatesjoining.setAdapter(adapter);
         String restaurant = getIntent().getStringExtra("restaurant");
         viewModel.getRestaurantDetails(restaurant).observe(this, new Observer<DetailsResponse>() {
@@ -69,14 +72,13 @@ public class DetailsActivity extends AppCompatActivity {
 
         });
 
-        viewModel.getCoworkersLikedRestaurant(restaurant).observe(this, new Observer<List<Coworker>>() {
+        viewModel.getCoworkerWhoChoseRestaurant(restaurant).observe(this, new Observer<List<Coworker>>() {
             @Override
             public void onChanged(List<Coworker> coworkers) {
                 coworkerList.clear();
                 coworkerList.addAll(coworkers);
                 adapter.notifyDataSetChanged();
             }
-
         });
 
         // clique sur phone
@@ -131,17 +133,14 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        // clique sur le bouton de choix
-
-        binding.choiceButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (details != null) {
-                    // Appelez directement la méthode addLikeRestaurant du CoworkerRepository
-                    CoworkerRepository coworkerRepository = CoworkerRepository.getInstance();
-                    Restaurant restaurant = new Restaurant(details.getResult().getName(), details.getResult().getName(), details.getResult().getRating(), details.getResult().getBusinessStatus(), details.getResult().getIcon(), details.getResult().getWebsite(), details.getResult().getAdrAddress());
-                    coworkerRepository.addLikeRestaurant(restaurant);
-                    Toast.makeText(DetailsActivity.this, "Restaurant ajouté à vos favoris", Toast.LENGTH_SHORT).show();
-                }
+        // click on button choice
+        binding.choiceButton.setOnClickListener(v -> {
+            if (details != null) {
+                String placeId = details.getResult().getPlaceId(); // take ID of restaurant
+                String restaurantName = details.getResult().getName(); // take name of restaurant
+                String address= details.getResult().getFormattedAddress(); // take address of restaurant
+                viewModel.restaurantChoosed(placeId, restaurantName, address); // call method of ViewModel for adding favorite restaurant
+                Toast.makeText(DetailsActivity.this, "Restaurant ajouté à vos favoris", Toast.LENGTH_SHORT).show();
             }
         });
 

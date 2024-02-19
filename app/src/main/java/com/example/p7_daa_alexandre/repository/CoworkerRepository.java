@@ -3,6 +3,7 @@ package com.example.p7_daa_alexandre.repository;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -13,8 +14,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +121,42 @@ public class CoworkerRepository {
 
     }
 
-    public MutableLiveData<Boolean> checkIfCurrentWorkmateLikeThisRestaurant(Restaurant restaurant) {
+    // Add restaurantId in Firestore
+    public void restaurantChoosed(String placeId,String restaurantName,String address) {
+        FirebaseUser Coworkers = getCurrentCoworker();
+        String uid = Coworkers.getUid();
+        getCoworkersCollection().document(uid).update("placeId", placeId)
+                .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
+                .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
+        getCoworkersCollection().document(uid).update("restaurantName", restaurantName)
+                .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
+                .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
+        getCoworkersCollection().document(uid).update("address", address)
+                .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
+                .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
+
+    }
+
+    public LiveData<List<Coworker>> getCoworkerWhoChoseRestaurant(String placeId) {
+        MutableLiveData<List<Coworker>> coworkerLiveData = new MutableLiveData<>();
+
+        getCoworkersCollection()
+                .whereEqualTo("placeId", placeId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        List<Coworker> coworkerList = new ArrayList<>();
+                        for (DocumentSnapshot document: value.getDocuments()) {
+                            Coworker coworker = document.toObject(Coworker.class);
+                            coworkerList.add(coworker);
+                        }
+                        coworkerLiveData.setValue(coworkerList);
+                    }
+                });
+        return coworkerLiveData;
+    }
+
+    /**public MutableLiveData<Boolean> checkIfCurrentWorkmateLikeThisRestaurant(Restaurant restaurant) {
 
         FirebaseUser coworkers = getCurrentCoworker();
         String uid = coworkers.getUid();
@@ -137,7 +177,8 @@ public class CoworkerRepository {
                 );
         return isLiked;
     }
-    /**public void setIsNotificationActiveOfCurrentCoworkers(Boolean isNotificationActive) {
+
+    public void setIsNotificationActiveOfCurrentCoworkers(Boolean isNotificationActive) {
         FirebaseUser coworkers = getCurrentCoworker();
         if (coworkers != null) {
             String urlPicture = (coworkers.getPhotoUrl() != null) ? coworkers.getPhotoUrl().toString() : null;

@@ -32,4 +32,12 @@ public class DetailsViewModel extends ViewModel {
         return coworkerRepository.getCoworkersLikedRestaurant(restaurantId);
     }
 
+    public void restaurantChoosed(String placeId, String restaurantName, String address) {
+        coworkerRepository.restaurantChoosed(placeId, restaurantName, address);
+    }
+
+    public LiveData<List<Coworker>> getCoworkerWhoChoseRestaurant(String placeId) {
+        return coworkerRepository.getCoworkerWhoChoseRestaurant(placeId);
+    }
+
 }

@@ -30,8 +30,8 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
 
         public ViewHolder (View itemView) {
             super(itemView);
-            coworkerNameRestaurantliked = itemView.findViewById(R.id.detail_restaurant_coworker_name_restaurant_liked);
-            coworkerPhoto = itemView.findViewById(R.id.detail_restaurant_coworker_img);
+            coworkerNameRestaurantliked = itemView.findViewById(R.id.linear_layout_coworker_name_restaurant_liked);
+            coworkerPhoto = itemView.findViewById(R.id.linear_layout_coworker_img);
         }
 
         public void bind(Coworker coworker) {
