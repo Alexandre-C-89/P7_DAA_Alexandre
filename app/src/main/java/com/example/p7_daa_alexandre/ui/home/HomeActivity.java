@@ -7,7 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -43,6 +45,18 @@ public class HomeActivity extends AppCompatActivity {
         replaceFragment(new MapFragment());
         setSupportActionBar(binding.toolbar);
 
+        // Ajoutez l'icône de menu à la Toolbar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.icon_menu);
+        }
+
+        // Configurez le clic sur l'icône pour ouvrir le NavigationDrawer
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            binding.drawerLayout.openDrawer(GravityCompat.START);
+        });
+
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.map:
@@ -55,6 +69,30 @@ public class HomeActivity extends AppCompatActivity {
                     replaceFragment(new CoworkerFragment());
                     break;
             }
+            return true;
+        });
+
+        binding.navigationView.setNavigationItemSelectedListener(item -> {
+            // Vérifiez quel élément de menu a été sélectionné
+            switch (item.getItemId()) {
+                case R.id.home:
+                    // Action pour l'élément "home"
+                    replaceFragment(new MapFragment());
+                    break;
+                case R.id.list:
+                    // Action pour l'élément "Liste"
+                    replaceFragment(new ListFragment());
+                    break;
+                case R.id.coworker:
+                    // Action pour l'élément "Cowroker"
+                    replaceFragment(new CoworkerFragment());
+                    break;
+                case R.id.log_out:
+                    // Action pour l'élément "Log Out"
+                    LogOut();
+                    break;
+            }
+            // Retourne true pour indiquer que l'événement a été traité avec succès
             return true;
         });
 
