@@ -11,6 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        app:navigationIcon="@drawable/icon_menu"
         android:backgroundTint="@color/quantum_googred"
         app:menu="@menu/menu"
         app:title="Go4Lunch"
