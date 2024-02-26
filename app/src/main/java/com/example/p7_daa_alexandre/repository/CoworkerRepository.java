@@ -3,6 +3,7 @@ package com.example.p7_daa_alexandre.repository;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,6 +11,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.model.Restaurant;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,12 +80,17 @@ public class CoworkerRepository {
     public void createWorkmates() {
         FirebaseUser coworkers = getCurrentCoworker();
         if (coworkers != null) {
-            String urlPicture = (coworkers.getPhotoUrl() != null) ? coworkers.getPhotoUrl().toString() : null;
-            String name = coworkers.getDisplayName();
-            String uid = coworkers.getUid();
-            String email = coworkers.getEmail();
-            Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "", new ArrayList<>());
-            this.getCoworkersCollection().document(uid).set(workmatesToCreate);
+            getUserProfile().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    String urlPicture = (coworkers.getPhotoUrl() != null) ? coworkers.getPhotoUrl().toString() : null;
+                    String name = coworkers.getDisplayName();
+                    String uid = coworkers.getUid();
+                    String email = coworkers.getEmail();
+                    Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "", new ArrayList<>());
+                    getCoworkersCollection().document(uid).set(workmatesToCreate);
+                }
+            });
         }
     }
 

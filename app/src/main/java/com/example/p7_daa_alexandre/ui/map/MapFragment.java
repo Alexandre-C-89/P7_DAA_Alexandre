@@ -49,9 +49,4 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 .title("Marker in Le bourget"));
     }
 
-
-    /**
-     * Relance la même requête
-     */
-
 }
