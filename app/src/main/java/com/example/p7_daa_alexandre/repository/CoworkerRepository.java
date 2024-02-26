@@ -11,6 +11,7 @@ import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.model.Restaurant;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -48,6 +49,19 @@ public class CoworkerRepository {
 
     public FirebaseUser getCurrentCoworker() {
         return FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    // Méthode pour récupérer les informations du profil de l'utilisateur
+    public Task<DocumentSnapshot> getUserProfile() {
+        FirebaseUser currentUser = getCurrentCoworker();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            return FirebaseFirestore.getInstance().collection(COLLECTION_NAME)
+                    .document(uid)
+                    .get();
+        } else {
+            return Tasks.forException(new Exception("Utilisateur non connecté."));
+        }
     }
 
     public Task<Void> signOut(Context context) {
