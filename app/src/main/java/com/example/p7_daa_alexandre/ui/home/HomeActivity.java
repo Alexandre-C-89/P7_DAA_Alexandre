@@ -3,6 +3,7 @@ package com.example.p7_daa_alexandre.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -54,7 +55,6 @@ public class HomeActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.icon_menu);
         }
 
-        // Configurez le clic sur l'icône pour ouvrir le NavigationDrawer
         binding.toolbar.setNavigationOnClickListener(v -> {
             binding.drawerLayout.openDrawer(GravityCompat.START);
         });
@@ -99,13 +99,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search_restaurant:
+            case R.id.search_btn:
                 // Action for filtered by day
                 SearchRestaurant();
-                return true;
-
-            case R.id.btn_logout:
-                LogOut();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -124,13 +120,10 @@ public class HomeActivity extends AppCompatActivity {
     private void LogOut() {
         viewModel.signOut(this).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // La déconnexion a réussi, vous pouvez maintenant rediriger l'utilisateur vers l'écran de connexion ou effectuer d'autres actions nécessaires.
-                // Exemple : Redirection vers l'écran de connexion
                 Intent intent = new Intent(HomeActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish(); // Facultatif, selon vos besoins
             } else {
-                // La déconnexion a échoué, gérer l'erreur ici si nécessaire
                 Toast.makeText(HomeActivity.this, "Erreur lors de la déconnexion", Toast.LENGTH_SHORT).show();
             }
         });
