@@ -1,16 +1,22 @@
 package com.example.p7_daa_alexandre.ui.map;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.p7_daa_alexandre.MapViewModelFactory;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.databinding.FragmentMapBinding;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,17 +28,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private FragmentMapBinding binding;
 
+    private MapViewModel viewModel;
+
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
+
     @NonNull
     public void onCreate (Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
     }
 
+    private void requestLocationPermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can now use FusedLocationProviderClient
+                // Initialize FusedLocationProviderClient and access location
+            } else {
+                // Permission denied, handle accordingly
+            }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentMapBinding.inflate(inflater, container, false);
+        MapViewModelFactory factory = new MapViewModelFactory(requireActivity().getApplication());
+        viewModel = new ViewModelProvider(this, factory).get(MapViewModel.class);
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map_view);
         supportMapFragment.getMapAsync(MapFragment.this);
@@ -42,11 +75,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng leBourget = new LatLng(48.936752, 2.425377);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(leBourget, 15));
-        googleMap.addMarker(new MarkerOptions()
-                .position(leBourget)
-                .title("Marker in Le bourget"));
+        /**LatLng leBourget = new LatLng(48.936752, 2.425377);
+         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(leBourget, 15));
+         googleMap.addMarker(new MarkerOptions()
+         .position(leBourget)
+         .title("Marker in Le bourget"));*/
+        viewModel.getLastKnownLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+                googleMap.addMarker(new MarkerOptions()
+                        .position(currentPosition)
+                        .title("Current Location"));
+            }
+        }).addOnFailureListener(e -> {
+            // Handle failure to get location
+            Log.e("MapFragment", "Error getting last known location: " + e.getMessage());
+        });
     }
 
 }
