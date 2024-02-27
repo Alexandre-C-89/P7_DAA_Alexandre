@@ -45,7 +45,9 @@ public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHo
         }
 
         public void bind(Coworker coworker) {
-            coworkerRestaurantNameLiked.setText(coworker.getName());
+            String restaurantName = coworker.getRestaurantName();
+            String concatenedText = coworker.getName() + " (" + restaurantName + ")";
+            coworkerRestaurantNameLiked.setText(concatenedText);
             imgCoworker.setTag(coworker);
         }
     }
