@@ -24,6 +24,7 @@ import com.example.p7_daa_alexandre.ui.details.DetailsViewModel;
 import com.example.p7_daa_alexandre.ui.list.ListFragment;
 import com.example.p7_daa_alexandre.ui.map.MapFragment;
 import com.example.p7_daa_alexandre.ui.settings.SettingsFragment;
+import com.example.p7_daa_alexandre.ui.yourlunch.YourLunchFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
