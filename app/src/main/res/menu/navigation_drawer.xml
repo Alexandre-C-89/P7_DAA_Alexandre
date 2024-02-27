@@ -7,24 +7,19 @@
 
 <group android:checkableBehavior="single">
     <item
-        android:id="@+id/home"
+        android:id="@+id/your_lunch"
         android:icon="@drawable/map_icon"
-        android:title="home"
+        android:title="YOUR LUNCH"
         />
     <item
-        android:id="@+id/list"
-        android:icon="@drawable/list_icon"
-        android:title="Liste"
-        />
-    <item
-        android:id="@+id/coworker"
-        android:icon="@drawable/coworker_icon"
-        android:title="Cowroker"
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="SETTINGS"
         />
     <item
         android:id="@+id/log_out"
         android:icon="@drawable/logout"
-        android:title="Cowroker"
+        android:title="LOGOUT"
         />
 
 </group>

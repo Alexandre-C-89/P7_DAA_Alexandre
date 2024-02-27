@@ -23,6 +23,7 @@ import com.example.p7_daa_alexandre.ui.coworker.CoworkerFragment;
 import com.example.p7_daa_alexandre.ui.details.DetailsViewModel;
 import com.example.p7_daa_alexandre.ui.list.ListFragment;
 import com.example.p7_daa_alexandre.ui.map.MapFragment;
+import com.example.p7_daa_alexandre.ui.settings.SettingsFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -75,24 +76,20 @@ public class HomeActivity extends AppCompatActivity {
         binding.navigationView.setNavigationItemSelectedListener(item -> {
             // Vérifiez quel élément de menu a été sélectionné
             switch (item.getItemId()) {
-                case R.id.home:
-                    // Action pour l'élément "home"
-                    replaceFragment(new MapFragment());
+                case R.id.your_lunch:
+                    // Action for "your lunch"
+                    replaceFragment(new YourLunchFragment());
                     break;
-                case R.id.list:
-                    // Action pour l'élément "Liste"
-                    replaceFragment(new ListFragment());
-                    break;
-                case R.id.coworker:
-                    // Action pour l'élément "Cowroker"
-                    replaceFragment(new CoworkerFragment());
+                case R.id.settings:
+                    // Action for "settings"
+                    replaceFragment(new SettingsFragment());
                     break;
                 case R.id.log_out:
-                    // Action pour l'élément "Log Out"
+                    // Action for "Log Out"
                     LogOut();
                     break;
             }
-            // Retourne true pour indiquer que l'événement a été traité avec succès
+            // return "true" for indication evenment is true
             return true;
         });
 
@@ -102,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search_restaurant:
-                // Action pour filtrer par jour
+                // Action for filtered by day
                 SearchRestaurant();
                 return true;
 

@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -87,7 +88,7 @@ public class CoworkerRepository {
                     String name = coworkers.getDisplayName();
                     String uid = coworkers.getUid();
                     String email = coworkers.getEmail();
-                    Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "", new ArrayList<>());
+                    Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "",false,  new ArrayList<>());
                     getCoworkersCollection().document(uid).set(workmatesToCreate);
                 }
             });
@@ -178,58 +179,30 @@ public class CoworkerRepository {
         return coworkerLiveData;
     }
 
-    /**public MutableLiveData<Boolean> checkIfCurrentWorkmateLikeThisRestaurant(Restaurant restaurant) {
+    public void updateNotificationStatus(boolean newStatus) {
+        FirebaseUser currentUser = getCurrentCoworker();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            DocumentReference coworkerRef = getCoworkersCollection().document(uid);
 
-        FirebaseUser coworkers = getCurrentCoworker();
-        String uid = coworkers.getUid();
-        getCoworkersCollection()
-                .document(uid)
-                .collection(COWORKERS_LIKED_RESTAURANT_COLLECTION)
-                .whereEqualTo(COWORKERS_LIKED_RESTAURANT_COLLECTION_NAME_FIELD, restaurant.getName())
-                .get()
-                .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                isLiked.postValue(false);
-                                if (task.getResult().size() > 0) {
-                                    isLiked.postValue(true);
-                                }
-
-                            }
-                        }
-                );
-        return isLiked;
-    }
-
-    public void setIsNotificationActiveOfCurrentCoworkers(Boolean isNotificationActive) {
-        FirebaseUser coworkers = getCurrentCoworker();
-        if (coworkers != null) {
-            String urlPicture = (coworkers.getPhotoUrl() != null) ? coworkers.getPhotoUrl().toString() : null;
-            String name = coworkers.getDisplayName();
-            String uid = coworkers.getUid();
-            String email = coworkers.getEmail();
-            System.out.println("email "+email);
-            Coworker coworkersToUpdate = new Coworker(uid, name, email, urlPicture,isNotificationActive, placeId, restaurantName, like, like1);
-            this.getCoworkersCollection().document(uid).set(coworkersToUpdate);
+            coworkerRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    // Récupérez l'objet Coworker à partir du DocumentSnapshot
+                    Coworker coworker = documentSnapshot.toObject(Coworker.class);
+                    if (coworker != null) {
+                        // Mettez à jour le champ "notification" avec la nouvelle valeur
+                        coworker.setNotification(newStatus);
+                        // Mettez à jour le document dans Firestore
+                        coworkerRef.set(coworker)
+                                .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Notification status updated successfully"))
+                                .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error updating notification status", e));
+                    }
+                } else {
+                    Log.d("CoworkerRepository", "No such document");
+                }
+            }).addOnFailureListener(e -> Log.e("CoworkerRepository", "Error getting document", e));
         }
     }
-
-    public MutableLiveData<Boolean> getIsNotificationActiveOfCurrentCoworkers() {
-        FirebaseUser coworkers = getCurrentCoworker();
-        String uid = coworkers.getUid();
-        getCoworkersCollection()
-                .whereEqualTo("idWorkmate",uid)
-                .get()
-                .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                isNotificationActiveOfCurrentCoworkers.postValue(task.getResult().toObjects(Coworker.class).get(0).getLikedRestaurants());
-                            }
-                            else {
-                                Log.d("Error", "Error getting documents: ", task.getException());
-                            }
-                        }
-                );
-        return isNotificationActiveOfCurrentCoworkers;
-    }*/
 
     // Récupérer les coworkers qui ont liké un restaurant spécifique
     public LiveData<List<Coworker>> getCoworkersLikedRestaurant(String restaurantId) {

@@ -18,11 +18,13 @@ public class Coworker {
 
     private String address;
 
+    private Boolean notification;
+
     private List<String> like;
 
     public Coworker() {}
 
-    public Coworker(String idCoworker, String name, String email, String picture, String placeId, String restaurantName, String address, List<String> like) {
+    public Coworker(String idCoworker, String name, String email, String picture, String placeId, String restaurantName, String address, Boolean notification, List<String> like) {
         this.idCoworker = idCoworker;
         this.name = name;
         this.email = email;
@@ -30,6 +32,7 @@ public class Coworker {
         this.placeId = placeId;
         this.restaurantName = restaurantName;
         this.address = address;
+        this.notification = notification;
         this.like = like;
     }
 
@@ -70,6 +73,10 @@ public class Coworker {
         return address;
     }
 
+    public Boolean getNotification() {
+        return notification;
+    }
+
     // --- SETTERS ---
     public void setIdCoworker(String idCoworker) {
         this.idCoworker = idCoworker;
@@ -98,6 +105,10 @@ public class Coworker {
 
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
+    }
+
+    public void setNotification(Boolean notification) {
+        this.notification = notification;
     }
 
 }
