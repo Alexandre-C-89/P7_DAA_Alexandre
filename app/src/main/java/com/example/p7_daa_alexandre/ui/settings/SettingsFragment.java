@@ -41,7 +41,6 @@ public class SettingsFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
 
         binding.notificationBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Activer les notifications si le bouton est activé
             viewModel.updateNotificationStatus(isChecked);
             if (isChecked == true) {
                 Toast.makeText(getActivity(), "Notification activated !", Toast.LENGTH_SHORT).show();
@@ -49,10 +48,7 @@ public class SettingsFragment extends Fragment {
                 Toast.makeText(getActivity(), "Notification disabled !", Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Observer pour mettre à jour l'état du bouton lorsque la valeur de notification change
         viewModel.getNotificationStatus().observe(getViewLifecycleOwner(), isChecked -> {
-            // Mettez à jour l'état du bouton en fonction de la valeur de notification
             binding.notificationBtn.setChecked(isChecked);
         });
 

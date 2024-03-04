@@ -7,15 +7,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p7_daa_alexandre.MapViewModelFactory;
 import com.example.p7_daa_alexandre.R;
+import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentMapBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +26,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -51,10 +56,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, you can now use FusedLocationProviderClient
-                // Initialize FusedLocationProviderClient and access location
+                // Permission accordée, vous pouvez maintenant afficher la carte et mettre à jour l'UI
+                showMap(); // Méthode pour afficher la carte dans MapFragment
             } else {
-                // Permission denied, handle accordingly
+                // Permission refusée, handle accordingly
+                Toast.makeText(requireContext(), "Permission de localisation refusée", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -76,7 +82,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         /**LatLng leBourget = new LatLng(48.936752, 2.425377);
-         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(leBourget, 15));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(leBourget, 15));
          googleMap.addMarker(new MarkerOptions()
          .position(leBourget)
          .title("Marker in Le bourget"));*/
@@ -92,6 +98,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             // Handle failure to get location
             Log.e("MapFragment", "Error getting last known location: " + e.getMessage());
         });
+    };
+
+    public void showMap() {
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_view);
+        supportMapFragment.getMapAsync(this);
+    }
+
+
+    public void updateRestaurantList(ArrayList<ResultsItem> results) {
+        // Mettez à jour votre interface utilisateur avec les nouveaux résultats
     }
 
 }

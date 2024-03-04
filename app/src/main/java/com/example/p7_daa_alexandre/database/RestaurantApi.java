@@ -28,6 +28,7 @@ public interface RestaurantApi {
     @GET("textsearch/json")
     Call<NearbysearchResponse> searchRestaurants(
             @Query("query") String query,
+            @Query("location") String location,
             @Query("key") String key
     );
 

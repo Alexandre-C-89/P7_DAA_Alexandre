@@ -1,10 +1,15 @@
 package com.example.p7_daa_alexandre.ui.home;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.SearchView;
 import android.widget.Toast;
 
@@ -41,6 +46,28 @@ public class HomeActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(HomeViewModel.class);
         replaceFragment(new MapFragment());
         setSupportActionBar(binding.toolbar);
+
+        ActivityResultLauncher<String[]> locationPermissionRequest =
+                registerForActivityResult(new ActivityResultContracts
+                                .RequestMultiplePermissions(), result -> {
+                            Boolean fineLocationGranted = result.getOrDefault(
+                                    Manifest.permission.ACCESS_FINE_LOCATION, false);
+                            Boolean coarseLocationGranted = result.getOrDefault(
+                                    Manifest.permission.ACCESS_COARSE_LOCATION,false);
+                            if (fineLocationGranted != null && fineLocationGranted) {
+                                replaceFragment(new MapFragment());
+                            } else if (coarseLocationGranted != null && coarseLocationGranted) {
+                                replaceFragment(new MapFragment());
+                            } else {
+                                Toast.makeText(HomeActivity.this, "fine or coarse permissions was wrong !", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
+        locationPermissionRequest.launch(new String[] {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
+
 
         // Ajoutez l'icône de menu à la Toolbar
         ActionBar actionBar = getSupportActionBar();
@@ -107,19 +134,22 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.search_btn);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        MenuItem menuItem = menu.findItem(R.id.search_btn);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Type here to seacrh !");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SearchRestaurant(query);
+                Log.d("SEACRH BAR", query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // call when user add texte in searchView
+
                 return false;
             }
         });
@@ -129,8 +159,13 @@ public class HomeActivity extends AppCompatActivity {
 
     private void SearchRestaurant(String query) {
         viewModel.searchRestaurant(query).observe(this, results -> {
-            // Mettez à jour votre UI avec les résultats de la recherche
-            // Par exemple, affichez les résultats dans une liste ou une carte
+            // Vérifiez quel fragment est actuellement affiché et appelez la méthode appropriée pour mettre à jour l'UI
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
+            if (currentFragment instanceof MapFragment) {
+                ((MapFragment) currentFragment).updateRestaurantList(results);
+            } else if (currentFragment instanceof ListFragment) {
+                ((ListFragment) currentFragment).updateRestaurantList(results);
+            }
         });
     }
 

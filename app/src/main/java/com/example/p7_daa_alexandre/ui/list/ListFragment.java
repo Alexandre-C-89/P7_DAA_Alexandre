@@ -70,4 +70,8 @@ public class ListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    public void updateRestaurantList(ArrayList<ResultsItem> results) {
+        // Mettez à jour votre interface utilisateur avec les nouveaux résultats
+    }
+
 }

@@ -77,17 +77,15 @@ public class Repository {
         MutableLiveData<ArrayList<ResultsItem>> searchResults = new MutableLiveData<>();
 
         // Appeler l'API de recherche de restaurants avec la chaîne de requête (query)
-        Call<NearbysearchResponse> call = restaurantApi.searchRestaurants(query, "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
+        Call<NearbysearchResponse> call = restaurantApi.searchRestaurants(query, "", "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
 
         call.enqueue(new Callback<NearbysearchResponse>() {
             @Override
             public void onResponse(Call<NearbysearchResponse> call, Response<NearbysearchResponse> response) {
                 if (response.isSuccessful()) {
-                    // Si la réponse est réussie, mettez à jour les résultats de recherche MutableLiveData avec les résultats de la réponse
                     ArrayList<ResultsItem> results = (ArrayList<ResultsItem>) response.body().getResults();
                     searchResults.setValue(results);
                 } else {
-                    // Si la réponse n'est pas réussie, définissez les résultats de recherche MutableLiveData sur null ou une liste vide selon votre besoin
                     searchResults.setValue(new ArrayList<>());
                 }
             }

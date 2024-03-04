@@ -45,10 +45,7 @@ public class YourLunchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         viewModel = new ViewModelProvider(this).get(YourLunchViewModel.class);
-
-        // Placez ici le code pour récupérer les détails du restaurant choisi
         String placeId = getArguments().getString("placeId");
         viewModel.getRestaurantDetails(placeId).observe(getViewLifecycleOwner(), detailsResponse -> {
             if (detailsResponse != null) {
