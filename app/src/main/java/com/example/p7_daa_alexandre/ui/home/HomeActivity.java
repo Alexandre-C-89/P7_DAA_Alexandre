@@ -26,10 +26,10 @@ import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.databinding.ActivityHomeBinding;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerFragment;
+import com.example.p7_daa_alexandre.ui.details.DetailsActivity;
 import com.example.p7_daa_alexandre.ui.list.ListFragment;
 import com.example.p7_daa_alexandre.ui.map.MapFragment;
 import com.example.p7_daa_alexandre.ui.settings.SettingsFragment;
-import com.example.p7_daa_alexandre.ui.yourlunch.YourLunchFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -100,7 +100,8 @@ public class HomeActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.your_lunch:
                     // Action for "your lunch"
-                    replaceFragment(new YourLunchFragment());
+                    Intent detailsIntent = new Intent(HomeActivity.this, DetailsActivity.class);
+                    startActivity(detailsIntent);
                     break;
                 case R.id.settings:
                     // Action for "settings"
@@ -111,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
                     LogOut();
                     break;
             }
-            // return "true" for indication evenment is true
             return true;
         });
 
@@ -122,8 +122,6 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.search_btn) {
-            // Action pour le clic sur le bouton de recherche
-            // Vous pouvez ouvrir une SearchView dans votre Toolbar ici
             return true;
         }
 
@@ -148,8 +146,6 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // call when user add texte in searchView
-
                 return false;
             }
         });
@@ -159,7 +155,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void SearchRestaurant(String query) {
         viewModel.searchRestaurant(query).observe(this, results -> {
-            // Vérifiez quel fragment est actuellement affiché et appelez la méthode appropriée pour mettre à jour l'UI
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
             if (currentFragment instanceof MapFragment) {
                 ((MapFragment) currentFragment).updateRestaurantList(results);
@@ -174,7 +169,7 @@ public class HomeActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 Intent intent = new Intent(HomeActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish(); // Facultatif, selon vos besoins
+                finish();
             } else {
                 Toast.makeText(HomeActivity.this, "Erreur lors de la déconnexion", Toast.LENGTH_SHORT).show();
             }
