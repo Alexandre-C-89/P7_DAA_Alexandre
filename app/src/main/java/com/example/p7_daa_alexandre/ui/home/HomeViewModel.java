@@ -2,22 +2,35 @@ package com.example.p7_daa_alexandre.ui.home;
 
 import android.content.Context;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.repository.CoworkerRepository;
+import com.example.p7_daa_alexandre.repository.Repository;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
 
 
 public class HomeViewModel extends ViewModel {
 
 
     CoworkerRepository coworkerRepository;
+    private final Repository repository;
 
     public HomeViewModel() {
         coworkerRepository = new CoworkerRepository();
+        repository = new Repository();
     }
 
     public Task<Void> signOut(Context context) {
         return coworkerRepository.signOut(context);
+    }
+
+    // Méthode pour rechercher un restaurant
+    public MutableLiveData<ArrayList<ResultsItem>> searchRestaurant(String query) {
+        return repository.searchRestaurant(query);
     }
 
 }

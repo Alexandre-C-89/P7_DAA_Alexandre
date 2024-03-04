@@ -4,9 +4,11 @@
 
     <item
         android:id="@+id/search_btn"
+        android:title="Search"
         android:icon="@drawable/search"
-        app:showAsAction="always"
-        android:title="Search">
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        >
     </item>
 
 </menu>

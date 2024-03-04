@@ -3,9 +3,9 @@ package com.example.p7_daa_alexandre.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import androidx.appcompat.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -21,16 +21,10 @@ import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.databinding.ActivityHomeBinding;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerFragment;
-import com.example.p7_daa_alexandre.ui.details.DetailsViewModel;
 import com.example.p7_daa_alexandre.ui.list.ListFragment;
 import com.example.p7_daa_alexandre.ui.map.MapFragment;
 import com.example.p7_daa_alexandre.ui.settings.SettingsFragment;
 import com.example.p7_daa_alexandre.ui.yourlunch.YourLunchFragment;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -98,23 +92,46 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search_btn:
-                // Action for filtered by day
-                SearchRestaurant();
-                return true;
+        int id = item.getItemId();
+
+        if (id == R.id.search_btn) {
+            // Action pour le clic sur le bouton de recherche
+            // Vous pouvez ouvrir une SearchView dans votre Toolbar ici
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search_btn);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchRestaurant(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // call when user add texte in searchView
+                return false;
+            }
+        });
+
         return true;
     }
 
-    private void SearchRestaurant() {
-
+    private void SearchRestaurant(String query) {
+        viewModel.searchRestaurant(query).observe(this, results -> {
+            // Mettez à jour votre UI avec les résultats de la recherche
+            // Par exemple, affichez les résultats dans une liste ou une carte
+        });
     }
 
     private void LogOut() {
