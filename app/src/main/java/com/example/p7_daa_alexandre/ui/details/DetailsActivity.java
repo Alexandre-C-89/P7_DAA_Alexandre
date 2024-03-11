@@ -1,11 +1,9 @@
 package com.example.p7_daa_alexandre.ui.details;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Pair;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,15 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.database.response.details.DetailsResponse;
 import com.example.p7_daa_alexandre.databinding.ActivityDetailsBinding;
 import com.example.p7_daa_alexandre.model.Coworker;
-import com.example.p7_daa_alexandre.model.Restaurant;
-import com.example.p7_daa_alexandre.repository.CoworkerRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +45,11 @@ public class DetailsActivity extends AppCompatActivity {
         binding.listworkmatesjoining.setLayoutManager(new LinearLayoutManager(this));
         binding.listworkmatesjoining.setAdapter(adapter);
         String restaurant = getIntent().getStringExtra("restaurant");
+        Log.d("DetailsActivity", "Retrieving restaurant details for: " + restaurant);
         viewModel.getRestaurantDetails(restaurant).observe(this, new Observer<DetailsResponse>() {
             @Override
             public void onChanged(DetailsResponse details) {
                 DetailsActivity.this.details = details;
-                //int i = 0;
                 binding.nameRestaurant.setText(details.getResult().getName().toLowerCase(Locale.ROOT));
                 binding.adresseResto.setText(details.getResult().getVicinity());
                 binding.rating.setRating(details.getResult().getRating());
@@ -69,12 +64,23 @@ public class DetailsActivity extends AppCompatActivity {
 
         });
 
+        Log.d("DetailsActivity", "Retrieving coworkers for restaurant: " + restaurant);
         viewModel.getCoworkerWhoChoseRestaurant(restaurant).observe(this, new Observer<List<Coworker>>() {
             @Override
             public void onChanged(List<Coworker> coworkers) {
                 coworkerList.clear();
                 coworkerList.addAll(coworkers);
-                adapter.notifyDataSetChanged();
+                Log.d("DetailsActivity", "Received restaurant details: " + details);
+                Log.d("DetailsActivity", "Received coworker list: " + coworkers);
+                // If the list is empty, display a placeholder message
+                if (coworkers.isEmpty()) {
+                    binding.listworkmatesjoining.setVisibility(View.GONE); // Or set a placeholder view
+                    binding.textViewNoCoworker.setVisibility(View.VISIBLE); // Assuming a placeholder TextView
+                } else {
+                    binding.listworkmatesjoining.setVisibility(View.VISIBLE);
+                    binding.textViewNoCoworker.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -82,7 +88,7 @@ public class DetailsActivity extends AppCompatActivity {
         binding.phoneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                if (details.getResult().getFormattedPhoneNumber() != null && !details.getResult().getFormattedPhoneNumber().isEmpty()) {
+                if (details != null && details.getResult().getFormattedPhoneNumber() != null) {
                     Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + details.getResult().getFormattedPhoneNumber()));
                     if (dialIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(dialIntent);
@@ -99,7 +105,7 @@ public class DetailsActivity extends AppCompatActivity {
         binding.websiteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (details != null && details.getResult().getWebsite() != null && !details.getResult().getWebsite().isEmpty()) {
+                if (details != null && details.getResult().getWebsite() != null) {
                     String websiteUrl = details.getResult().getWebsite();
                     Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl));
                     if (webIntent.resolveActivity(getPackageManager()) != null) {

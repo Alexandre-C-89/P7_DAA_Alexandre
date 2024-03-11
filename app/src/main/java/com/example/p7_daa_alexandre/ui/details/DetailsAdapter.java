@@ -1,6 +1,7 @@
 package com.example.p7_daa_alexandre.ui.details;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
 
             coworkerNameRestaurantliked.setText(coworker.getName());
             Glide.with(itemView).load(coworker.getPicture()).into(coworkerPhoto);
-
+            Log.d("DETAIL ACTIVITY", "AZER");
         }
     }
 
