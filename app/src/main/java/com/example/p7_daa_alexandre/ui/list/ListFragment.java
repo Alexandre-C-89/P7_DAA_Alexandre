@@ -1,6 +1,7 @@
 package com.example.p7_daa_alexandre.ui.list;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,15 +51,25 @@ public class ListFragment extends Fragment {
         initRecyclerViews();
 
         loadData();
+        Log.d("ListFragment", "Retrieving restaurant data from view model");
     }
 
     private void loadData() {
         viewModel.loadData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ResultsItem>>() {
             @Override
             public void onChanged(ArrayList<ResultsItem> resultsItems) {
+                Log.d("ListFragment", "Received restaurant data: " + resultsItems);
                 restaurants.clear();
                 restaurants.addAll(resultsItems);
-                adapter.notifyDataSetChanged();
+                // If the list is empty, display a placeholder message
+                if (restaurants.isEmpty()) {
+                    binding.listRestaurants.setVisibility(View.GONE); // Or set a placeholder view
+                    binding.textViewNoRestaurant.setVisibility(View.VISIBLE); // Assuming a placeholder TextView
+                } else {
+                    binding.listRestaurants.setVisibility(View.VISIBLE);
+                    binding.textViewNoRestaurant.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
     }
