@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p7_daa_alexandre.MapViewModelFactory;
@@ -42,12 +41,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(saveInstanceState);
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        binding = FragmentMapBinding.inflate(inflater, container, false);
+        MapViewModelFactory factory = new MapViewModelFactory(requireActivity().getApplication());
+        viewModel = new ViewModelProvider(this, factory).get(MapViewModel.class);
+
+        requestLocationPermission();
+
+        return binding.getRoot();
+    }
+
     private void requestLocationPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            showMap();
         }
     }
 
@@ -66,28 +80,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        binding = FragmentMapBinding.inflate(inflater, container, false);
-        MapViewModelFactory factory = new MapViewModelFactory(requireActivity().getApplication());
-        viewModel = new ViewModelProvider(this, factory).get(MapViewModel.class);
-
-        SupportMapFragment supportMapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map_view);
-        supportMapFragment.getMapAsync(MapFragment.this);
-
-        return binding.getRoot();
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
-        /**LatLng leBourget = new LatLng(48.936752, 2.425377);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(leBourget, 15));
-         googleMap.addMarker(new MarkerOptions()
-         .position(leBourget)
-         .title("Marker in Le bourget"));*/
         viewModel.getLastKnownLocation().addOnSuccessListener(location -> {
             if (location != null) {
+                Log.d("LOCATION", location.toString());
                 LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
                 googleMap.addMarker(new MarkerOptions()

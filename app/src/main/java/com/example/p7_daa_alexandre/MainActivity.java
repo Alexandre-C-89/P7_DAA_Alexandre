@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
-            // SUCCESS
+            Toast.makeText( this, "response success !", Toast.LENGTH_SHORT).show();
             if (resultCode == RESULT_OK) {
                 CoworkerRepository.getInstance().createWorkmates();
                 showSnackBar("connection_succeed");
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
             } else {
-                // ERRORS
+                Toast.makeText( this, "response error", Toast.LENGTH_SHORT).show();
                 if (response == null) {
                     showSnackBar("error_authentication_canceled");
                 } else if (response.getError()!= null) {
