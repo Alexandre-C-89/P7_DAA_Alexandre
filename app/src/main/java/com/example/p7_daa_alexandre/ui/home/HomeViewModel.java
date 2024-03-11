@@ -9,6 +9,7 @@ import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.repository.CoworkerRepository;
 import com.example.p7_daa_alexandre.repository.Repository;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,10 @@ public class HomeViewModel extends ViewModel {
     // Méthode pour rechercher un restaurant
     public MutableLiveData<ArrayList<ResultsItem>> searchRestaurant(String query) {
         return repository.searchRestaurant(query);
+    }
+
+    public Task<DocumentSnapshot>getUserProfil(){
+        return coworkerRepository.getUserProfile();
     }
 
 }

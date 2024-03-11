@@ -25,11 +25,14 @@ import com.example.p7_daa_alexandre.MainActivity;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.databinding.ActivityHomeBinding;
+import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerFragment;
 import com.example.p7_daa_alexandre.ui.details.DetailsActivity;
 import com.example.p7_daa_alexandre.ui.list.ListFragment;
 import com.example.p7_daa_alexandre.ui.map.MapFragment;
 import com.example.p7_daa_alexandre.ui.settings.SettingsFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -100,8 +103,19 @@ public class HomeActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.your_lunch:
                     // Action for "your lunch"
-                    Intent detailsIntent = new Intent(HomeActivity.this, DetailsActivity.class);
-                    startActivity(detailsIntent);
+                    viewModel.getUserProfil().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Coworker coworker = documentSnapshot.toObject(Coworker.class);
+                            if (coworker != null && coworker.getPlaceId() != null){
+                                Intent detailsIntent = new Intent(HomeActivity.this, DetailsActivity.class);
+                                detailsIntent.putExtra("restaurant", coworker.getPlaceId());
+                                startActivity(detailsIntent);
+                            } else {
+                                Toast.makeText(HomeActivity.this, "pas de restaurant sélectionner", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                     break;
                 case R.id.settings:
                     // Action for "settings"
