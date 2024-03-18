@@ -89,9 +89,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 if (location != null) {
                     LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
                     googleMap.addMarker(new MarkerOptions()
                             .position(currentPosition)
                             .title("Current Location"));
+                    Log.d("CURRENT LOCATION", currentPosition.toString());
                 }
             });
         } else {
