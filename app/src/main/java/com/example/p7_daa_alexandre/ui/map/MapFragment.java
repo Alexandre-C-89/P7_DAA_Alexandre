@@ -19,6 +19,8 @@ import com.example.p7_daa_alexandre.MapViewModelFactory;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentMapBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,9 +38,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
     @NonNull
     public void onCreate (Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
     }
 
     @Override
@@ -70,10 +75,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission accordée, vous pouvez maintenant afficher la carte et mettre à jour l'UI
-                showMap(); // Méthode pour afficher la carte dans MapFragment
+                showMap();
             } else {
-                // Permission refusée, handle accordingly
                 Toast.makeText(requireContext(), "Permission de localisation refusée", Toast.LENGTH_SHORT).show();
             }
         }
@@ -81,19 +84,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        viewModel.getLastKnownLocation().addOnSuccessListener(location -> {
-            if (location != null) {
-                Log.d("LOCATION", location.toString());
-                LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
-                googleMap.addMarker(new MarkerOptions()
-                        .position(currentPosition)
-                        .title("Current Location"));
-            }
-        }).addOnFailureListener(e -> {
-            // Handle failure to get location
-            Log.e("MapFragment", "Error getting last known location: " + e.getMessage());
-        });
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.getLastLocation()
+                    .addOnSuccessListener(requireActivity(), location -> {
+                        if (location != null) {
+                            LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+                            googleMap.addMarker(new MarkerOptions()
+                                    .position(currentPosition)
+                                    .title("Current Location"));
+                        }
+                    });
+        } else {
+            requestLocationPermission();
+        }
     };
 
     public void showMap() {
@@ -103,7 +107,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     public void updateRestaurantList(ArrayList<ResultsItem> results) {
-        // Mettez à jour votre interface utilisateur avec les nouveaux résultats
+
     }
 
 }

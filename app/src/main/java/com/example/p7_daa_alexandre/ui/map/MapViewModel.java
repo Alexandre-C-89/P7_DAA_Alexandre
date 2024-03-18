@@ -1,6 +1,7 @@
 package com.example.p7_daa_alexandre.ui.map;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,15 +23,8 @@ public class MapViewModel extends ViewModel {
         this.application = application;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application);
     }
-
+    @SuppressLint("MissingPermission")
     public Task<Location> getLastKnownLocation() {
-        // Vérifiez si la permission ACCESS_FINE_LOCATION est accordée
-        if (ContextCompat.checkSelfPermission(application,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return fusedLocationProviderClient.getLastLocation();
-        } else {
-            // Gérer le cas où la permission n'est pas accordée
-            return Tasks.forException(new SecurityException("Permission ACCESS_FINE_LOCATION not granted"));
-        }
+        return fusedLocationProviderClient.getLastLocation();
     }
 }
