@@ -72,7 +72,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        // Ajoutez l'icône de menu à la Toolbar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -102,7 +101,6 @@ public class HomeActivity extends AppCompatActivity {
             // Vérifiez quel élément de menu a été sélectionné
             switch (item.getItemId()) {
                 case R.id.your_lunch:
-                    // Action for "your lunch"
                     viewModel.getUserProfil().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -154,12 +152,15 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SearchRestaurant(query);
+                searchView.clearFocus();
                 Log.d("SEACRH BAR", query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                SearchRestaurant(newText);
+                Log.d("SEACRH BAR", newText);
                 return false;
             }
         });
@@ -169,12 +170,18 @@ public class HomeActivity extends AppCompatActivity {
 
     private void SearchRestaurant(String query) {
         viewModel.searchRestaurant(query).observe(this, results -> {
+            // Check which fragment is currently active
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
+
+            // Update the active fragment with the search results
             if (currentFragment instanceof MapFragment) {
                 ((MapFragment) currentFragment).updateRestaurantList(results);
             } else if (currentFragment instanceof ListFragment) {
                 ((ListFragment) currentFragment).updateRestaurantList(results);
             }
+
+            // Important: remove the observer to prevent multiple observer triggers
+            viewModel.searchRestaurant(query).removeObservers(this);
         });
     }
 
