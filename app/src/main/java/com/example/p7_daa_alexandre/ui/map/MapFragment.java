@@ -85,16 +85,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.getLastLocation()
-                    .addOnSuccessListener(requireActivity(), location -> {
-                        if (location != null) {
-                            LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
-                            googleMap.addMarker(new MarkerOptions()
-                                    .position(currentPosition)
-                                    .title("Current Location"));
-                        }
-                    });
+            viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), location -> {
+                if (location != null) {
+                    LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+                    googleMap.addMarker(new MarkerOptions()
+                            .position(currentPosition)
+                            .title("Current Location"));
+                }
+            });
         } else {
             requestLocationPermission();
         }
