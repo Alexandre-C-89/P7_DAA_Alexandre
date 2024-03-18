@@ -69,7 +69,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
 
     // Also add the dependency for the Google Play services library and specify its version
-    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     //Glide
