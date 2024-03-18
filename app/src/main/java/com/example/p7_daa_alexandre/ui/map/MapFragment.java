@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -92,7 +93,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
                     googleMap.addMarker(new MarkerOptions()
                             .position(currentPosition)
-                            .title("Current Location"));
+                            .title("restaurants around me"));
                     Log.d("CURRENT LOCATION", currentPosition.toString());
                 }
             });

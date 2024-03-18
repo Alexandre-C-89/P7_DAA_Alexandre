@@ -170,17 +170,12 @@ public class HomeActivity extends AppCompatActivity {
 
     private void SearchRestaurant(String query) {
         viewModel.searchRestaurant(query).observe(this, results -> {
-            // Check which fragment is currently active
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
-
-            // Update the active fragment with the search results
             if (currentFragment instanceof MapFragment) {
                 ((MapFragment) currentFragment).updateRestaurantList(results);
             } else if (currentFragment instanceof ListFragment) {
                 ((ListFragment) currentFragment).updateRestaurantList(results);
             }
-
-            // Important: remove the observer to prevent multiple observer triggers
             viewModel.searchRestaurant(query).removeObservers(this);
         });
     }

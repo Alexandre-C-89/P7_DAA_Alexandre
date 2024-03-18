@@ -47,4 +47,7 @@ public class MapViewModel extends ViewModel {
         }
         return lastKnownLocation;
     }
+
+
+
 }
