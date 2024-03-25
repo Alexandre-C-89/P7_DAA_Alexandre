@@ -51,7 +51,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         public void bind(ResultsItem restaurant) {
             restaurantName.setText(restaurant.getName());
-            restaurantDistance.setText(restaurant.getBusinessStatus());
+            restaurantDistance.setText(restaurant.getScope());
             if (restaurant.getPhotos() != null && !restaurant.getPhotos().isEmpty()) {
                 imgRestaurant.setTag(restaurant.getPhotos());
                 String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="
