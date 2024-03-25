@@ -31,7 +31,6 @@ public class LocationRepository {
                 ActivityCompat.checkSelfPermission(
                         applicationContext,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Permissions are not granted, so we return the current value of lastKnownLocation, which is likely null
             return lastKnownLocation;
         }
 

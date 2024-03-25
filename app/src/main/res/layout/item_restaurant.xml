@@ -85,8 +85,9 @@
 
     <RatingBar
         android:id="@+id/linear_layout_restaurant_rating"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/ratingBarStyleSmall"
         android:layout_marginTop="8dp"
         android:numStars="5"
         android:stepSize="0.1"
