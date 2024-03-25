@@ -65,7 +65,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
             restaurantAddress.setText(restaurant.getVicinity());
             restaurantCoworker.setTag(restaurant.getUserRatingsTotal());
-            restaurantHour.setTag(restaurant.getOpeningHours());
+            if (restaurant.getOpeningHours() != null) {
+                // Assuming getReadableHours() method exists and returns a String
+                restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? "Open" : "Closed");
+            } else {
+                restaurantHour.setText("No hours available"); // Placeholder text
+            }
             restaurantRating.setTag(restaurant.getRating());
         }
     }

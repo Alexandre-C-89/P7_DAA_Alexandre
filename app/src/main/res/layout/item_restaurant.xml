@@ -22,11 +22,11 @@
         android:id="@+id/linear_layout_restaurant_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="160dp"
+        android:maxWidth="120dp"
         android:layout_marginTop="8dp"
         android:lines="1"
         android:text="restaurant name"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
@@ -39,7 +39,7 @@
         android:lines="1"
         android:maxLength="18"
         android:text="restaurant address"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
@@ -51,13 +51,15 @@
         android:ellipsize="end"
         android:lines="1"
         android:text="restaurant hour"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/linear_layout_restaurant_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="110dp"
+        android:maxLines="1"
         android:layout_marginTop="8dp"
         android:layout_toStartOf="@+id/linear_layout_restaurant_img"
         android:text="Restaurant distance"
