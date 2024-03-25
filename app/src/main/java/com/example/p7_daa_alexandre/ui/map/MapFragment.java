@@ -21,6 +21,7 @@ import com.example.p7_daa_alexandre.MapViewModelFactory;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentMapBinding;
+import com.example.p7_daa_alexandre.repository.LocationRepository;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,18 +57,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
 
         binding = FragmentMapBinding.inflate(inflater, container, false);
-        MapViewModelFactory factory = new MapViewModelFactory(requireActivity().getApplication());
+
+        LocationRepository locationRepository = new LocationRepository(requireContext().getApplicationContext());
+
+        MapViewModelFactory factory = new MapViewModelFactory(locationRepository);
         viewModel = new ViewModelProvider(this, factory).get(MapViewModel.class);
 
         requestLocationPermission();
 
-        viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), new Observer<Location>() {
-            @Override
-            public void onChanged(Location location) {
-                if (location != null) {
-                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
-                }
+        viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), location -> {
+            if (location != null) {
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
             }
         });
 

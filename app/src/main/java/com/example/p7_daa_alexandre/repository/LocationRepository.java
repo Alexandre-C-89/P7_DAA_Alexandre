@@ -1,38 +1,35 @@
 package com.example.p7_daa_alexandre.repository;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.util.Log;
-
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import com.example.p7_daa_alexandre.database.RestaurantApi;
-import com.example.p7_daa_alexandre.database.RetrofitService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-
-import java.util.ArrayList;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.util.Log;
 
 public class LocationRepository {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private MutableLiveData<Location> lastKnownLocation = new MutableLiveData<>();
 
+    private Context applicationContext;
+
     public LocationRepository(Context context) {
+        this.applicationContext = context.getApplicationContext();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
     }
 
     public LiveData<Location> getLastLocation() {
         if (ActivityCompat.checkSelfPermission(
-                fusedLocationProviderClient.getApplication().getApplicationContext(),
+                applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(
-                        fusedLocationProviderClient.getApplication().getApplicationContext(),
+                        applicationContext,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Permissions are not granted, so we return the current value of lastKnownLocation, which is likely null
             return lastKnownLocation;

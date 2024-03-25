@@ -52,10 +52,6 @@ public class MainActivity extends AppCompatActivity {
         this.handleResponseAfterSignIn(requestCode, resultCode, data);
     }
 
-    /**
-     * handleResponseAfterSignIn récupére plus facilement
-     * le résultat renvoyé par l'activité de connexion/inscription auto-générée par FirebaseUI
-     */
     private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data){
 
         IdpResponse response = IdpResponse.fromResultIntent(data);
@@ -64,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 CoworkerRepository.getInstance().createWorkmates();
                 showSnackBar("connection_succeed");
-                Toast.makeText( this, "connection_succeed", Toast.LENGTH_SHORT).show();
                 Intent intent= new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
 
@@ -77,16 +72,12 @@ public class MainActivity extends AppCompatActivity {
                         showSnackBar("error_no_internet");
                     } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
                         showSnackBar("error_unknown_error");
-                        Toast.makeText( this, "error_unknown_error", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         }
     }
 
-    /**
-     * Show Snack Bar with a message
-     */
     private void showSnackBar( String message){
         Toast.makeText( this, message, Toast.LENGTH_SHORT).show();
     }
