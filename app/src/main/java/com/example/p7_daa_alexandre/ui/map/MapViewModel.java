@@ -16,6 +16,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.p7_daa_alexandre.repository.LocationRepository;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
@@ -24,30 +25,14 @@ import com.google.android.gms.tasks.Tasks;
 public class MapViewModel extends ViewModel {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private MutableLiveData<Location> lastKnownLocation = new MutableLiveData<>();
+    private LiveData<Location> lastKnownLocation;
     private Application application;
 
-    public MapViewModel(Application application) {
-        this.application = application;
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application);
+    public MapViewModel(LocationRepository locationRepository) {
+        this.lastKnownLocation = locationRepository.getLastLocation();
     }
     public LiveData<Location> getLastKnownLocation() {
-        try {
-            if (ActivityCompat.checkSelfPermission(application, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(application, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return lastKnownLocation;
-            }
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(location -> {
-                if (location != null) {
-                    lastKnownLocation.setValue(location);
-                }
-            });
-        } catch (SecurityException e) {
-            Log.d("VIEWMODEL", "Lost last position !" + e.getMessage());
-        }
         return lastKnownLocation;
     }
-
-
 
 }

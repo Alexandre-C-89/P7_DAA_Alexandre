@@ -2,6 +2,7 @@ package com.example.p7_daa_alexandre.ui.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p7_daa_alexandre.MapViewModelFactory;
@@ -41,6 +43,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
+    private GoogleMap googleMap;
+
     @NonNull
     public void onCreate (Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -56,6 +60,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         viewModel = new ViewModelProvider(this, factory).get(MapViewModel.class);
 
         requestLocationPermission();
+
+        viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), new Observer<Location>() {
+            @Override
+            public void onChanged(Location location) {
+                if (location != null) {
+                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+                }
+            }
+        });
 
         return binding.getRoot();
     }
