@@ -58,13 +58,11 @@ public class ListFragment extends Fragment {
         viewModel.loadData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ResultsItem>>() {
             @Override
             public void onChanged(ArrayList<ResultsItem> resultsItems) {
-                Log.d("ListFragment", "Received restaurant data: " + resultsItems);
                 restaurants.clear();
                 restaurants.addAll(resultsItems);
-                // If the list is empty, display a placeholder message
                 if (restaurants.isEmpty()) {
-                    binding.listRestaurants.setVisibility(View.GONE); // Or set a placeholder view
-                    binding.textViewNoRestaurant.setVisibility(View.VISIBLE); // Assuming a placeholder TextView
+                    binding.listRestaurants.setVisibility(View.GONE);
+                    binding.textViewNoRestaurant.setVisibility(View.VISIBLE);
                 } else {
                     binding.listRestaurants.setVisibility(View.VISIBLE);
                     binding.textViewNoRestaurant.setVisibility(View.GONE);

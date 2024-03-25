@@ -67,8 +67,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), location -> {
             if (location != null) {
-                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+                //LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
             }
         });
 

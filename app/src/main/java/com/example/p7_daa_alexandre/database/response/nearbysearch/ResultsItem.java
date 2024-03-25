@@ -15,7 +15,7 @@ public class ResultsItem{
 	private String icon;
 
 	@SerializedName("rating")
-	private double rating;
+	private double rating	;
 
 	@SerializedName("icon_background_color")
 	private String iconBackgroundColor;
@@ -147,4 +147,8 @@ public class ResultsItem{
 			",place_id = '" + placeId + '\'' + 
 			"}";
 		}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
 }
