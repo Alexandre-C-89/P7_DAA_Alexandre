@@ -204,34 +204,4 @@ public class CoworkerRepository {
         }
     }
 
-    // Récupérer les coworkers qui ont liké un restaurant spécifique
-    public LiveData<List<Coworker>> getCoworkersLikedRestaurant(String restaurantId) {
-        MutableLiveData<List<Coworker>> likedCoworkersLiveData = new MutableLiveData<>();
-        List<Coworker> likedCoworkers = new ArrayList<>();
-
-        // Obtenez la référence de la collection des coworkers
-        CollectionReference coworkersCollection = FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
-
-        // Requête pour obtenir les coworkers qui ont liké le restaurant
-        coworkersCollection.whereEqualTo("likedRestaurants." + restaurantId, true)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Ajoutez chaque coworker à la liste
-                            likedCoworkers.add(document.toObject(Coworker.class));
-                        }
-                        // Mettez à jour les données LiveData avec la liste des coworkers qui ont liké le restaurant
-                        likedCoworkersLiveData.setValue(likedCoworkers);
-                    } else {
-                        // Gérez les erreurs
-                        likedCoworkersLiveData.setValue(null);
-                        Log.d("CoworkerRepository", "Error getting liked coworkers: ", task.getException());
-                    }
-                });
-
-        return likedCoworkersLiveData;
-    }
-
-
 }

@@ -16,6 +16,8 @@ import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentListBinding;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ListFragment extends Fragment {
 
@@ -26,6 +28,8 @@ public class ListFragment extends Fragment {
     private ArrayList<ResultsItem> restaurants = new ArrayList<>();
 
     private ListViewModel viewModel;
+
+    private Map<String, Integer> restaurantLikesMap = new HashMap<>();
 
     @NonNull
     public void onCreate (Bundle saveInstanceState) {
@@ -60,6 +64,7 @@ public class ListFragment extends Fragment {
             public void onChanged(ArrayList<ResultsItem> resultsItems) {
                 restaurants.clear();
                 restaurants.addAll(resultsItems);
+                updateRestaurantLikes();
                 if (restaurants.isEmpty()) {
                     binding.listRestaurants.setVisibility(View.GONE);
                     binding.textViewNoRestaurant.setVisibility(View.VISIBLE);
@@ -72,8 +77,17 @@ public class ListFragment extends Fragment {
         });
     }
 
+    private void updateRestaurantLikes() {
+        for (ResultsItem restaurant : restaurants) {
+            viewModel.getCoworkerWhoChoseRestaurant(restaurant.getPlaceId()).observe(getViewLifecycleOwner(), coworkers -> {
+                restaurantLikesMap.put(restaurant.getPlaceId(), coworkers.size());
+                adapter.setLikesMap(restaurantLikesMap); // Pass the updated map to the adapter
+            });
+        }
+    }
+
     private void initRecyclerViews() {
-        adapter = new RestaurantAdapter(restaurants);
+        adapter = new RestaurantAdapter(restaurants, restaurantLikesMap);
         RecyclerView recyclerView = binding.listRestaurants;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);

@@ -28,10 +28,6 @@ public class DetailsViewModel extends ViewModel {
         return repository.getRestaurantDetails(placeId);
     }
 
-    public LiveData<List<Coworker>> getCoworkersLikedRestaurant(String restaurantId) {
-        return coworkerRepository.getCoworkersLikedRestaurant(restaurantId);
-    }
-
     public void restaurantChoosed(String placeId, String restaurantName, String address) {
         coworkerRepository.restaurantChoosed(placeId, restaurantName, address);
     }

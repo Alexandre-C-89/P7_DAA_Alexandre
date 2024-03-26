@@ -70,9 +70,6 @@ public class DetailsActivity extends AppCompatActivity {
             public void onChanged(List<Coworker> coworkers) {
                 coworkerList.clear();
                 coworkerList.addAll(coworkers);
-                Log.d("DetailsActivity", "Received restaurant details: " + details);
-                Log.d("DetailsActivity", "Received coworker list: " + coworkers);
-                // If the list is empty, display a placeholder message
                 if (coworkers.isEmpty()) {
                     binding.listworkmatesjoining.setVisibility(View.GONE); // Or set a placeholder view
                     binding.textViewNoCoworker.setVisibility(View.VISIBLE); // Assuming a placeholder TextView

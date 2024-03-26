@@ -17,13 +17,17 @@ import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.ui.details.DetailsActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
 
     private ArrayList<ResultsItem> mRestaurant;
+    private static Map<String, Integer> likesMap = new HashMap<>();
 
-    public RestaurantAdapter(ArrayList<ResultsItem> restaurants) {
+    public RestaurantAdapter(ArrayList<ResultsItem> restaurants, Map<String, Integer> likesMap) {
         mRestaurant = restaurants;
+        this.likesMap = likesMap;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,14 +68,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 imgRestaurant.setImageResource(R.drawable.no_image_icon);
             }
             restaurantAddress.setText(restaurant.getVicinity());
-            restaurantCoworker.setTag(restaurant.getUserRatingsTotal());
+            Integer likesCount = likesMap.get(restaurant.getPlaceId());
+            restaurantCoworker.setText(likesCount == null ? "0 likes" : likesCount + " likes");
             if (restaurant.getOpeningHours() != null) {
                 // Assuming getReadableHours() method exists and returns a String
                 restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? "Open" : "Closed");
             } else {
                 restaurantHour.setText("No hours available"); // Placeholder text
             }
-            restaurantRating.setTag(restaurant.getRating());
+            restaurantRating.setTag(restaurant.getUserRatingsTotal().toString());
         }
     }
 
@@ -100,6 +105,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     @Override
     public int getItemCount() {
         return mRestaurant.size();
+    }
+
+    public void setLikesMap(Map<String, Integer> likesMap) {
+        this.likesMap = likesMap;
+        notifyDataSetChanged(); // Refresh data when the likes map is updated
     }
 }
 
