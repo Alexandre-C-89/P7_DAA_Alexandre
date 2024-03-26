@@ -22,6 +22,7 @@ import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentMapBinding;
 import com.example.p7_daa_alexandre.repository.LocationRepository;
+import com.example.p7_daa_alexandre.repository.Repository;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -59,8 +60,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         binding = FragmentMapBinding.inflate(inflater, container, false);
 
         LocationRepository locationRepository = new LocationRepository(requireContext().getApplicationContext());
+        Repository repository = new Repository();
 
-        MapViewModelFactory factory = new MapViewModelFactory(locationRepository);
+        MapViewModelFactory factory = new MapViewModelFactory(locationRepository, repository);
         viewModel = new ViewModelProvider(this, factory).get(MapViewModel.class);
 
         requestLocationPermission();
@@ -94,22 +96,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), location -> {
                 if (location != null) {
                     LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(currentPosition)
-                            .title("restaurants around me"));
-                    Log.d("CURRENT LOCATION", currentPosition.toString());
+                    viewModel.getNearbyRestaurants(location.getLatitude(), location.getLongitude()).observe(getViewLifecycleOwner(), restaurants -> {
+                        for (ResultsItem restaurant : restaurants) {
+                            LatLng restaurantPosition = new LatLng((Double) restaurant.getGeometry().getLocation().getLat(), (Double) restaurant.getGeometry().getLocation().getLng());
+                            googleMap.addMarker(new MarkerOptions().position(restaurantPosition).title(restaurant.getName()));
+                        }
+                    });
                 }
             });
         } else {
             requestLocationPermission();
         }
-    };
+    }
 
     public void showMap() {
         SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_view);

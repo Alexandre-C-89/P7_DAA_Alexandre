@@ -2,6 +2,7 @@ package com.example.p7_daa_alexandre.repository;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.p7_daa_alexandre.database.RestaurantApi;
 import com.example.p7_daa_alexandre.database.RetrofitService;
@@ -75,10 +76,7 @@ public class Repository {
 
     public MutableLiveData<ArrayList<ResultsItem>> searchRestaurant(String query) {
         MutableLiveData<ArrayList<ResultsItem>> searchResults = new MutableLiveData<>();
-
-        // Appeler l'API de recherche de restaurants avec la chaîne de requête (query)
         Call<NearbysearchResponse> call = restaurantApi.searchRestaurants(query, "", "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
-
         call.enqueue(new Callback<NearbysearchResponse>() {
             @Override
             public void onResponse(Call<NearbysearchResponse> call, Response<NearbysearchResponse> response) {
@@ -98,6 +96,28 @@ public class Repository {
         });
 
         return searchResults;
+    }
+
+    public LiveData<ArrayList<ResultsItem>> getNearbyRestaurants(double lat, double lng) {
+        // Example API call with Retrofit
+        String locationParam = lat + "," + lng; // Format the location query parameter
+        restaurantApi.getListOfRestaurants(locationParam, 1500, "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow").enqueue(new Callback<NearbysearchResponse>() {
+            @Override
+            public void onResponse(Call<NearbysearchResponse> call, Response<NearbysearchResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    allRestaurant.postValue(new ArrayList<>(response.body().getResults()));
+                } else {
+                    allRestaurant.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NearbysearchResponse> call, Throwable t) {
+                allRestaurant.postValue(new ArrayList<>());
+            }
+        });
+
+        return allRestaurant;
     }
 
 }
