@@ -4,6 +4,8 @@ package com.example.p7_daa_alexandre.ui.home;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +41,10 @@ public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding;
 
     HomeViewModel viewModel;
+
+    private Handler searchHandler = new Handler(Looper.getMainLooper());
+
+    private Runnable searchRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,24 +157,24 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                SearchRestaurant(query);
-                searchView.clearFocus();
-                Log.d("SEACRH BAR", query);
+                searchHandler.removeCallbacks(searchRunnable);
+                performSearch(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                SearchRestaurant(newText);
-                Log.d("SEACRH BAR", newText);
-                return false;
+                searchHandler.removeCallbacks(searchRunnable);
+                searchRunnable = () -> performSearch(newText);
+                searchHandler.postDelayed(searchRunnable, 300);
+                return true;
             }
         });
 
         return true;
     }
 
-    private void SearchRestaurant(String query) {
+    private void performSearch(String query) {
         viewModel.searchRestaurant(query).observe(this, results -> {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
             if (currentFragment instanceof MapFragment) {
@@ -176,7 +182,7 @@ public class HomeActivity extends AppCompatActivity {
             } else if (currentFragment instanceof ListFragment) {
                 ((ListFragment) currentFragment).updateRestaurantList(results);
             }
-            viewModel.searchRestaurant(query).removeObservers(this);
+            // Optionally, consider removing observers if no longer needed
         });
     }
 

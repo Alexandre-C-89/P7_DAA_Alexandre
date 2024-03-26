@@ -122,7 +122,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     public void updateRestaurantList(ArrayList<ResultsItem> results) {
-
+        if(googleMap != null) {
+            googleMap.clear();
+            for (ResultsItem restaurant : results) {
+                if(restaurant.getGeometry() != null && restaurant.getGeometry().getLocation() != null) {
+                    double lat = restaurant.getGeometry().getLocation().getLat();
+                    double lng = restaurant.getGeometry().getLocation().getLng();
+                    LatLng position = new LatLng(lat, lng);
+                    googleMap.addMarker(new MarkerOptions().position(position).title(restaurant.getName()));
+                }
+            }
+        }
     }
 
 }

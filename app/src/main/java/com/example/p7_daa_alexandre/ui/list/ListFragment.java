@@ -4,6 +4,8 @@ import static com.example.p7_daa_alexandre.ui.list.RestaurantAdapter.userLocatio
 
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentListBinding;
 import com.example.p7_daa_alexandre.repository.LocationRepository;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +40,10 @@ public class ListFragment extends Fragment {
     private ListViewModel viewModel;
 
     private Map<String, Integer> restaurantLikesMap = new HashMap<>();
+
+    private Handler searchHandler = new Handler(Looper.getMainLooper());
+
+    private Runnable searchRunnable;
 
     @NonNull
     public void onCreate (Bundle saveInstanceState) {
@@ -109,7 +117,9 @@ public class ListFragment extends Fragment {
     }
 
     public void updateRestaurantList(ArrayList<ResultsItem> results) {
-        // Mettez à jour votre interface utilisateur avec les nouveaux résultats
+        this.restaurants.clear();
+        this.restaurants.addAll(results);
+        this.adapter.notifyDataSetChanged();
     }
 
 }

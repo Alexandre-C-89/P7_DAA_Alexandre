@@ -5,25 +5,16 @@ import com.google.gson.annotations.SerializedName;
 public class Location{
 
 	@SerializedName("lng")
-	private Object lng;
+	private double lng;
 
 	@SerializedName("lat")
-	private Object lat;
+	private double lat;
 
-	public Object getLng(){
+	public double getLng() {
 		return lng;
 	}
 
-	public Object getLat(){
+	public double getLat() {
 		return lat;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"Location{" + 
-			"lng = '" + lng + '\'' + 
-			",lat = '" + lat + '\'' + 
-			"}";
-		}
 }
