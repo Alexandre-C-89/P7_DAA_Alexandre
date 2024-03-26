@@ -1,5 +1,8 @@
 package com.example.p7_daa_alexandre.ui.list;
 
+import static com.example.p7_daa_alexandre.ui.list.RestaurantAdapter.userLocation;
+
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +15,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentListBinding;
+import com.example.p7_daa_alexandre.repository.LocationRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +56,8 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(this).get(ListViewModel.class);
+        LocationRepository locationRepository = new LocationRepository(getContext());
+        viewModel = new ViewModelProvider(this, new ViewModelFactory(locationRepository)).get(ListViewModel.class);
 
         initRecyclerViews();
 
@@ -87,9 +94,17 @@ public class ListFragment extends Fragment {
     }
 
     private void initRecyclerViews() {
-        adapter = new RestaurantAdapter(restaurants, restaurantLikesMap);
+        adapter = new RestaurantAdapter(restaurants, restaurantLikesMap, userLocation);
         RecyclerView recyclerView = binding.listRestaurants;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), new Observer<Location>() {
+            @Override
+            public void onChanged(Location location) {
+                // Now pass this location to your adapter
+                adapter = new RestaurantAdapter(restaurants, restaurantLikesMap, location);
+                binding.listRestaurants.setAdapter(adapter);
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 

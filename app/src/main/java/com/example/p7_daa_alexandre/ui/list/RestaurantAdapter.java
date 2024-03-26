@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.p7_daa_alexandre.R;
+import android.location.Location;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.ui.details.DetailsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
@@ -25,9 +27,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     private ArrayList<ResultsItem> mRestaurant;
     private static Map<String, Integer> likesMap = new HashMap<>();
 
-    public RestaurantAdapter(ArrayList<ResultsItem> restaurants, Map<String, Integer> likesMap) {
+    static Location userLocation;
+
+    public RestaurantAdapter(ArrayList<ResultsItem> restaurants, Map<String, Integer> likesMap, Location userLocation) {
         mRestaurant = restaurants;
         this.likesMap = likesMap;
+        this.userLocation = userLocation;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,7 +60,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         public void bind(ResultsItem restaurant) {
             restaurantName.setText(restaurant.getName());
-            restaurantDistance.setText(restaurant.getScope());
+            String distanceText = calculateDistance(userLocation, userLocation.getLatitude(), userLocation.getLongitude());
+            restaurantDistance.setText(distanceText);
             if (restaurant.getPhotos() != null && !restaurant.getPhotos().isEmpty()) {
                 imgRestaurant.setTag(restaurant.getPhotos());
                 String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="
@@ -77,6 +83,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 restaurantHour.setText("No hours available"); // Placeholder text
             }
             restaurantRating.setTag(restaurant.getUserRatingsTotal().toString());
+        }
+
+        private String calculateDistance(Location startLocation, double endLatitude, double endLongitude) {
+            if (startLocation != null) {
+                float[] results = new float[1];
+                Location.distanceBetween(startLocation.getLatitude(), startLocation.getLongitude(), endLatitude, endLongitude, results);
+                float distanceInMeters = results[0];
+                return String.format(Locale.US, "%.2f km", distanceInMeters / 1000); // Convert meters to kilometers
+            }
+            return "Distance not available";
         }
     }
 

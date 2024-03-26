@@ -1,7 +1,5 @@
 package com.example.p7_daa_alexandre;
 
-import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;

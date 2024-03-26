@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.p7_daa_alexandre.repository.LocationRepository;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerViewModel;
 import com.example.p7_daa_alexandre.ui.details.DetailsViewModel;
 import com.example.p7_daa_alexandre.ui.home.HomeViewModel;
@@ -14,11 +15,17 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private static ViewModelFactory factory;
 
+    private static LocationRepository locationRepository;
+
+    public ViewModelFactory(LocationRepository locationRepository) {
+        this.locationRepository = locationRepository;
+    }
+
     public static ViewModelFactory getInstance() {
         if (factory == null) {
             synchronized (ViewModelFactory.class) {
                 if (factory == null) {
-                    factory = new ViewModelFactory();
+                    factory = new ViewModelFactory(locationRepository);
                 }
             }
         }
@@ -33,7 +40,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new HomeViewModel();
         }
         if (modelClass.isAssignableFrom(ListViewModel.class)) {
-            return (T) new ListViewModel();
+            return (T) new ListViewModel(locationRepository);
         }
         if (modelClass.isAssignableFrom(DetailsViewModel.class)) {
             return (T) new DetailsViewModel();

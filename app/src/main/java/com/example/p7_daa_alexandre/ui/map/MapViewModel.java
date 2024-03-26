@@ -26,7 +26,6 @@ public class MapViewModel extends ViewModel {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LiveData<Location> lastKnownLocation;
-    private Application application;
 
     public MapViewModel(LocationRepository locationRepository) {
         this.lastKnownLocation = locationRepository.getLastLocation();
