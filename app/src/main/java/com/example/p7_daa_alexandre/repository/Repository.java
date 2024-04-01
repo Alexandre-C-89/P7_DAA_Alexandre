@@ -25,12 +25,19 @@ public class Repository {
 
     private MutableLiveData<DetailsResponse> restaurantDetails;
 
+    MutableLiveData<ArrayList<ResultsItem>> searchResults;
+
 
     public Repository() {
         restaurantList = new ArrayList<>();
         allRestaurant = new MutableLiveData<>();
         restaurantApi = RetrofitService.getInstance().getRestaurantDetails();
         restaurantDetails = new MutableLiveData<>();
+        searchResults = new MutableLiveData<>();
+    }
+
+    public LiveData<ArrayList<ResultsItem>> getSearchResults() {
+        return searchResults;
     }
 
     public MutableLiveData<ArrayList<ResultsItem>> callAPI() {
@@ -74,9 +81,8 @@ public class Repository {
         return restaurantDetails;
     };
 
-    public MutableLiveData<ArrayList<ResultsItem>> searchRestaurant(String query) {
-        MutableLiveData<ArrayList<ResultsItem>> searchResults = new MutableLiveData<>();
-        Call<NearbysearchResponse> call = restaurantApi.searchRestaurants(query, "", "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
+    public void searchRestaurant(String query) {
+        Call<NearbysearchResponse> call = restaurantApi.searchRestaurants(query, "48.936752,2.425377", "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
         call.enqueue(new Callback<NearbysearchResponse>() {
             @Override
             public void onResponse(Call<NearbysearchResponse> call, Response<NearbysearchResponse> response) {
@@ -90,12 +96,9 @@ public class Repository {
 
             @Override
             public void onFailure(Call<NearbysearchResponse> call, Throwable t) {
-                // En cas d'échec de la requête, définissez les résultats de recherche MutableLiveData sur null ou une liste vide selon votre besoin
                 searchResults.setValue(new ArrayList<>());
             }
         });
-
-        return searchResults;
     }
 
     public LiveData<ArrayList<ResultsItem>> getNearbyRestaurants(double lat, double lng) {

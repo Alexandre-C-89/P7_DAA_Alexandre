@@ -77,12 +77,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             Integer likesCount = likesMap.get(restaurant.getPlaceId());
             restaurantCoworker.setText(likesCount == null ? "0 likes" : likesCount + " likes");
             if (restaurant.getOpeningHours() != null) {
-                // Assuming getReadableHours() method exists and returns a String
                 restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? "Open" : "Closed");
             } else {
-                restaurantHour.setText("No hours available"); // Placeholder text
+                restaurantHour.setText("No hours available");
             }
-            restaurantRating.setTag(restaurant.getUserRatingsTotal().toString());
+            restaurantRating.setTag(restaurant.getRating());
         }
 
         private String calculateDistance(Location startLocation, double endLatitude, double endLongitude) {

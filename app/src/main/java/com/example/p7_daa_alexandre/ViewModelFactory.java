@@ -1,10 +1,14 @@
 package com.example.p7_daa_alexandre;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.p7_daa_alexandre.repository.CoworkerRepository;
 import com.example.p7_daa_alexandre.repository.LocationRepository;
+import com.example.p7_daa_alexandre.repository.Repository;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerViewModel;
 import com.example.p7_daa_alexandre.ui.details.DetailsViewModel;
 import com.example.p7_daa_alexandre.ui.home.HomeViewModel;
@@ -17,15 +21,20 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private static LocationRepository locationRepository;
 
-    public ViewModelFactory(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
+    private static Repository repository;
+    private static CoworkerRepository coworkerRepository;
+
+    public ViewModelFactory(Context context) {
+        locationRepository = new LocationRepository(context);
+        repository = new Repository();
+        coworkerRepository = new CoworkerRepository();
     }
 
-    public static ViewModelFactory getInstance() {
+    public static ViewModelFactory getInstance(Context context) {
         if (factory == null) {
             synchronized (ViewModelFactory.class) {
                 if (factory == null) {
-                    factory = new ViewModelFactory(locationRepository);
+                    factory = new ViewModelFactory(context);
                 }
             }
         }
@@ -40,7 +49,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new HomeViewModel();
         }
         if (modelClass.isAssignableFrom(ListViewModel.class)) {
-            return (T) new ListViewModel(locationRepository);
+            return (T) new ListViewModel(locationRepository, repository, coworkerRepository);
         }
         if (modelClass.isAssignableFrom(DetailsViewModel.class)) {
             return (T) new DetailsViewModel();

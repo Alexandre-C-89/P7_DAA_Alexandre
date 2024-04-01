@@ -30,8 +30,8 @@ public class HomeViewModel extends ViewModel {
     }
 
     // Méthode pour rechercher un restaurant
-    public MutableLiveData<ArrayList<ResultsItem>> searchRestaurant(String query) {
-        return repository.searchRestaurant(query);
+    public void searchRestaurant(String query) {
+        repository.searchRestaurant(query);
     }
 
     public Task<DocumentSnapshot>getUserProfil(){

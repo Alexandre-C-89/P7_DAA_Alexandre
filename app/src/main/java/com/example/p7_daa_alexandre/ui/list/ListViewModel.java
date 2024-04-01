@@ -22,10 +22,10 @@ public class ListViewModel extends ViewModel {
     private LiveData<Location> lastKnownLocation;
 
 
-    public ListViewModel(LocationRepository locationRepository) {
-        repository = new Repository();
-        coworkerRepository = new CoworkerRepository();
-        lastKnownLocation = locationRepository.getLastLocation();
+    public ListViewModel(LocationRepository locationRepository, Repository repository, CoworkerRepository coworkerRepository) {
+        this.repository = repository;
+        this.coworkerRepository = coworkerRepository;
+        this.lastKnownLocation = locationRepository.getLastLocation();
     }
     public MutableLiveData<ArrayList<ResultsItem>> loadData() {
         return repository.callAPI();
@@ -37,6 +37,10 @@ public class ListViewModel extends ViewModel {
 
     public LiveData<Location> getLastKnownLocation() {
         return lastKnownLocation;
+    }
+
+    public LiveData<ArrayList<ResultsItem>> getSearchResults() {
+        return repository.getSearchResults();
     }
 
 }

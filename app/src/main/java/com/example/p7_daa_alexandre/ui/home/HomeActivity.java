@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(HomeViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance(getApplicationContext())).get(HomeViewModel.class);
         replaceFragment(new MapFragment());
         setSupportActionBar(binding.toolbar);
 
@@ -157,16 +157,16 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchHandler.removeCallbacks(searchRunnable);
+                //searchHandler.removeCallbacks(searchRunnable);
                 performSearch(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchHandler.removeCallbacks(searchRunnable);
+                /**searchHandler.removeCallbacks(searchRunnable);
                 searchRunnable = () -> performSearch(newText);
-                searchHandler.postDelayed(searchRunnable, 300);
+                searchHandler.postDelayed(searchRunnable, 300);*/
                 return true;
             }
         });
@@ -175,15 +175,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void performSearch(String query) {
-        viewModel.searchRestaurant(query).observe(this, results -> {
-            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
-            if (currentFragment instanceof MapFragment) {
-                ((MapFragment) currentFragment).updateRestaurantList(results);
-            } else if (currentFragment instanceof ListFragment) {
-                ((ListFragment) currentFragment).updateRestaurantList(results);
-            }
-            // Optionally, consider removing observers if no longer needed
-        });
+        viewModel.searchRestaurant(query);
     }
 
     private void LogOut() {

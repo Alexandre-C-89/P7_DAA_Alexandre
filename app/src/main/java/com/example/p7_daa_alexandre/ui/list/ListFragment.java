@@ -64,17 +64,37 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        LocationRepository locationRepository = new LocationRepository(getContext());
-        viewModel = new ViewModelProvider(this, new ViewModelFactory(locationRepository)).get(ListViewModel.class);
+        //LocationRepository locationRepository = new LocationRepository(getActivity().getApplicationContext());
+        viewModel = new ViewModelProvider(this, new ViewModelFactory(getActivity().getApplicationContext())).get(ListViewModel.class);
 
         initRecyclerViews();
 
         loadData();
+        updateSearch();
         Log.d("ListFragment", "Retrieving restaurant data from view model");
     }
 
     private void loadData() {
         viewModel.loadData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ResultsItem>>() {
+            @Override
+            public void onChanged(ArrayList<ResultsItem> resultsItems) {
+                restaurants.clear();
+                restaurants.addAll(resultsItems);
+                updateRestaurantLikes();
+                if (restaurants.isEmpty()) {
+                    binding.listRestaurants.setVisibility(View.GONE);
+                    binding.textViewNoRestaurant.setVisibility(View.VISIBLE);
+                } else {
+                    binding.listRestaurants.setVisibility(View.VISIBLE);
+                    binding.textViewNoRestaurant.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    private void updateSearch(){
+        viewModel.getSearchResults().observe(getViewLifecycleOwner(), new Observer<ArrayList<ResultsItem>>() {
             @Override
             public void onChanged(ArrayList<ResultsItem> resultsItems) {
                 restaurants.clear();

@@ -40,7 +40,7 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(DetailsViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance(this)).get(DetailsViewModel.class);
         adapter = new DetailsAdapter(coworkerList);
         binding.listworkmatesjoining.setLayoutManager(new LinearLayoutManager(this));
         binding.listworkmatesjoining.setAdapter(adapter);
