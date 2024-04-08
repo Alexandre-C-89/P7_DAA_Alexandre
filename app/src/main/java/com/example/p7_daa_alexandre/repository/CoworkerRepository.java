@@ -1,5 +1,7 @@
 package com.example.p7_daa_alexandre.repository;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -36,22 +38,16 @@ public class CoworkerRepository {
     private static volatile CoworkerRepository instance;
     private final MutableLiveData<ArrayList<Coworker>> listOfCoworkers = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLiked=new MutableLiveData<>();
-    private static MutableLiveData<Boolean> isNotificationActivated =new MutableLiveData<>();
 
 
     public CoworkerRepository() {
     }
 
     public static CoworkerRepository getInstance() {
-        isNotificationActivated = new MutableLiveData<>();
         if (instance == null) {
             instance = new CoworkerRepository();
         }
         return instance;
-    }
-
-    public MutableLiveData<Boolean> getNotification() {
-        return isNotificationActivated;
     }
 
     public FirebaseUser getCurrentCoworker() {
@@ -91,7 +87,7 @@ public class CoworkerRepository {
                     String name = coworkers.getDisplayName();
                     String uid = coworkers.getUid();
                     String email = coworkers.getEmail();
-                    Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "",getNotification(),  new ArrayList<>());
+                    Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "",false,  new ArrayList<>());
                     getCoworkersCollection().document(uid).set(workmatesToCreate);
                 }
             });
@@ -182,30 +178,33 @@ public class CoworkerRepository {
         return coworkerLiveData;
     }
 
-    public MutableLiveData<Boolean> updateNotificationStatus() {
-        FirebaseUser currentUser = getCurrentCoworker();
-        if (currentUser != null) {
-            String uid = currentUser.getUid();
-            DocumentReference coworkerRef = getCoworkersCollection().document(uid);
+    public LiveData<Boolean> getNotificationStatus() {
+        String uid = getCurrentCoworker().getUid();
+        MutableLiveData<Boolean> notificationStatus = new MutableLiveData<>();
 
-            coworkerRef.get().addOnSuccessListener(documentSnapshot -> {
-                if (documentSnapshot.exists()) {
-                    // Récupérez l'objet Coworker à partir du DocumentSnapshot
-                    Coworker coworker = documentSnapshot.toObject(Coworker.class);
-                    if (coworker != null) {
-                        // Mettez à jour le champ "notification" avec la nouvelle valeur
-                        coworker.setNotification(getNotification());
-                        // Mettez à jour le document dans Firestore
-                        coworkerRef.set(coworker)
-                                .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Notification status updated successfully"))
-                                .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error updating notification status", e));
+        getCoworkersCollection().document(uid).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Coworker coworker = documentSnapshot.toObject(Coworker.class);
+                        if (coworker != null) {
+                            notificationStatus.setValue(coworker.getNotification());
+                        }
                     }
-                } else {
-                    Log.d("CoworkerRepository", "No such document");
-                }
-            }).addOnFailureListener(e -> Log.e("CoworkerRepository", "Error getting document", e));
-        }
-        return getNotification();
+                }).addOnFailureListener(e -> {
+                    // Handle the error, for example, by setting a default value
+                    notificationStatus.setValue(false);
+                });
+
+        return notificationStatus;
+    }
+
+    // Update the notification status for the current coworker
+    public void setNotificationStatus(boolean status) {
+        String uid = getCurrentCoworker().getUid();
+        getCoworkersCollection().document(uid)
+                .update("notification", status)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Notification status updated"))
+                .addOnFailureListener(e -> Log.e(TAG, "Error updating notification status", e));
     }
 
 }

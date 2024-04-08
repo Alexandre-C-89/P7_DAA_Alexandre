@@ -41,7 +41,7 @@ public class SettingsFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
 
         binding.notificationBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            viewModel.updateNotificationStatus();
+            viewModel.updateNotificationStatus(isChecked);
             if (isChecked == true) {
                 Toast.makeText(getActivity(), "Notification activated !", Toast.LENGTH_SHORT).show();
             } else {
