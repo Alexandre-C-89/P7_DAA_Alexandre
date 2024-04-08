@@ -25,7 +25,7 @@ public class Repository {
 
     private MutableLiveData<DetailsResponse> restaurantDetails;
 
-    MutableLiveData<ArrayList<ResultsItem>> searchResults;
+    private final MutableLiveData<ArrayList<ResultsItem>> searchResults;
 
 
     public Repository() {

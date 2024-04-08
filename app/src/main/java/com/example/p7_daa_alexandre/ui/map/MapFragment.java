@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -19,10 +20,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p7_daa_alexandre.MapViewModelFactory;
 import com.example.p7_daa_alexandre.R;
+import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentMapBinding;
 import com.example.p7_daa_alexandre.repository.LocationRepository;
 import com.example.p7_daa_alexandre.repository.Repository;
+import com.example.p7_daa_alexandre.ui.list.ListViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -69,6 +72,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = new ViewModelProvider(this, new ViewModelFactory(getActivity().getApplicationContext())).get(MapViewModel.class);
     }
 
     private void requestLocationPermission() {
@@ -121,18 +131,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public void updateRestaurantList(ArrayList<ResultsItem> results) {
-        if(googleMap != null) {
-            googleMap.clear();
-            for (ResultsItem restaurant : results) {
-                if(restaurant.getGeometry() != null && restaurant.getGeometry().getLocation() != null) {
-                    double lat = restaurant.getGeometry().getLocation().getLat();
-                    double lng = restaurant.getGeometry().getLocation().getLng();
-                    LatLng position = new LatLng(lat, lng);
-                    googleMap.addMarker(new MarkerOptions().position(position).title(restaurant.getName()));
-                }
+
+    public void searchRestaurants(String query) {
+        viewModel.searchRestaurants(query).observe(getViewLifecycleOwner(), restaurants -> {
+            googleMap.clear(); // Clear existing markers
+            for (ResultsItem restaurant : restaurants) {
+                LatLng restaurantPosition = new LatLng(restaurant.getGeometry().getLocation().getLat(), restaurant.getGeometry().getLocation().getLng());
+                googleMap.addMarker(new MarkerOptions().position(restaurantPosition).title(restaurant.getName()));
             }
-        }
+        });
     }
 
 }

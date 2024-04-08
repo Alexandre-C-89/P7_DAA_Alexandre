@@ -157,8 +157,10 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //searchHandler.removeCallbacks(searchRunnable);
-                performSearch(query);
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
+                if (currentFragment instanceof MapFragment) {
+                    ((MapFragment) currentFragment).searchRestaurants(query);
+                }
                 return true;
             }
 

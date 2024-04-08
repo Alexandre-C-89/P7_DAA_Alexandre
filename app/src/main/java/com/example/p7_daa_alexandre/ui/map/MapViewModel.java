@@ -30,4 +30,9 @@ public class MapViewModel extends ViewModel {
         return nearbyRestaurants;
     }
 
+    public LiveData<ArrayList<ResultsItem>> searchRestaurants(String query) {
+        repository.searchRestaurant(query);
+        return repository.getSearchResults();
+    }
+
 }
