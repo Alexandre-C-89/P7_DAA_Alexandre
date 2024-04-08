@@ -1,6 +1,5 @@
 package com.example.p7_daa_alexandre.ui.settings;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -10,19 +9,19 @@ public class SettingsViewModel extends ViewModel {
 
     private final CoworkerRepository repository;
 
-    private MutableLiveData<Boolean> notificationStatus = new MutableLiveData<>();
+    private MutableLiveData<MutableLiveData<Boolean>> notificationStatus = new MutableLiveData<MutableLiveData<Boolean>>();
 
     public SettingsViewModel() {
         repository = new CoworkerRepository();
     };
 
-    public void updateNotificationStatus(Boolean isChecked) {
-        notificationStatus.setValue(isChecked);
-        repository.updateNotificationStatus(isChecked);
+    public void updateNotificationStatus() {
+        notificationStatus.setValue(notificationStatus.getValue());
+        repository.updateNotificationStatus();
     }
 
-    public LiveData<Boolean> getNotificationStatus() {
-        return notificationStatus;
+    public MutableLiveData<Boolean> getNotificationStatus() {
+        return repository.updateNotificationStatus();
     }
 
 }

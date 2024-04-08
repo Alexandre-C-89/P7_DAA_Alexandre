@@ -1,6 +1,7 @@
 package com.example.p7_daa_alexandre.model;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -18,13 +19,13 @@ public class Coworker {
 
     private String address;
 
-    private Boolean notification;
+    private MutableLiveData<Boolean> notification;
 
     private List<String> like;
 
     public Coworker() {}
 
-    public Coworker(String idCoworker, String name, String email, String picture, String placeId, String restaurantName, String address, Boolean notification, List<String> like) {
+    public Coworker(String idCoworker, String name, String email, String picture, String placeId, String restaurantName, String address, MutableLiveData<Boolean> notification, List<String> like) {
         this.idCoworker = idCoworker;
         this.name = name;
         this.email = email;
@@ -73,7 +74,7 @@ public class Coworker {
         return address;
     }
 
-    public Boolean getNotification() {
+    public MutableLiveData<Boolean> getNotification() {
         return notification;
     }
 
@@ -107,7 +108,7 @@ public class Coworker {
         this.restaurantName = restaurantName;
     }
 
-    public void setNotification(Boolean notification) {
+    public void setNotification(MutableLiveData<Boolean> notification) {
         this.notification = notification;
     }
 

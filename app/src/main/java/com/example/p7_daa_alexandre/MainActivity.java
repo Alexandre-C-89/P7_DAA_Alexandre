@@ -1,9 +1,18 @@
 package com.example.p7_daa_alexandre;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import com.example.p7_daa_alexandre.databinding.ActivityMainBinding;
 import com.example.p7_daa_alexandre.repository.CoworkerRepository;
@@ -11,6 +20,9 @@ import com.example.p7_daa_alexandre.ui.home.HomeActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
     ActivityMainBinding binding;
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    Toast.makeText(MainActivity.this, "Notification permission granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Notification permission not granted", Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
     @Override
@@ -43,6 +64,14 @@ public class MainActivity extends AppCompatActivity {
                         .setLogo(R.drawable.go4lunch_logo)
                         .build(),
                 RC_SIGN_IN);
+
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "test")
+                .setSmallIcon(R.drawable.world_svgrepo_com)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Notification text content")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        
     }
 
 

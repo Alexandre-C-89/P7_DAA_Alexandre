@@ -12,7 +12,6 @@ import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.model.Restaurant;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,18 +36,22 @@ public class CoworkerRepository {
     private static volatile CoworkerRepository instance;
     private final MutableLiveData<ArrayList<Coworker>> listOfCoworkers = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLiked=new MutableLiveData<>();
-    private MutableLiveData<Boolean> isNotificationActiveOfCurrentCoworkers =new MutableLiveData<>();
+    private static MutableLiveData<Boolean> isNotificationActivated =new MutableLiveData<>();
 
 
     public CoworkerRepository() {
     }
 
     public static CoworkerRepository getInstance() {
-
+        isNotificationActivated = new MutableLiveData<>();
         if (instance == null) {
             instance = new CoworkerRepository();
         }
         return instance;
+    }
+
+    public MutableLiveData<Boolean> getNotification() {
+        return isNotificationActivated;
     }
 
     public FirebaseUser getCurrentCoworker() {
@@ -88,7 +91,7 @@ public class CoworkerRepository {
                     String name = coworkers.getDisplayName();
                     String uid = coworkers.getUid();
                     String email = coworkers.getEmail();
-                    Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "",false,  new ArrayList<>());
+                    Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "",getNotification(),  new ArrayList<>());
                     getCoworkersCollection().document(uid).set(workmatesToCreate);
                 }
             });
@@ -179,7 +182,7 @@ public class CoworkerRepository {
         return coworkerLiveData;
     }
 
-    public void updateNotificationStatus(boolean newStatus) {
+    public MutableLiveData<Boolean> updateNotificationStatus() {
         FirebaseUser currentUser = getCurrentCoworker();
         if (currentUser != null) {
             String uid = currentUser.getUid();
@@ -191,7 +194,7 @@ public class CoworkerRepository {
                     Coworker coworker = documentSnapshot.toObject(Coworker.class);
                     if (coworker != null) {
                         // Mettez à jour le champ "notification" avec la nouvelle valeur
-                        coworker.setNotification(newStatus);
+                        coworker.setNotification(getNotification());
                         // Mettez à jour le document dans Firestore
                         coworkerRef.set(coworker)
                                 .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Notification status updated successfully"))
@@ -202,6 +205,7 @@ public class CoworkerRepository {
                 }
             }).addOnFailureListener(e -> Log.e("CoworkerRepository", "Error getting document", e));
         }
+        return getNotification();
     }
 
 }
