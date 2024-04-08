@@ -5,9 +5,16 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -15,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 import com.example.p7_daa_alexandre.databinding.ActivityMainBinding;
+import com.example.p7_daa_alexandre.repository.AppRepository;
 import com.example.p7_daa_alexandre.repository.CoworkerRepository;
 import com.example.p7_daa_alexandre.ui.home.HomeActivity;
 import com.firebase.ui.auth.AuthUI;
@@ -24,7 +32,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
 
         List<AuthUI.IdpConfig> providers =
                 Arrays.asList(
@@ -71,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText("Notification text content")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        AppRepository appRepository = new AppRepository(this);
+        appRepository.createNotificationChannel();
+        appRepository.scheduleDailyNotification();
         
     }
 
@@ -110,5 +132,6 @@ public class MainActivity extends AppCompatActivity {
     private void showSnackBar( String message){
         Toast.makeText( this, message, Toast.LENGTH_SHORT).show();
     }
+
 
 }

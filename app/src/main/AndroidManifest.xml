@@ -22,6 +22,10 @@
             android:name=".ui.details.DetailsActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".MyNotificationReceiver"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow" />

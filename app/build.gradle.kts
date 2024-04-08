@@ -97,4 +97,7 @@ dependencies {
     implementation ("com.google.maps.android:android-maps-utils:2.3.0")
     implementation ("com.google.android.libraries.places:places:3.3.0")
 
+    // Notification
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
+
 }
