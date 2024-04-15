@@ -43,12 +43,12 @@ public class AppRepository {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         // Set the alarm to start at approximately 12:00 p.m.
-        /**Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
         calendar.set(calendar.DAY_OF_MONTH, calendar.get(calendar.DAY_OF_MONTH));
         calendar.set(Calendar.HOUR_OF_DAY, 12);
         calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);*/
+        calendar.set(Calendar.SECOND, 0);
 
         // Set the alarm to start immediately and repeat every 5 minutes
         long intervalMillis = AlarmManager.INTERVAL_FIFTEEN_MINUTES / 3; // Calculate interval for 5 minutes
