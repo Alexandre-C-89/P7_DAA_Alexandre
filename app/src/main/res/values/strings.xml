@@ -10,6 +10,7 @@
 
     <!-- NOTIFICATION SERVICE -->
     <string name="notification_title">You have a new notification</string>
+    <string name="notification_message">message</string>
 
     <!-- MAIN ACTIVITY -->
     <string name="error_not_connected">Please log in first</string>
