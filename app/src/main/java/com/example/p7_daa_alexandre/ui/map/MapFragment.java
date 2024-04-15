@@ -1,6 +1,7 @@
 package com.example.p7_daa_alexandre.ui.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentMapBinding;
 import com.example.p7_daa_alexandre.repository.LocationRepository;
 import com.example.p7_daa_alexandre.repository.Repository;
+import com.example.p7_daa_alexandre.ui.details.DetailsActivity;
 import com.example.p7_daa_alexandre.ui.list.ListViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -33,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -115,10 +118,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     viewModel.getNearbyRestaurants(location.getLatitude(), location.getLongitude()).observe(getViewLifecycleOwner(), restaurants -> {
                         for (ResultsItem restaurant : restaurants) {
                             LatLng restaurantPosition = new LatLng((Double) restaurant.getGeometry().getLocation().getLat(), (Double) restaurant.getGeometry().getLocation().getLng());
-                            googleMap.addMarker(new MarkerOptions().position(restaurantPosition).title(restaurant.getName()));
+                            Marker marker = googleMap.addMarker(new MarkerOptions().position(restaurantPosition).title(restaurant.getName()));
+                            marker.setTag(restaurant); // Attach restaurant object to marker
                         }
                     });
                 }
+            });
+
+            // Set up marker click listener
+            googleMap.setOnMarkerClickListener(marker -> {
+                // Retrieve restaurant object from marker tag
+                ResultsItem restaurant = (ResultsItem) marker.getTag();
+                if (restaurant != null) {
+                    // Show restaurant details (you can navigate to another fragment/activity)
+                    showRestaurantDetails(restaurant);
+                }
+                return false; // Returning false indicates that we have not consumed the event
             });
         } else {
             requestLocationPermission();
@@ -140,6 +155,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 googleMap.addMarker(new MarkerOptions().position(restaurantPosition).title(restaurant.getName()));
             }
         });
+    }
+
+    private void showRestaurantDetails(ResultsItem restaurant) {
+        Intent intent = new Intent(requireContext(), DetailsActivity.class);
+        intent.putExtra("restaurant", restaurant.getPlaceId()); // Pass the placeId of the restaurant
+        startActivity(intent);
     }
 
 }
