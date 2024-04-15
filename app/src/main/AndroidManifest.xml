@@ -22,7 +22,7 @@
             android:name=".ui.details.DetailsActivity"
             android:exported="false" />
 
-        <activity
+        <receiver
             android:name=".MyNotificationReceiver"
             android:exported="false" />
 

@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         AppRepository appRepository = new AppRepository(this);
-        appRepository.createNotificationChannel();
+        //appRepository.createNotificationChannel();
         appRepository.scheduleDailyNotification();
         
     }

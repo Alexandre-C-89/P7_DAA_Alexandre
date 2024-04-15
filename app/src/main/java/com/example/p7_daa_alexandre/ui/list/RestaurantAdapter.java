@@ -105,7 +105,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ResultsItem restaurant = mRestaurant.get(position);
-        holder.restaurantRating.setRating((float) restaurant.getRating());
+        float adjustedRating = adjustRating(restaurant.getRating());
+        holder.restaurantRating.setRating(adjustedRating);
         holder.bind(restaurant);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +116,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 view.getContext().startActivity(intent);
             }
         });
+    }
+
+    private float adjustRating(double rating) {
+        // Map the rating from 0-5 scale to 0-3 scale
+        return (float) ((rating / 5.0) * 3.0);
     }
 
     @Override
