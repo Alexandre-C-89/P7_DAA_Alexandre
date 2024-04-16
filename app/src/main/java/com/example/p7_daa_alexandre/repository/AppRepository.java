@@ -51,7 +51,7 @@ public class AppRepository {
         calendar.set(Calendar.SECOND, 0);
 
         // Set the alarm to start immediately and repeat every 5 minutes
-        long intervalMillis = AlarmManager.INTERVAL_HALF_HOUR; // Calculate interval for 5 minutes
+        long intervalMillis = AlarmManager.INTERVAL_FIFTEEN_MINUTES / 3; // Calculate interval for 5 minutes
         long triggerAtMillis = System.currentTimeMillis();
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval constants--in this case, AlarmManager.INTERVAL_DAY.
