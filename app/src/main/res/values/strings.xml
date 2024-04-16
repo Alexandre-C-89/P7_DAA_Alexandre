@@ -11,6 +11,7 @@
     <!-- NOTIFICATION SERVICE -->
     <string name="notification_title">You have a new notification</string>
     <string name="notification_message">message</string>
+    <string name="default_notification_channel_id">8</string>
 
     <!-- MAIN ACTIVITY -->
     <string name="error_not_connected">Please log in first</string>
