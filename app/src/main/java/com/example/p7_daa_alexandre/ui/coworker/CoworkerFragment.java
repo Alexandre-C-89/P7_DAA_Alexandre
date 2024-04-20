@@ -54,7 +54,7 @@ public class CoworkerFragment extends Fragment {
         viewModel.getAllCoworkers().observe(getViewLifecycleOwner(), new Observer<List<Coworker>>() {
             @Override
             public void onChanged(List<Coworker> coworkers) {
-                // Mettre à jour la liste de meetings
+                // update list of coworker
                 updateList(coworkers);
             }
         });
@@ -68,9 +68,7 @@ public class CoworkerFragment extends Fragment {
         adapter.setOnItemClickListener(new CoworkerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                // Ici, tu peux gérer les clics sur les éléments de la liste
-                // Avant la suppression ou effectuer d'autres actions si nécessaire
-                //deleteMeeting(position);
+                // Here you can manage click on the element of list
             }
         });
 

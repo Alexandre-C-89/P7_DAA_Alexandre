@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
-                    Toast.makeText(MainActivity.this, "Notification permission granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.notification_toast_message_success, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Notification permission not granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.notification_toast_message_error, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "test")
                 .setSmallIcon(R.drawable.world_svgrepo_com)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText("Notification text content")
+                .setContentText(getString(R.string.notification_message_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         AppRepository appRepository = new AppRepository(this);
         //appRepository.createNotificationChannel();
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
-            Toast.makeText( this, "response success !", Toast.LENGTH_SHORT).show();
+            Toast.makeText( this, R.string.toast_succes, Toast.LENGTH_SHORT).show();
             if (resultCode == RESULT_OK) {
                 CoworkerRepository.getInstance().createWorkmates();
                 showSnackBar("connection_succeed");
@@ -122,14 +122,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
             } else {
-                Toast.makeText( this, "response error", Toast.LENGTH_SHORT).show();
+                Toast.makeText( this, R.string.toast_succes, Toast.LENGTH_SHORT).show();
                 if (response == null) {
-                    showSnackBar("error_authentication_canceled");
+                    showSnackBar(String.valueOf(R.string.snackbar_authentication_error));
                 } else if (response.getError()!= null) {
                     if(response.getError().getErrorCode() == ErrorCodes.NO_NETWORK){
-                        showSnackBar("error_no_internet");
+                        showSnackBar(String.valueOf(R.string.snackbar_internet_error));
                     } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                        showSnackBar("error_unknown_error");
+                        showSnackBar(String.valueOf(R.string.snackbar_unknow_error));
                     }
                 }
             }

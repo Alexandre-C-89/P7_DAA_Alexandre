@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.database.response.details.DetailsResponse;
 import com.example.p7_daa_alexandre.databinding.ActivityDetailsBinding;
@@ -44,7 +45,7 @@ public class DetailsActivity extends AppCompatActivity {
         adapter = new DetailsAdapter(coworkerList);
         binding.listworkmatesjoining.setLayoutManager(new LinearLayoutManager(this));
         binding.listworkmatesjoining.setAdapter(adapter);
-        String restaurant = getIntent().getStringExtra("restaurant");
+        String restaurant = getIntent().getStringExtra(String.valueOf(R.string.details_activity_intent_message));
         Log.d("DetailsActivity", "Retrieving restaurant details for: " + restaurant);
         viewModel.getRestaurantDetails(restaurant).observe(this, new Observer<DetailsResponse>() {
             @Override
@@ -54,7 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
                 binding.adresseResto.setText(details.getResult().getVicinity());
                 binding.rating.setRating(details.getResult().getRating());
 
-                String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=" + details.getResult().getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
+                String urlPhoto = R.string.details_activity_url_photo + details.getResult().getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
 
                 Glide.with(DetailsActivity.this)
                         .load(urlPhoto)
@@ -90,10 +91,10 @@ public class DetailsActivity extends AppCompatActivity {
                     if (dialIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(dialIntent);
                     } else {
-                        Toast.makeText(DetailsActivity.this, "Aucune application pour gérer l'appel téléphonique n'est disponible.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_call_button, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(DetailsActivity.this, "Aucun numéro de téléphone disponible.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_call_number_button, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -108,10 +109,10 @@ public class DetailsActivity extends AppCompatActivity {
                     if (webIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(webIntent);
                     } else {
-                        Toast.makeText(DetailsActivity.this, "Aucune application pour ouvrir le site web n'est disponible.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_website_button, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(DetailsActivity.this, "Aucun site web disponible pour ce restaurant.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_website, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -121,9 +122,9 @@ public class DetailsActivity extends AppCompatActivity {
             if (details != null) {
                 String placeId = details.getResult().getPlaceId();
                 String restaurantName = details.getResult().getName();
-                String address= details.getResult().getFormattedAddress();
+                String address = details.getResult().getFormattedAddress();
                 viewModel.restaurantChoosed(placeId, restaurantName, address);
-                Toast.makeText(DetailsActivity.this, "Restaurant ajouté à vos favoris", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_add_restaurant, Toast.LENGTH_SHORT).show();
             }
         });
 

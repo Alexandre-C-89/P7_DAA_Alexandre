@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.model.Restaurant;
 import com.firebase.ui.auth.AuthUI;
@@ -32,9 +33,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class CoworkerRepository {
 
-    private static final String COLLECTION_NAME = "Coworkers";
-    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION = "liked_restaurant";
-    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION_NAME_FIELD = "name";
+    private static final String COLLECTION_NAME = String.valueOf(R.string.coworker_repository_collection_name);
+    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION = String.valueOf(R.string.coworker_repository_collection_like);
+    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION_NAME_FIELD = String.valueOf(R.string.coworker_repository_collection_like_name_field);
     private static volatile CoworkerRepository instance;
     private final MutableLiveData<ArrayList<Coworker>> listOfCoworkers = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLiked=new MutableLiveData<>();
@@ -63,7 +64,7 @@ public class CoworkerRepository {
                     .document(uid)
                     .get();
         } else {
-            return Tasks.forException(new Exception("Utilisateur non connecté."));
+            return Tasks.forException(new Exception(String.valueOf(R.string.coworker_repository_task_exception_message)));
         }
     }
 
@@ -147,13 +148,13 @@ public class CoworkerRepository {
     public void restaurantChoosed(String placeId,String restaurantName,String address) {
         FirebaseUser Coworkers = getCurrentCoworker();
         String uid = Coworkers.getUid();
-        getCoworkersCollection().document(uid).update("placeId", placeId)
+        getCoworkersCollection().document(uid).update(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_placeId), placeId)
                 .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
                 .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
-        getCoworkersCollection().document(uid).update("restaurantName", restaurantName)
+        getCoworkersCollection().document(uid).update(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_restaurantName), restaurantName)
                 .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
                 .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
-        getCoworkersCollection().document(uid).update("address", address)
+        getCoworkersCollection().document(uid).update(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_address), address)
                 .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
                 .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
 
@@ -163,7 +164,7 @@ public class CoworkerRepository {
         MutableLiveData<List<Coworker>> coworkerLiveData = new MutableLiveData<>();
 
         getCoworkersCollection()
-                .whereEqualTo("placeId", placeId)
+                .whereEqualTo(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_placeId), placeId)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -202,7 +203,7 @@ public class CoworkerRepository {
     public void setNotificationStatus(boolean status) {
         String uid = getCurrentCoworker().getUid();
         getCoworkersCollection().document(uid)
-                .update("notification", status)
+                .update(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_notification), status)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Notification status updated"))
                 .addOnFailureListener(e -> Log.e(TAG, "Error updating notification status", e));
     }

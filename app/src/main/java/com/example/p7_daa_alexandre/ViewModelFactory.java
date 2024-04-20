@@ -60,7 +60,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(SettingsViewModel.class)) {
             return (T) new SettingsViewModel();
         }
-        throw new IllegalArgumentException("Unknown ViewModel class");
+        throw new IllegalArgumentException(String.valueOf(R.string.map_viewmodel_message_error));
     }
 
 }

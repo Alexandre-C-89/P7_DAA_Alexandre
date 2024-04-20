@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.SearchView;
+
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -62,17 +63,17 @@ public class HomeActivity extends AppCompatActivity {
                             Boolean fineLocationGranted = result.getOrDefault(
                                     Manifest.permission.ACCESS_FINE_LOCATION, false);
                             Boolean coarseLocationGranted = result.getOrDefault(
-                                    Manifest.permission.ACCESS_COARSE_LOCATION,false);
+                                    Manifest.permission.ACCESS_COARSE_LOCATION, false);
                             if (fineLocationGranted != null && fineLocationGranted) {
                                 replaceFragment(new MapFragment());
                             } else if (coarseLocationGranted != null && coarseLocationGranted) {
                                 replaceFragment(new MapFragment());
                             } else {
-                                Toast.makeText(HomeActivity.this, "fine or coarse permissions was wrong !", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HomeActivity.this, R.string.toast_home_activity_message_fine_permission, Toast.LENGTH_SHORT).show();
                             }
                         }
                 );
-        locationPermissionRequest.launch(new String[] {
+        locationPermissionRequest.launch(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
@@ -89,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.map:
                     replaceFragment(new MapFragment());
                     break;
@@ -111,12 +112,12 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Coworker coworker = documentSnapshot.toObject(Coworker.class);
-                            if (coworker != null && coworker.getPlaceId() != null){
+                            if (coworker != null && coworker.getPlaceId() != null) {
                                 Intent detailsIntent = new Intent(HomeActivity.this, DetailsActivity.class);
-                                detailsIntent.putExtra("restaurant", coworker.getPlaceId());
+                                detailsIntent.putExtra(String.valueOf(R.string.home_activity_intent_message), coworker.getPlaceId());
                                 startActivity(detailsIntent);
                             } else {
-                                Toast.makeText(HomeActivity.this, "pas de restaurant sélectionner", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HomeActivity.this, R.string.toast_home_activity_message_restaurant_error, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -152,7 +153,7 @@ public class HomeActivity extends AppCompatActivity {
 
         MenuItem menuItem = menu.findItem(R.id.search_btn);
         SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Type here to seacrh !");
+        searchView.setQueryHint(String.valueOf(R.string.home_activity_hint_searchbar));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -167,8 +168,8 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 /**searchHandler.removeCallbacks(searchRunnable);
-                searchRunnable = () -> performSearch(newText);
-                searchHandler.postDelayed(searchRunnable, 300);*/
+                 searchRunnable = () -> performSearch(newText);
+                 searchHandler.postDelayed(searchRunnable, 300);*/
                 return true;
             }
         });
@@ -187,7 +188,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
-                Toast.makeText(HomeActivity.this, "Erreur lors de la déconnexion", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, R.string.toast_home_activity_message_disconnect_error, Toast.LENGTH_SHORT).show();
             }
         });
     }

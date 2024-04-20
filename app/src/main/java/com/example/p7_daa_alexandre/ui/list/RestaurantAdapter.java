@@ -64,7 +64,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             restaurantDistance.setText(distanceText);
             if (restaurant.getPhotos() != null && !restaurant.getPhotos().isEmpty()) {
                 imgRestaurant.setTag(restaurant.getPhotos());
-                String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="
+                String urlPhoto = R.string.restaurant_adapter_url_photo
                         + restaurant.getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
                 Glide.with(imgRestaurant.getRootView())
                         .load(urlPhoto)
@@ -75,11 +75,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
             restaurantAddress.setText(restaurant.getVicinity());
             Integer likesCount = likesMap.get(restaurant.getPlaceId());
-            restaurantCoworker.setText(likesCount == null ? "0 likes" : likesCount + " likes");
+            restaurantCoworker.setText(likesCount == null ? String.valueOf(R.string.restaurant_adapter_like_number) : likesCount + String.valueOf(R.string.restaurant_adapter_like_number));
             if (restaurant.getOpeningHours() != null) {
-                restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? "Open" : "Closed");
+                restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? String.valueOf(R.string.restaurant_adapter_restaurant_hour_open) : String.valueOf(R.string.restaurant_adapter_restaurant_hour_closed));
             } else {
-                restaurantHour.setText("No hours available");
+                restaurantHour.setText(String.valueOf(R.string.restaurant_adapter_restaurant_hour_error));
             }
             restaurantRating.setTag(restaurant.getRating());
         }
@@ -89,9 +89,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 float[] results = new float[1];
                 Location.distanceBetween(startLocation.getLatitude(), startLocation.getLongitude(), endLatitude, endLongitude, results);
                 float distanceInMeters = results[0];
-                return String.format(Locale.US, "%.2f km", distanceInMeters / 1000); // Convert meters to kilometers
+                return String.format(Locale.US, String.valueOf(R.string.restaurant_adapter_restaurant_local_us), distanceInMeters / 1000); // Convert meters to kilometers
             }
-            return "Distance not available";
+            return String.valueOf(R.string.restaurant_adapter_restaurant_distance_message_error);
         }
     }
 
@@ -112,7 +112,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-                intent.putExtra("restaurant", restaurant.getPlaceId());
+                intent.putExtra(String.valueOf(R.string.restaurant_adapter_intent_message), restaurant.getPlaceId());
                 view.getContext().startActivity(intent);
             }
         });

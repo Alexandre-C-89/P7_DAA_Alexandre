@@ -5,6 +5,8 @@ import android.location.Location;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.p7_daa_alexandre.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,7 +45,7 @@ public class LocationRepository {
                     lastKnownLocation.setValue(location);
                 }
             }
-        }).addOnFailureListener(e -> Log.e("LocationRepository", "Error getting location", e));
+        }).addOnFailureListener(e -> Log.e(String.valueOf(R.string.location_repository_failure_listener_tag), String.valueOf(R.string.location_repository_failure_listener_message), e));
 
         return lastKnownLocation;
     }

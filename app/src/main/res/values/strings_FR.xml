@@ -1,0 +1,117 @@
+<resources>
+    <string name="app_name">P7_DAA_Alexandre</string>
+    <string name="sign_in_with_google">Connexion avec Google</string>
+    <string name="image_arriere_plan">image d\'arrière plan</string>
+
+    <string name="main_activity_description">Chat avec ton mentor</string>
+
+    <string name="login">Connexion</string>
+
+    <!-- TOAST -->
+    <string name="toast_succes">Succès de la réponse !</string>
+    <string name="toast_error">Erreur de la réponse !</string>
+    <string name="toast_message_restaurant_error">pas de restaurant sélectionner</string>
+    <string name="toast_details_activity_message_call_button">"Aucune application pour gérer l'appel téléphonique n'est disponible."</string>
+    <string name="toast_details_activity_message_call_number_button">Aucun numéro de téléphone disponible.</string>
+    <string name="toast_details_activity_message_website_button">"Aucune application pour ouvrir le site web n'est disponible."</string>
+    <string name="toast_details_activity_message_website">Aucun site web disponible pour ce restaurant.</string>
+    <string name="toast_details_activity_message_add_restaurant">Restaurant ajouté à vos favoris</string>
+    <string name="toast_home_activity_message_fine_permission">"la permission fine ou corase n'est pas validé !"</string>
+    <string name="toast_home_activity_message_restaurant_error">pas de restaurant sélectionner</string>
+    <string name="toast_home_activity_message_disconnect_error">Erreur lors de la déconnexion</string>
+    <string name="toast_map_fragment_message_localisation_error">Permission de localisation refusée</string>
+    <string name="toast_settings_fragment_message_notification_error">Notification activée !</string>
+    <string name="toast_settings_fragment_message_notification_disabled">Notification désactivée !</string>
+
+    <!-- SNACKBAR -->
+    <string name="snackbar_connexion_success">Connexion réussi !</string>
+    <string name="snackbar_connexion_error">Erreur de la réponse</string>
+    <string name="snackbar_authentication_success">Erreur de la réponse</string>
+    <string name="snackbar_authentication_error">"Erreur de l'authentification annulé !"</string>
+    <string name="snackbar_internet_success">Erreur avec la connexion internet</string>
+    <string name="snackbar_internet_error">Erreur avec internet</string>
+    <string name="snackbar_unknow_error">Erreur inconnue</string>
+
+    <!-- NOTIFICATION SERVICE -->
+    <string name="notification_title">Vous avez une notification</string>
+    <string name="notification_toast_message_success">Autorisation de notification accordée</string>
+    <string name="notification_toast_message_error">"L'autorisation de Notification n'est pas accordé"</string>
+    <string name="notification_message">message</string>
+    <string name="notification_message_text">Contenu du texte de notification</string>
+    <string name="default_notification_channel_id">8</string>
+
+    <!-- MAIN ACTIVITY -->
+    <string name="error_not_connected">"Connectez-vous en premier s'il vous plaît"</string>
+    <string name="error_authentication_canceled">Connexion interrompue</string>
+    <string name="error_no_internet">Réseau indisponible</string>
+    <string name="error_unknown_error">Une erreur inconnue est survenue</string>
+    <string name="connection_succeed">Connexion réussie !</string>
+    <string name="button_login_text_logged">Afficher votre profil</string>
+    <string name="button_login_text_not_logged">Connexion</string>
+
+
+    <!-- LOGIN ACTIVITY -->
+    <string name="toolbar_title_login_activity">Votre Profil</string>
+    <string name="text_input_username">"Nom d'utilisateur"</string>
+    <string name="text_view_email">Email :</string>
+    <string name="button_update_account">"Changez votre nom d'utilisateur"</string>
+    <string name="button_delete_account">Supprimez votre compte</string>
+    <string name="button_sign_out_account">Déconnexion</string>
+    <string name="info_no_email_found">Aucune adresse email trouvé</string>
+    <string name="info_no_username_found">"Aucun nom d'utilisateur trouvé"</string>
+
+    <!-- MAP VIEWMODEL FACTORY & VIEWMODEL FACTORY-->
+    <string name="map_viewmodel_message_error">Nom du ViewModel inconnue</string>
+
+    <!-- NOTIFICATION RECEIVER -->
+    <string name="notification_receiver_message_id">Id du restaurant</string>
+    <string name="notification_receiver_title">Restaurant du jour</string>
+    <string name="notification_receiver_content_message">Découvrez le restaurant du jour :</string>
+    <string name="notification_receiver_manager_id">CHANNEL_ID</string>
+
+    <!-- COWORKER ADAPTER -->
+    <string name="coworker_adapter_intent_message">restaurant</string>
+
+    <!-- DETAILS ACTIVITY -->
+    <string name="details_activity_intent_message">restaurant</string>
+    <string name="details_activity_url_photo">"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&amp;photo_reference="</string>
+
+    <!-- HOME ACTIVITY -->
+    <string name="home_activity_intent_message">restaurant</string>
+    <string name="home_activity_hint_searchbar">Tapez ici !</string>
+
+    <!-- RESTAURANT ADAPTER -->
+    <string name="restaurant_adapter_url_photo">"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&amp;photo_reference="</string>
+    <string name="restaurant_adapter_like_number">0 likes</string>
+    <string name="restaurant_adapter_like_text"> likes</string>
+    <string name="restaurant_adapter_restaurant_hour_open">Ouvert</string>
+    <string name="restaurant_adapter_restaurant_hour_closed">Fermer</string>
+    <string name="restaurant_adapter_restaurant_hour_error">Pas d'horaire disponible</string>
+    <string name="restaurant_adapter_restaurant_local_us">%.2f km</string>
+    <string name="restaurant_adapter_restaurant_distance_message_error">Distance non disponible</string>
+    <string name="restaurant_adapter_intent_message">restaurant</string>
+
+    <!-- MAP FRAGMENT -->
+    <string name="map_fragment_intent_message">restaurant</string>
+
+    <!-- REPOSITORY -->
+    <string name="repository_location_position_lebourget">48.936752,2.425377</string>
+    <string name="repository_system_message_println">t.getMessage() = </string>
+
+    <!-- LOCATION REPOSITORY -->
+    <string name="location_repository_failure_listener_tag">LocationRepository</string>
+    <string name="location_repository_failure_listener_message">"Erreur lors de l'obtention de la position"</string>
+
+    <!-- COWORKER REPOSITORY -->
+    <string name="coworker_repository_collection_like">Coworkers</string>
+    <string name="coworker_repository_collection_name">Coworkers</string>
+    <string name="coworker_repository_task_exception_message">Utilisateur non connecté.</string>
+    <string name="coworker_repository_coworker_collection_field_name_placeId">placeId</string>
+    <string name="coworker_repository_coworker_collection_field_name_restaurantName">restaurantName</string>
+    <string name="coworker_repository_coworker_collection_field_name_address">address</string>
+    <string name="coworker_repository_coworker_collection_field_name_notification">notification</string>
+
+    <!-- APP REPOSITORY -->
+    <string name="app_repository_set_time_zone_id">Europe/Paris</string>
+
+</resources>

@@ -102,7 +102,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showMap();
             } else {
-                Toast.makeText(requireContext(), "Permission de localisation refusée", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), String.valueOf(R.string.toast_map_fragment_message_localisation_error), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -159,7 +159,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void showRestaurantDetails(ResultsItem restaurant) {
         Intent intent = new Intent(requireContext(), DetailsActivity.class);
-        intent.putExtra("restaurant", restaurant.getPlaceId()); // Pass the placeId of the restaurant
+        intent.putExtra(String.valueOf(R.string.map_fragment_intent_message), restaurant.getPlaceId()); // Pass the placeId of the restaurant
         startActivity(intent);
     }
 

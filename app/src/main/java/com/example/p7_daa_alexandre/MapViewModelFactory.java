@@ -24,7 +24,7 @@ public class MapViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(MapViewModel.class)) {
             return (T) new MapViewModel(locationRepository, repository);
         }
-        throw new IllegalArgumentException("Unknown ViewModel class");
+        throw new IllegalArgumentException(String.valueOf(R.string.map_viewmodel_message_error));
     }
 
 }

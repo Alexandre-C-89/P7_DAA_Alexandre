@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
@@ -46,9 +47,9 @@ public class SettingsFragment extends Fragment {
             binding.notificationBtn.setOnCheckedChangeListener((buttonView, Checked) -> {
                 viewModel.updateNotificationStatus(Checked);
                 if (Checked == true) {
-                    Toast.makeText(getActivity(), "Notification activated !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), String.valueOf(R.string.toast_settings_fragment_message_notification_error), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Notification disabled !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), String.valueOf(R.string.toast_settings_fragment_message_notification_disabled), Toast.LENGTH_SHORT).show();
                 }
             });
 

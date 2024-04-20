@@ -32,7 +32,7 @@ public class AppRepository {
 
         // Set the alarm to start at approximately 12:00 p.m.
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+        calendar.setTimeZone(TimeZone.getTimeZone(String.valueOf(R.string.app_repository_set_time_zone_id)));
         calendar.set(calendar.DAY_OF_MONTH, calendar.get(calendar.DAY_OF_MONTH));
         calendar.set(Calendar.HOUR_OF_DAY, 12);
         calendar.set(Calendar.MINUTE, 0);

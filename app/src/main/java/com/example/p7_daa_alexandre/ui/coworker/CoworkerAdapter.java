@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.model.Coworker;
@@ -74,10 +75,10 @@ public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHo
             public void onClick(View view) {
                 if (coworker.getPlaceId() != null) {
                     Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-                    intent.putExtra("restaurant", coworker.getPlaceId());
+                    intent.putExtra(String.valueOf(R.string.coworker_adapter_intent_message), coworker.getPlaceId());
                     view.getContext().startActivity(intent);
                 } else {
-                    Toast.makeText(view.getContext(), "pas de restaurant sélectionner", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), String.valueOf(R.string.toast_message_restaurant_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
