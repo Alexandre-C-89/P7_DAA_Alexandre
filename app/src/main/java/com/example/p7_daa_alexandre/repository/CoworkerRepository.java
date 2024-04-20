@@ -28,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class CoworkerRepository {
 
@@ -204,6 +205,37 @@ public class CoworkerRepository {
                 .update("notification", status)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Notification status updated"))
                 .addOnFailureListener(e -> Log.e(TAG, "Error updating notification status", e));
+    }
+
+    public CompletableFuture<String> getCoworkerRestaurantName(String placeId) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        FirebaseUser currentUser = getCurrentCoworker();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            // Query Firestore to get the restaurant name for the specified placeId
+            getCoworkersCollection()
+                    .document(uid)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            Coworker coworker = documentSnapshot.toObject(Coworker.class);
+                            if (coworker != null && coworker.getPlaceId().equals(placeId)) {
+                                future.complete(coworker.getRestaurantName());
+                            } else {
+                                future.complete("Unknown");
+                            }
+                        } else {
+                            future.complete("Unknown");
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("CoworkerRepository", "Error getting restaurant name", e);
+                        future.completeExceptionally(e);
+                    });
+        } else {
+            future.complete("Unknown");
+        }
+        return future;
     }
 
 }
