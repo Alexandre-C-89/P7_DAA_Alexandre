@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">P7_DAA_Alexandre</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="image_arriere_plan">Background image</string>
 
@@ -102,8 +103,9 @@
     <string name="location_repository_failure_listener_message">Error getting location</string>
 
     <!-- COWORKER REPOSITORY -->
-    <string name="coworker_repository_collection_like">Coworkers</string>
     <string name="coworker_repository_collection_name">Coworkers</string>
+    <string name="coworker_repository_collection_restaurant">liked_restaurant</string>
+    <string name="coworker_repository_collection_restaurant_name_field">name</string>
     <string name="coworker_repository_task_exception_message">User not logged in</string>
     <string name="coworker_repository_coworker_collection_field_name_placeId">placeId</string>
     <string name="coworker_repository_coworker_collection_field_name_restaurantName">restaurantName</string>
