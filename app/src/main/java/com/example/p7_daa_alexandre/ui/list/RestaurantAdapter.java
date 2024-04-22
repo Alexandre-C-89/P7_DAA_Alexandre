@@ -64,8 +64,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             restaurantDistance.setText(distanceText);
             if (restaurant.getPhotos() != null && !restaurant.getPhotos().isEmpty()) {
                 imgRestaurant.setTag(restaurant.getPhotos());
-                String urlPhoto = R.string.restaurant_adapter_url_photo
-                        + restaurant.getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
+                String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="
+                + restaurant.getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
                 Glide.with(imgRestaurant.getRootView())
                         .load(urlPhoto)
                         .centerCrop()
@@ -77,11 +77,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             Integer likesCount = likesMap.get(restaurant.getPlaceId());
             restaurantCoworker.setText(likesCount == null ? String.valueOf(R.string.restaurant_adapter_like_number) : likesCount + String.valueOf(R.string.restaurant_adapter_like_number));
             if (restaurant.getOpeningHours() != null) {
-                restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? String.valueOf(R.string.restaurant_adapter_restaurant_hour_open) : String.valueOf(R.string.restaurant_adapter_restaurant_hour_closed));
+                restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? R.string.restaurant_adapter_restaurant_hour_open : R.string.restaurant_adapter_restaurant_hour_closed);
             } else {
-                restaurantHour.setText(String.valueOf(R.string.restaurant_adapter_restaurant_hour_error));
+                restaurantHour.setText(R.string.restaurant_adapter_restaurant_hour_error);
             }
-            restaurantRating.setTag(restaurant.getRating());
+            restaurantRating.setTag(String.valueOf(restaurant.getRating()));
         }
 
         private String calculateDistance(Location startLocation, double endLatitude, double endLongitude) {

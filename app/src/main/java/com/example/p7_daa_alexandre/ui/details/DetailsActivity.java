@@ -55,7 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
                 binding.adresseResto.setText(details.getResult().getVicinity());
                 binding.rating.setRating(details.getResult().getRating());
 
-                String urlPhoto = R.string.details_activity_url_photo + details.getResult().getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
+                String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=" + details.getResult().getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
 
                 Glide.with(DetailsActivity.this)
                         .load(urlPhoto)
@@ -65,7 +65,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         });
 
-        Log.d("DetailsActivity", "Retrieving coworkers for restaurant: " + restaurant);
         viewModel.getCoworkerWhoChoseRestaurant(restaurant).observe(this, new Observer<List<Coworker>>() {
             @Override
             public void onChanged(List<Coworker> coworkers) {

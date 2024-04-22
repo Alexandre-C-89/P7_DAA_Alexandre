@@ -36,6 +36,7 @@
         android:layout_marginTop="8dp"
         android:layout_below="@+id/linear_layout_restaurant_name"
         android:ellipsize="end"
+        android:maxWidth="110dp"
         android:lines="1"
         android:maxLength="18"
         android:text="restaurant address"
@@ -67,8 +68,8 @@
 
     <ImageView
         android:id="@+id/linear_layout_restaurant_coworker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
         android:layout_below="@+id/linear_layout_restaurant_distance"
         android:layout_toStartOf="@+id/linear_layout_restaurant_number_of_coworker"
         android:layout_marginTop="8dp"
@@ -79,6 +80,9 @@
         android:id="@+id/linear_layout_restaurant_number_of_coworker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="70dp"
+        android:maxHeight="20dp"
+        android:maxLines="1"
         android:layout_below="@+id/linear_layout_restaurant_distance"
         android:layout_toStartOf="@+id/linear_layout_restaurant_img"
         android:layout_alignTop="@+id/linear_layout_restaurant_coworker"
