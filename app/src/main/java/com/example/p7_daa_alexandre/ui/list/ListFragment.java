@@ -63,15 +63,10 @@ public class ListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //LocationRepository locationRepository = new LocationRepository(getActivity().getApplicationContext());
         viewModel = new ViewModelProvider(this, new ViewModelFactory(getActivity().getApplicationContext())).get(ListViewModel.class);
-
         initRecyclerViews();
-
         loadData();
         updateSearch();
-        Log.d("ListFragment", "Retrieving restaurant data from view model");
     }
 
     private void loadData() {
