@@ -87,7 +87,7 @@
         <string name="restaurant_adapter_like_text"> likes</string>
         <string name="restaurant_adapter_restaurant_hour_open">Ouvert</string>
         <string name="restaurant_adapter_restaurant_hour_closed">Fermer</string>
-        <string name="restaurant_adapter_restaurant_hour_error">Pas d'horaire disponible</string>
+        <string name="restaurant_adapter_restaurant_hour_error">"Pas d'horaire disponible"</string>
         <string name="restaurant_adapter_restaurant_local_us">%.2f km</string>
         <string name="restaurant_adapter_restaurant_distance_message_error">Distance non disponible</string>
         <string name="restaurant_adapter_intent_message">restaurant</string>
