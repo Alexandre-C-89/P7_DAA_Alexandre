@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     // Add the Google services Gradle plugin
@@ -18,7 +20,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        //buildConfigField("String", "API_KEY", API_KEY)
+        val properties = gradleLocalProperties(rootDir)
+        buildConfigField("String", "API_KEY", "\"${properties.getProperty(API_KEY)}\"")
     }
     buildFeatures {
         viewBinding = true
@@ -39,6 +42,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
 }
