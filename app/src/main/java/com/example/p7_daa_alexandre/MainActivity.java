@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MAINACTIVITY", "ON CREATE");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -90,16 +89,18 @@ public class MainActivity extends AppCompatActivity {
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.notification_message_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
         AppRepository appRepository = new AppRepository(this);
         //appRepository.createNotificationChannel();
-        //appRepository.scheduleDailyNotification();
-        try {
+
+        appRepository.scheduleDailyNotification();
+        /**try {
             appRepository.scheduleDailyNotification();
             Log.d("MainActivity", "Daily notification scheduled successfully");
         } catch (Exception e) {
             Log.e("MainActivity", "Error scheduling daily notification", e);
             // Handle the error as needed
-        }
+        }*/
         
     }
 
