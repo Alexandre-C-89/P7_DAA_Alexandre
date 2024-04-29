@@ -75,10 +75,10 @@ public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHo
             public void onClick(View view) {
                 if (coworker.getPlaceId() != null) {
                     Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-                    intent.putExtra(String.valueOf(R.string.coworker_adapter_intent_message), coworker.getPlaceId());
+                    intent.putExtra("restaurant", coworker.getPlaceId());
                     view.getContext().startActivity(intent);
                 } else {
-                    Toast.makeText(view.getContext(), String.valueOf(R.string.toast_message_restaurant_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "pas de restaurant sélectionner", Toast.LENGTH_SHORT).show();
                 }
             }
         });

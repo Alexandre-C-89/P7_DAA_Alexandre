@@ -103,9 +103,9 @@ public class CoworkerRepository {
                         ArrayList<Coworker> coworkers = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             coworkers.add(document.toObject(Coworker.class));
-                            Log.d("Error", "SIZE LIST RESTAURANT " + document.toObject(Coworker.class).getName());
+                            Log.d("LOOPFOR", "SIZE LIST COWORKERS " + document.toObject(Coworker.class).getName());
                         }
-                        Log.d("Error", "SIZE LIST RESTAURANT " + coworkers.size());
+                        //Log.d("AFTERFOR", "SIZE LIST RESTAURANT " + coworkers.size());
                         listOfCoworkers.setValue(coworkers);
                     } else {
                         Log.d("Error", "Error getting documents: ", task.getException());
