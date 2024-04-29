@@ -159,7 +159,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void showRestaurantDetails(ResultsItem restaurant) {
         Intent intent = new Intent(requireContext(), DetailsActivity.class);
-        intent.putExtra(String.valueOf(R.string.map_fragment_intent_message), restaurant.getPlaceId()); // Pass the placeId of the restaurant
+        intent.putExtra("restaurant", restaurant.getPlaceId()); // Pass the placeId of the restaurant
         startActivity(intent);
     }
 
