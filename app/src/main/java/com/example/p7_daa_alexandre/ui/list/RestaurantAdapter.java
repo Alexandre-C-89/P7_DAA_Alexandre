@@ -90,8 +90,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 Location.distanceBetween(startLocation.getLatitude(), startLocation.getLongitude(), endLatitude, endLongitude, results);
                 float distanceInMeters = results[0];
                 return String.format(Locale.US, String.valueOf(R.string.restaurant_adapter_restaurant_local_us), distanceInMeters / 1000); // Convert meters to kilometers
+            }else {
+                return String.valueOf(R.string.restaurant_adapter_restaurant_distance_message_error);
             }
-            return String.valueOf(R.string.restaurant_adapter_restaurant_distance_message_error);
         }
     }
 
