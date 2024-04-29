@@ -51,16 +51,26 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onChanged(DetailsResponse details) {
                 DetailsActivity.this.details = details;
-                binding.nameRestaurant.setText(details.getResult().getName().toLowerCase(Locale.ROOT));
-                binding.adresseResto.setText(details.getResult().getVicinity());
-                binding.rating.setRating(details.getResult().getRating());
+                if (details != null && details.getResult() != null) {
+                    if (details.getResult().getName() == null){
+                        binding.nameRestaurant.setText(R.string.restaurant_adapter_restaurant_name_error);
+                    } else {
+                        binding.nameRestaurant.setText(details.getResult().getName().toLowerCase(Locale.ROOT));
+                    }
+                    binding.adresseResto.setText(details.getResult().getVicinity());
+                    binding.rating.setRating(details.getResult().getRating());
 
-                String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=" + details.getResult().getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
+                    String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=" + details.getResult().getPhotos().get(0).getPhotoReference() + "&key=AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow";
 
-                Glide.with(DetailsActivity.this)
-                        .load(urlPhoto)
-                        .centerCrop()
-                        .into(binding.pictureResto);
+                    Glide.with(DetailsActivity.this)
+                            .load(urlPhoto)
+                            .centerCrop()
+                            .into(binding.pictureResto);
+                } else {
+                    binding.nameRestaurant.setText(R.string.restaurant_adapter_restaurant_name_error);
+                    binding.adresseResto.setText(R.string.restaurant_adapter_restaurant_address_error);
+                    binding.adresseResto.setText(R.string.restaurant_adapter_restaurant_rating_error);
+                }
             }
 
         });

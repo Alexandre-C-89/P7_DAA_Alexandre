@@ -74,19 +74,20 @@
 
     <!-- DETAILS ACTIVITY -->
     <string name="details_activity_intent_message">"restaurant"</string>
-    <string name="details_activity_url_photo">"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&amp;photo_reference="</string>
 
     <!-- HOME ACTIVITY -->
     <string name="home_activity_intent_message">"restaurant"</string>
     <string name="home_activity_hint_searchbar">"Type here to seacrh !"</string>
 
     <!-- RESTAURANT ADAPTER -->
-    <string name="restaurant_adapter_url_photo">"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&amp;photo_reference="</string>
     <string name="restaurant_adapter_like_number">"0 likes"</string>
     <string name="restaurant_adapter_like_text">" likes"</string>
     <string name="restaurant_adapter_restaurant_hour_open">"Open"</string>
     <string name="restaurant_adapter_restaurant_hour_closed">"Closed"</string>
     <string name="restaurant_adapter_restaurant_hour_error">"No hours available"</string>
+    <string name="restaurant_adapter_restaurant_name_error">"No name available"</string>
+    <string name="restaurant_adapter_restaurant_address_error">"No address available"</string>
+    <string name="restaurant_adapter_restaurant_rating_error">"No rating available"</string>
     <string name="restaurant_adapter_restaurant_local_us">"%.2f km"</string>
     <string name="restaurant_adapter_restaurant_distance_message_error">"Distance not available"</string>
     <string name="restaurant_adapter_intent_message">"restaurant"</string>
