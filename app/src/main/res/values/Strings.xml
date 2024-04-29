@@ -9,8 +9,6 @@
         <string name="login">"Connexion"</string>
 
         <!-- TOAST -->
-        <string name="toast_succes">"Succès de la réponse !"</string>
-        <string name="toast_error">"Erreur de la réponse !"</string>
         <string name="toast_message_restaurant_error">"pas de restaurant sélectionner"</string>
         <string name="toast_details_activity_message_call_button">"Aucune application pour gérer l'appel téléphonique n'est disponible."</string>
         <string name="toast_details_activity_message_call_number_button">"Aucun numéro de téléphone disponible."</string>
@@ -21,24 +19,19 @@
         <string name="toast_home_activity_message_restaurant_error">"pas de restaurant sélectionner"</string>
         <string name="toast_home_activity_message_disconnect_error">"Erreur lors de la déconnexion"</string>
         <string name="toast_map_fragment_message_localisation_error">"Permission de localisation refusée"</string>
-        <string name="toast_settings_fragment_message_notification_error">"Notification activée !"</string>
-        <string name="toast_settings_fragment_message_notification_disabled">"Notification désactivée !"</string>
 
         <!-- SNACKBAR -->
         <string name="snackbar_connexion_success">"Connexion réussi !"</string>
         <string name="snackbar_connexion_error">"Erreur de la réponse"</string>
         <string name="snackbar_authentication_success">"Erreur de la réponse"</string>
-        <string name="snackbar_authentication_error">"Erreur de l'authentification annulé !"</string>
+
         <string name="snackbar_internet_success">"Erreur avec la connexion internet"</string>
-        <string name="snackbar_internet_error">"Erreur avec internet"</string>
-        <string name="snackbar_unknow_error">"Erreur inconnue"</string>
 
         <!-- NOTIFICATION SERVICE -->
         <string name="notification_title">"Vous avez une notification"</string>
         <string name="notification_toast_message_success">"Autorisation de notification accordée"</string>
         <string name="notification_toast_message_error">"L'autorisation de Notification n'est pas accordé"</string>
         <string name="notification_message">"message"</string>
-        <string name="notification_message_text">"Contenu du texte de notification"</string>
         <string name="default_notification_channel_id">"8"</string>
 
         <!-- MAIN ACTIVITY -->
@@ -68,7 +61,6 @@
         <string name="notification_receiver_message_id">"Id du restaurant"</string>
         <string name="notification_receiver_title">"Restaurant du jour"</string>
         <string name="notification_receiver_content_message">"Découvrez le restaurant du jour :"</string>
-        <string name="notification_receiver_manager_id">"CHANNEL_ID"</string>
 
         <!-- COWORKER ADAPTER -->
         <string name="coworker_adapter_intent_message">"restaurant"</string>
@@ -109,10 +101,10 @@
         <string name="coworker_repository_collection_restaurant">"liked_restaurant"</string>
         <string name="coworker_repository_collection_restaurant_name_field">"nom"</string>
         <string name="coworker_repository_task_exception_message">"Utilisateur non connecté."</string>
-        <string name="coworker_repository_coworker_collection_field_name_placeId">"placeId"</string>
+        <string name="coworker_repository_coworker_collection_field_name_placeId">"placeId"</string>// a effacer
         <string name="coworker_repository_coworker_collection_field_name_restaurantName">"restaurantName"</string>
         <string name="coworker_repository_coworker_collection_field_name_address">"address"</string>
-        <string name="coworker_repository_coworker_collection_field_name_notification">"notification"</string>
+        <string name="coworker_repository_coworker_collection_field_name_notification">"notification"</string>// a effacer
 
         <!-- APP REPOSITORY -->
         <string name="app_repository_set_time_zone_id">"Europe/Paris"</string>

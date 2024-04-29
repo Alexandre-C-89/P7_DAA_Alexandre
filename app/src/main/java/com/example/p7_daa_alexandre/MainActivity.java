@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "test")
                 .setSmallIcon(R.drawable.world_svgrepo_com)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.notification_message_text))
+                .setContentTitle("P7_DAA_Alexandre")
+                .setContentText("Contenu du texte de notification")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         AppRepository appRepository = new AppRepository(this);
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
-            Toast.makeText( this, R.string.toast_succes, Toast.LENGTH_SHORT).show();
+            Toast.makeText( this, "Succès de la réponse !", Toast.LENGTH_SHORT).show();
             if (resultCode == RESULT_OK) {
                 CoworkerRepository.getInstance().createWorkmates();
                 showSnackBar("connection_succeed");
@@ -123,14 +123,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
             } else {
-                Toast.makeText( this, R.string.toast_succes, Toast.LENGTH_SHORT).show();
+                Toast.makeText( this,"Succès de la réponse !", Toast.LENGTH_SHORT).show();
                 if (response == null) {
-                    showSnackBar(String.valueOf(R.string.snackbar_authentication_error));
+                    showSnackBar("Erreur de l'authentification annulé !");
                 } else if (response.getError()!= null) {
                     if(response.getError().getErrorCode() == ErrorCodes.NO_NETWORK){
-                        showSnackBar(String.valueOf(R.string.snackbar_internet_error));
+                        showSnackBar("Erreur avec internet");
                     } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                        showSnackBar(String.valueOf(R.string.snackbar_unknow_error));
+                        showSnackBar("Erreur inconnue");
                     }
                 }
             }

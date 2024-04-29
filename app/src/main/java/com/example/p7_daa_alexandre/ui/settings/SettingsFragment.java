@@ -46,10 +46,10 @@ public class SettingsFragment extends Fragment {
 
             binding.notificationBtn.setOnCheckedChangeListener((buttonView, Checked) -> {
                 viewModel.updateNotificationStatus(Checked);
-                if (Checked == true) {
-                    Toast.makeText(getActivity(), String.valueOf(R.string.toast_settings_fragment_message_notification_error), Toast.LENGTH_SHORT).show();
+                if (Checked) {
+                    Toast.makeText(getActivity(), "Notification activée !", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), String.valueOf(R.string.toast_settings_fragment_message_notification_disabled), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Notification désactivée !", Toast.LENGTH_SHORT).show();
                 }
             });
 

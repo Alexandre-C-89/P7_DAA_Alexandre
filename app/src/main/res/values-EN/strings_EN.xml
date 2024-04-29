@@ -8,8 +8,6 @@
     <string name="login">"Login"</string>
 
     <!-- TOAST -->
-    <string name="toast_succes">"response success !"</string>
-    <string name="toast_error">"response error !"</string>
     <string name="toast_message_restaurant_error">"pas de restaurant sélectionner"</string>
     <string name="toast_details_activity_message_call_button">"No application to manage the phone call is available."</string>
     <string name="toast_details_activity_message_call_number_button">"No phone number available."</string>
@@ -67,7 +65,6 @@
     <string name="notification_receiver_message_id">"restaurantId"</string>
     <string name="notification_receiver_title">"Restaurant of the Day"</string>
     <string name="notification_receiver_content_message">"Check out today's featured restaurant: "</string>
-    <string name="notification_receiver_manager_id">"CHANNEL_ID"</string>
 
     <!-- COWORKER ADAPTER -->
     <string name="coworker_adapter_intent_message">"restaurant"</string>

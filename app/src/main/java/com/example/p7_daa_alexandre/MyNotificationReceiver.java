@@ -104,7 +104,7 @@ public class MyNotificationReceiver extends BroadcastReceiver {
             CharSequence name = context.getString(R.string.notification_title);
             String description = context.getString(R.string.notification_message);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(String.valueOf(R.string.notification_receiver_manager_id), name, importance);
+            NotificationChannel channel = new NotificationChannel("CHANNEL_ID", name, importance);
             channel.setDescription(description);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
@@ -112,7 +112,7 @@ public class MyNotificationReceiver extends BroadcastReceiver {
     }
 
     public void showNotification(String title, String content) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, String.valueOf(R.string.notification_receiver_manager_id))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANNEL_ID")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(content)

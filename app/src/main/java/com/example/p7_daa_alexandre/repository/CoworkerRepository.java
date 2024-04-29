@@ -33,9 +33,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class CoworkerRepository {
 
-    private static final String COLLECTION_NAME = String.valueOf(R.string.coworker_repository_collection_name);
-    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION = String.valueOf(R.string.coworker_repository_collection_restaurant);
-    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION_NAME_FIELD = String.valueOf(R.string.coworker_repository_collection_restaurant_name_field);
+    private static final String COLLECTION_NAME = "Coworkers";
+    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION = "liked_restaurant";
+    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION_NAME_FIELD = "nom";
     private static volatile CoworkerRepository instance;
     private final MutableLiveData<ArrayList<Coworker>> listOfCoworkers = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLiked=new MutableLiveData<>();
@@ -103,7 +103,7 @@ public class CoworkerRepository {
                         ArrayList<Coworker> coworkers = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             coworkers.add(document.toObject(Coworker.class));
-                            Log.d("LOOPFOR", "SIZE LIST COWORKERS " + document.toObject(Coworker.class).getName());
+                            Log.d("LOOPFOR", "SIZE LIST COWORKERS " + document.toObject(Coworker.class).getName() + coworkers);
                         }
                         //Log.d("AFTERFOR", "SIZE LIST RESTAURANT " + coworkers.size());
                         listOfCoworkers.setValue(coworkers);
@@ -164,7 +164,7 @@ public class CoworkerRepository {
         MutableLiveData<List<Coworker>> coworkerLiveData = new MutableLiveData<>();
 
         getCoworkersCollection()
-                .whereEqualTo(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_placeId), placeId)
+                .whereEqualTo("placeId", placeId)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -203,7 +203,7 @@ public class CoworkerRepository {
     public void setNotificationStatus(boolean status) {
         String uid = getCurrentCoworker().getUid();
         getCoworkersCollection().document(uid)
-                .update(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_notification), status)
+                .update("notification", status)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Notification status updated"))
                 .addOnFailureListener(e -> Log.e(TAG, "Error updating notification status", e));
     }
