@@ -75,13 +75,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
             restaurantAddress.setText(restaurant.getVicinity());
             Integer likesCount = likesMap.get(restaurant.getPlaceId());
-            restaurantCoworker.setText(likesCount == null ? String.valueOf(R.string.restaurant_adapter_like_number) : likesCount + String.valueOf(R.string.restaurant_adapter_like_number));
+            restaurantCoworker.setText(likesCount == null ? "0 likes" : likesCount + "0 likes");
             if (restaurant.getOpeningHours() != null) {
-                restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? R.string.restaurant_adapter_restaurant_hour_open : R.string.restaurant_adapter_restaurant_hour_closed);
+                restaurantHour.setText(restaurant.getOpeningHours().isOpenNow() ? "Open" : "Closed");
             } else {
-                restaurantHour.setText(R.string.restaurant_adapter_restaurant_hour_error);
+                restaurantHour.setText("No hours available");
             }
-            restaurantRating.setTag(String.valueOf(restaurant.getRating()));
+            restaurantRating.setTag(restaurant.getRating());
         }
 
         private String calculateDistance(Location startLocation, double endLatitude, double endLongitude) {
@@ -89,9 +89,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 float[] results = new float[1];
                 Location.distanceBetween(startLocation.getLatitude(), startLocation.getLongitude(), endLatitude, endLongitude, results);
                 float distanceInMeters = results[0];
-                return String.format(Locale.US, String.valueOf(R.string.restaurant_adapter_restaurant_local_us), distanceInMeters / 1000); // Convert meters to kilometers
+                return String.format(Locale.US, "%.2f km", distanceInMeters / 1000); // Convert meters to kilometers
             }else {
-                return String.valueOf(R.string.restaurant_adapter_restaurant_distance_message_error);
+                return "Distance not available";
             }
         }
     }
@@ -113,7 +113,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-                intent.putExtra(String.valueOf(R.string.restaurant_adapter_intent_message), restaurant.getPlaceId());
+                intent.putExtra("restaurant", restaurant.getPlaceId());
                 view.getContext().startActivity(intent);
             }
         });

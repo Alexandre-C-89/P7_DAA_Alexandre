@@ -45,7 +45,7 @@ public class DetailsActivity extends AppCompatActivity {
         adapter = new DetailsAdapter(coworkerList);
         binding.listworkmatesjoining.setLayoutManager(new LinearLayoutManager(this));
         binding.listworkmatesjoining.setAdapter(adapter);
-        String restaurant = getIntent().getStringExtra(String.valueOf(R.string.details_activity_intent_message));
+        String restaurant = getIntent().getStringExtra("restaurant");
         Log.d("DetailsActivity", "Retrieving restaurant details for: " + restaurant);
         viewModel.getRestaurantDetails(restaurant).observe(this, new Observer<DetailsResponse>() {
             @Override
@@ -53,7 +53,7 @@ public class DetailsActivity extends AppCompatActivity {
                 DetailsActivity.this.details = details;
                 if (details != null && details.getResult() != null) {
                     if (details.getResult().getName() == null){
-                        binding.nameRestaurant.setText(R.string.restaurant_adapter_restaurant_name_error);
+                        binding.nameRestaurant.setText("No name available");
                     } else {
                         binding.nameRestaurant.setText(details.getResult().getName().toLowerCase(Locale.ROOT));
                     }
