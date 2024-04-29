@@ -60,8 +60,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         public void bind(ResultsItem restaurant) {
             restaurantName.setText(restaurant.getName());
-            String distanceText = calculateDistance(userLocation, userLocation.getLatitude(), userLocation.getLongitude());
-            restaurantDistance.setText(distanceText);
+            if (userLocation != null) {
+                String distanceText = calculateDistance(userLocation, restaurant.getGeometry().getLocation().getLat(), restaurant.getGeometry().getLocation().getLng());
+                restaurantDistance.setText(distanceText);
+            } else {
+                restaurantDistance.setText("Distance not available");
+            }
             if (restaurant.getPhotos() != null && !restaurant.getPhotos().isEmpty()) {
                 imgRestaurant.setTag(restaurant.getPhotos());
                 String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="
