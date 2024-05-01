@@ -26,6 +26,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,6 +94,14 @@ public class ListFragment extends Fragment {
         viewModel.getSearchResults().observe(getViewLifecycleOwner(), new Observer<ArrayList<ResultsItem>>() {
             @Override
             public void onChanged(ArrayList<ResultsItem> resultsItems) {
+                // Sort the search results alphabetically
+                Collections.sort(resultsItems, new Comparator<ResultsItem>() {
+                    @Override
+                    public int compare(ResultsItem item1, ResultsItem item2) {
+                        return item1.getName().compareTo(item2.getName());
+                    }
+                });
+
                 restaurants.clear();
                 restaurants.addAll(resultsItems);
                 updateRestaurantLikes();
