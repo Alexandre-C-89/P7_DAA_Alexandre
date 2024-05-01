@@ -131,6 +131,10 @@ public class ListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    public void searchRestaurants(String query) {
+        viewModel.searchRestaurants(query);
+    }
+
     public void updateRestaurantList(ArrayList<ResultsItem> results) {
         this.restaurants.clear();
         this.restaurants.addAll(results);

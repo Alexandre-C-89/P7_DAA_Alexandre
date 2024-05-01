@@ -37,7 +37,7 @@ import com.example.p7_daa_alexandre.ui.settings.SettingsFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity{
 
     ActivityHomeBinding binding;
 
@@ -161,6 +161,8 @@ public class HomeActivity extends AppCompatActivity {
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
                 if (currentFragment instanceof MapFragment) {
                     ((MapFragment) currentFragment).searchRestaurants(query);
+                }else if (currentFragment instanceof ListFragment) {
+                    ((ListFragment) currentFragment).searchRestaurants(query);
                 }
                 return true;
             }
@@ -207,4 +209,5 @@ public class HomeActivity extends AppCompatActivity {
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
+
 }

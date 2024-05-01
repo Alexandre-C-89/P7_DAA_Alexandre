@@ -43,4 +43,8 @@ public class ListViewModel extends ViewModel {
         return repository.getSearchResults();
     }
 
+    public LiveData<ArrayList<ResultsItem>> searchRestaurants(String query) {
+        return repository.searchRestaurants(query);
+    }
+
 }

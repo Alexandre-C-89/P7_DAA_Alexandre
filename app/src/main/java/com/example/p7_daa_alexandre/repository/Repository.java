@@ -90,7 +90,7 @@ public class Repository {
     ;
 
     public void searchRestaurant(String query) {
-        Call<NearbysearchResponse> call = restaurantApi.searchRestaurants(query, String.valueOf(R.string.repository_location_position_lebourget), "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
+        Call<NearbysearchResponse> call = restaurantApi.searchRestaurants(query, "48.936752,2.425377", "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
         call.enqueue(new Callback<NearbysearchResponse>() {
             @Override
             public void onResponse(Call<NearbysearchResponse> call, Response<NearbysearchResponse> response) {
@@ -107,6 +107,11 @@ public class Repository {
                 searchResults.setValue(new ArrayList<>());
             }
         });
+    }
+
+    public LiveData<ArrayList<ResultsItem>> searchRestaurants(String query) {
+        searchRestaurant(query);
+        return searchResults;
     }
 
     public LiveData<ArrayList<ResultsItem>> getNearbyRestaurants(double lat, double lng) {

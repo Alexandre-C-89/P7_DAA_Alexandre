@@ -89,7 +89,7 @@
         <string name="map_fragment_intent_message">"restaurant"</string>// a effacer
 
         <!-- REPOSITORY -->
-        <string name="repository_location_position_lebourget">"48.936752,2.425377"</string>
+        <string name="repository_location_position_lebourget">"48.936752,2.425377"</string>// a effacer
         <string name="repository_system_message_println">"t.getMessage() = "</string>
 
         <!-- LOCATION REPOSITORY -->
