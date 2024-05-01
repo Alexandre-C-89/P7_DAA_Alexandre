@@ -69,8 +69,8 @@
         <string name="details_activity_intent_message">"restaurant"</string>
 
         <!-- HOME ACTIVITY -->
-        <string name="home_activity_intent_message">"restaurant"</string>
-        <string name="home_activity_hint_searchbar">"Tapez ici !"</string>
+        <string name="home_activity_intent_message">"restaurant"</string>// a effacer
+        <string name="home_activity_hint_searchbar">"Tapez ici !"</string>// a effacer
 
         <!-- RESTAURANT ADAPTER -->
         <string name="restaurant_adapter_like_number">"0 likes"</string>

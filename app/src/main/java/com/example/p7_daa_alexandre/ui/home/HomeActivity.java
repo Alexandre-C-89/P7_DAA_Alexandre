@@ -114,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
                             Coworker coworker = documentSnapshot.toObject(Coworker.class);
                             if (coworker != null && coworker.getPlaceId() != null) {
                                 Intent detailsIntent = new Intent(HomeActivity.this, DetailsActivity.class);
-                                detailsIntent.putExtra(String.valueOf(R.string.home_activity_intent_message), coworker.getPlaceId());
+                                detailsIntent.putExtra("restaurant", coworker.getPlaceId());
                                 startActivity(detailsIntent);
                             } else {
                                 Toast.makeText(HomeActivity.this, R.string.toast_home_activity_message_restaurant_error, Toast.LENGTH_SHORT).show();
@@ -153,7 +153,7 @@ public class HomeActivity extends AppCompatActivity {
 
         MenuItem menuItem = menu.findItem(R.id.search_btn);
         SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint(String.valueOf(R.string.home_activity_hint_searchbar));
+        searchView.setQueryHint("Tapez ici !");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
