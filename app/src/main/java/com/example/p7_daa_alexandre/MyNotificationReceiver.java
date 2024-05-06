@@ -37,26 +37,6 @@ public class MyNotificationReceiver extends BroadcastReceiver {
         this.context = context;
         coworkerRepository = CoworkerRepository.getInstance();
         getAllCoworkers();
-
-        // Assuming you have some logic to fetch restaurant details here
-        //String title = "Restaurant of the Day";
-        /**String content = "Check out today's featured restaurant!";
-        String placeId = intent.getStringExtra(String.valueOf(R.string.notification_receiver_message_id));
-        CompletableFuture<String> restaurantNameFuture = coworkerRepository.getCoworkerRestaurantName(placeId);
-        Log.d("RECEIVER", "\"${restaurantNameFuture}\"");
-        restaurantNameFuture.thenAccept(restaurantName -> {
-            // Assuming you have some logic to fetch restaurant details here
-            String title = String.valueOf(R.string.notification_receiver_title);
-            String content = R.string.notification_receiver_title + restaurantName;
-
-            // Create notification channel and show notification
-            createNotificationChannel();
-            showNotification(title, content);
-        });*/
-
-        //AppRepository appRepository = new AppRepository(context);
-        /**createNotificationChannel();
-         showNotification(title, content);*/
     }
 
     public void getAllCoworkers() {
@@ -94,13 +74,6 @@ public class MyNotificationReceiver extends BroadcastReceiver {
 
     public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            /**CharSequence name = context.getString(R.string.notification_title);
-             String description = context.getString(R.string.notification_message);
-             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-             NotificationChannel channel = new NotificationChannel(String.valueOf(R.string.notification_receiver_manager_id), name, importance);
-             channel.setDescription(description);
-             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-             notificationManager.createNotificationChannel(channel);*/
             CharSequence name = context.getString(R.string.notification_title);
             String description = context.getString(R.string.notification_message);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;

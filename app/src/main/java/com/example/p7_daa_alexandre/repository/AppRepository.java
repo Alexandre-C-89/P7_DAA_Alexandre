@@ -31,20 +31,16 @@ public class AppRepository {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         // Set the alarm to start at approximately 12:00 p.m.
-        Calendar calendar = Calendar.getInstance();
+        /**Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone(String.valueOf(R.string.app_repository_set_time_zone_id)));
         calendar.set(calendar.DAY_OF_MONTH, calendar.get(calendar.DAY_OF_MONTH));
         calendar.set(Calendar.HOUR_OF_DAY, 12);
         calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.SECOND, 0);*/
 
         // Set the alarm to start immediately and repeat every 5 minutes
-        long intervalMillis = AlarmManager.INTERVAL_FIFTEEN_MINUTES / 5; // Calculate interval for 5 minutes
-        long triggerAtMillis = System.currentTimeMillis();
-
-        // With setInexactRepeating(), you have to use one of the AlarmManager interval constants--in this case, AlarmManager.INTERVAL_DAY.
-        /**alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,  calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);*/
+        long intervalMillis = 60 * 1000;//AlarmManager.INTERVAL_FIFTEEN_MINUTES / 15; // Calculate interval for 5 minutes
+        long triggerAtMillis = System.currentTimeMillis() + intervalMillis;
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval constants--in this case, AlarmManager.INTERVAL_DAY.
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis, intervalMillis, pendingIntent);

@@ -91,16 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         AppRepository appRepository = new AppRepository(this);
-        //appRepository.createNotificationChannel();
 
         appRepository.scheduleDailyNotification();
-        /**try {
-            appRepository.scheduleDailyNotification();
-            Log.d("MainActivity", "Daily notification scheduled successfully");
-        } catch (Exception e) {
-            Log.e("MainActivity", "Error scheduling daily notification", e);
-            // Handle the error as needed
-        }*/
         
     }
 
