@@ -60,18 +60,23 @@ android {
 dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-location:21.2.0")
-    implementation("com.google.android.libraries.places:places:3.3.0")
-    implementation("com.google.firebase:firebase-messaging:23.4.1")
-    implementation("com.google.firebase:firebase-firestore:24.11.1")
+    implementation("com.google.android.libraries.places:places:3.4.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.0")
+    implementation("com.google.firebase:firebase-firestore:25.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.0-alpha03")
+    // Required -- JUnit 4 framework
+    testImplementation ("junit:junit:4.13.2")
+    // Optional -- Mockito framework
+    testImplementation ("org.mockito:mockito-core:5.6.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.0-alpha04")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("android.arch.lifecycle:extensions:1.1.1")
-    androidTestImplementation("androidx.test:runner:1.6.0-alpha06")
+    androidTestImplementation("androidx.test:runner:1.6.0-alpha07")
+    androidTestImplementation ("androidx.arch.core:core-testing:2.2.0")
 
 
     // FIREBASE

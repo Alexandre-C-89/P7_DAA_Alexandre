@@ -40,7 +40,6 @@ public class Repository {
     }
 
     public LiveData<ArrayList<ResultsItem>> getSearchResults() {
-        Log.d("GETSEARCHRESULTS", "METHOD SEARCHRESULT");
         return searchResults;
     }
 
