@@ -27,23 +27,22 @@ public class AppRepository {
 
     public void scheduleDailyNotification() {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, MyNotificationReceiver.class); // MyNotificationReceiver is a BroadcastReceiver that triggers the notification
+        Intent intent = new Intent(context, MyNotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-        // Set the alarm to start at approximately 12:00 p.m.
-        /**Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone(String.valueOf(R.string.app_repository_set_time_zone_id)));
-        calendar.set(calendar.DAY_OF_MONTH, calendar.get(calendar.DAY_OF_MONTH));
+        // Set the alarm to start at 12:00 p.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("Your_Time_Zone_Here")); // Specify your desired time zone
         calendar.set(Calendar.HOUR_OF_DAY, 12);
         calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);*/
+        calendar.set(Calendar.SECOND, 0);
 
-        // Set the alarm to start immediately and repeat every 5 minutes
-        long intervalMillis = 60 * 1000;//AlarmManager.INTERVAL_FIFTEEN_MINUTES / 15; // Calculate interval for 5 minutes
-        long triggerAtMillis = System.currentTimeMillis() + intervalMillis;
+        // Set the alarm to trigger every day at 12:00 p.m.
+        long intervalMillis = AlarmManager.INTERVAL_DAY; // Repeat every day
+        long triggerAtMillis = calendar.getTimeInMillis();
 
-        // With setInexactRepeating(), you have to use one of the AlarmManager interval constants--in this case, AlarmManager.INTERVAL_DAY.
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis, intervalMillis, pendingIntent);
+        // Set the alarm
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis, intervalMillis, pendingIntent);
     }
 
 }
