@@ -68,10 +68,6 @@
         <!-- DETAILS ACTIVITY -->
         <string name="details_activity_intent_message">"restaurant"</string>
 
-        <!-- HOME ACTIVITY -->
-        <string name="home_activity_intent_message">"restaurant"</string>// a effacer
-        <string name="home_activity_hint_searchbar">"Tapez ici !"</string>// a effacer
-
         <!-- RESTAURANT ADAPTER -->
         <string name="restaurant_adapter_like_number">"0 likes"</string>
         <string name="restaurant_adapter_like_text"> "likes"</string>
@@ -85,11 +81,7 @@
         <string name="restaurant_adapter_restaurant_distance_message_error">"Distance non disponible"</string>
         <string name="restaurant_adapter_intent_message">"restaurant"</string>
 
-        <!-- MAP FRAGMENT -->
-        <string name="map_fragment_intent_message">"restaurant"</string>// a effacer
-
         <!-- REPOSITORY -->
-        <string name="repository_location_position_lebourget">"48.936752,2.425377"</string>// a effacer
         <string name="repository_system_message_println">"t.getMessage() = "</string>
 
         <!-- LOCATION REPOSITORY -->
@@ -101,10 +93,7 @@
         <string name="coworker_repository_collection_restaurant">"liked_restaurant"</string>
         <string name="coworker_repository_collection_restaurant_name_field">"nom"</string>
         <string name="coworker_repository_task_exception_message">"Utilisateur non connecté."</string>
-        <string name="coworker_repository_coworker_collection_field_name_placeId">"placeId"</string>// a effacer
-        <string name="coworker_repository_coworker_collection_field_name_restaurantName">"restaurantName"</string>// a effacer
         <string name="coworker_repository_coworker_collection_field_name_address">"address"</string>
-        <string name="coworker_repository_coworker_collection_field_name_notification">"notification"</string>// a effacer
 
         <!-- APP REPOSITORY -->
         <string name="app_repository_set_time_zone_id">"Europe/Paris"</string>

@@ -18,24 +18,18 @@
     <string name="toast_home_activity_message_restaurant_error">"No restaurant select"</string>
     <string name="toast_home_activity_message_disconnect_error">"Error disconnecting"</string>
     <string name="toast_map_fragment_message_localisation_error">"localisation permission denied"</string>
-    <string name="toast_settings_fragment_message_notification_error">"Notification activated !"</string>
-    <string name="toast_settings_fragment_message_notification_disabled">"Notification disabled !"</string>
 
     <!-- SNACKBAR -->
     <string name="snackbar_connexion_success">"Login success !"</string>
     <string name="snackbar_connexion_error">"response error"</string>
     <string name="snackbar_authentication_success">"response error"</string>
-    <string name="snackbar_authentication_error">"Error authentication canceled"</string>
     <string name="snackbar_internet_success">"Error with connexion internet"</string>
-    <string name="snackbar_internet_error">"Error no internet"</string>
-    <string name="snackbar_unknow_error">"Error unknown error"</string>
 
     <!-- NOTIFICATION SERVICE -->
     <string name="notification_title">"You have a new notification"</string>
     <string name="notification_toast_message_success">"Notification permission granted"</string>
     <string name="notification_toast_message_error">"Notification permission not granted"</string>
     <string name="notification_message">"message"</string>
-    <string name="notification_message_text">"Notification text content"</string>
     <string name="default_notification_channel_id">"8"</string>
 
     <!-- MAIN ACTIVITY -->
@@ -72,10 +66,6 @@
     <!-- DETAILS ACTIVITY -->
     <string name="details_activity_intent_message">"restaurant"</string>
 
-    <!-- HOME ACTIVITY -->
-    <string name="home_activity_intent_message">"restaurant"</string>
-    <string name="home_activity_hint_searchbar">"Type here to seacrh !"</string>
-
     <!-- RESTAURANT ADAPTER -->
     <string name="restaurant_adapter_like_number">"0 likes"</string>
     <string name="restaurant_adapter_like_text">" likes"</string>
@@ -89,11 +79,7 @@
     <string name="restaurant_adapter_restaurant_distance_message_error">"Distance not available"</string>
     <string name="restaurant_adapter_intent_message">"restaurant"</string>
 
-    <!-- MAP FRAGMENT -->
-    <string name="map_fragment_intent_message">"restaurant"</string>
-
     <!-- REPOSITORY -->
-    <string name="repository_location_position_lebourget">"48.936752,2.425377"</string>
     <string name="repository_system_message_println">"t.getMessage() = "</string>
 
     <!-- LOCATION REPOSITORY -->
@@ -105,11 +91,9 @@
     <string name="coworker_repository_collection_restaurant">l"iked_restaurant"</string>
     <string name="coworker_repository_collection_restaurant_name_field">"name"</string>
     <string name="coworker_repository_task_exception_message">"User not logged in"</string>
-    <string name="coworker_repository_coworker_collection_field_name_placeId">"placeId"</string>
-    <string name="coworker_repository_coworker_collection_field_name_restaurantName">"restaurantName"</string>
     <string name="coworker_repository_coworker_collection_field_name_address">"address"</string>
-    <string name="coworker_repository_coworker_collection_field_name_notification">"notification"</string>
 
     <!-- APP REPOSITORY -->
     <string name="app_repository_set_time_zone_id">"Europe/Paris"</string>
+
 </resources>
