@@ -83,13 +83,6 @@ public class MainActivity extends AppCompatActivity {
                         .build(),
                 RC_SIGN_IN);
 
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "test")
-                .setSmallIcon(R.drawable.world_svgrepo_com)
-                .setContentTitle("P7_DAA_Alexandre")
-                .setContentText("Contenu du texte de notification")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
         AppRepository appRepository = new AppRepository(this);
 
         appRepository.scheduleDailyNotification();

@@ -62,7 +62,7 @@ public class MyNotificationReceiver extends BroadcastReceiver {
         String restaurantName;
         String uId = coworkerRepository.getCurrentCoworker().getUid();
         for (Coworker coworker:allCoworkers){
-            if (coworker.getIdCoworker() == uId){
+            if (coworker.getIdCoworker().equals(uId)){
                 currentCoworker = coworker;
                 restaurantName = currentCoworker.getRestaurantName();
                 createNotificationChannel();

@@ -38,4 +38,8 @@ public class HomeViewModel extends ViewModel {
         return coworkerRepository.getUserProfile();
     }
 
+    public Repository getRepository() {
+        return repository;
+    }
+
 }

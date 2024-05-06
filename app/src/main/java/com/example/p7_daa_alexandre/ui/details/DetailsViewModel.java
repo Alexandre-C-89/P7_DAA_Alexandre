@@ -15,8 +15,8 @@ import java.util.List;
 
 public class DetailsViewModel extends ViewModel {
 
-    private final Repository repository ;
-    private final CoworkerRepository coworkerRepository ;
+    public Repository repository ;
+    public CoworkerRepository coworkerRepository ;
 
 
     public DetailsViewModel() {

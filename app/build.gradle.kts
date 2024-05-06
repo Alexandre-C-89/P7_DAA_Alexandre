@@ -71,6 +71,8 @@ dependencies {
     // Required -- JUnit 4 framework
     testImplementation ("junit:junit:4.13.2")
     // Optional -- Mockito framework
+    // Helps testing livedata : InstantTaskExecutorRule, for example
+    testImplementation ("androidx.arch.core:core-testing:2.2.0")
     testImplementation ("org.mockito:mockito-core:5.6.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.0-alpha04")
     implementation("com.google.code.gson:gson:2.10.1")

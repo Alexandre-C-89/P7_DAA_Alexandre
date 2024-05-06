@@ -38,7 +38,7 @@ public class AppRepository {
         calendar.set(Calendar.SECOND, 0);
 
         // Set the alarm to trigger every day at 12:00 p.m.
-        long intervalMillis = AlarmManager.INTERVAL_DAY; // Repeat every day
+        long intervalMillis = AlarmManager.INTERVAL_FIFTEEN_MINUTES / 3;
         long triggerAtMillis = calendar.getTimeInMillis();
 
         // Set the alarm
