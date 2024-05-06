@@ -102,7 +102,7 @@
         <string name="coworker_repository_collection_restaurant_name_field">"nom"</string>
         <string name="coworker_repository_task_exception_message">"Utilisateur non connecté."</string>
         <string name="coworker_repository_coworker_collection_field_name_placeId">"placeId"</string>// a effacer
-        <string name="coworker_repository_coworker_collection_field_name_restaurantName">"restaurantName"</string>
+        <string name="coworker_repository_coworker_collection_field_name_restaurantName">"restaurantName"</string>// a effacer
         <string name="coworker_repository_coworker_collection_field_name_address">"address"</string>
         <string name="coworker_repository_coworker_collection_field_name_notification">"notification"</string>// a effacer
 

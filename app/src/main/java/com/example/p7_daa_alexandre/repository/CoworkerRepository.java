@@ -148,13 +148,13 @@ public class CoworkerRepository {
     public void restaurantChoosed(String placeId,String restaurantName,String address) {
         FirebaseUser Coworkers = getCurrentCoworker();
         String uid = Coworkers.getUid();
-        getCoworkersCollection().document(uid).update(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_placeId), placeId)
+        getCoworkersCollection().document(uid).update("placeId", placeId)
                 .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
                 .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
-        getCoworkersCollection().document(uid).update(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_restaurantName), restaurantName)
+        getCoworkersCollection().document(uid).update("restaurantName", restaurantName)
                 .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
                 .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
-        getCoworkersCollection().document(uid).update(String.valueOf(R.string.coworker_repository_coworker_collection_field_name_address), address)
+        getCoworkersCollection().document(uid).update("address", address)
                 .addOnSuccessListener(aVoid -> Log.d("CoworkerRepository", "Restaurant added to favorites"))
                 .addOnFailureListener(e -> Log.e("CoworkerRepository", "Error adding restaurant to favorites", e));
 
