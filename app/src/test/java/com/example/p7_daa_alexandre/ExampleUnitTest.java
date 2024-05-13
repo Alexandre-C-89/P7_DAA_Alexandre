@@ -22,6 +22,7 @@ import com.example.p7_daa_alexandre.repository.Repository;
 import com.example.p7_daa_alexandre.ui.details.DetailsViewModel;
 import com.example.p7_daa_alexandre.ui.home.HomeViewModel;
 import com.example.p7_daa_alexandre.ui.list.ListViewModel;
+import com.example.p7_daa_alexandre.ui.map.MapViewModel;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -60,6 +61,8 @@ public class ExampleUnitTest {
 
     private DetailsViewModel detailsViewModel;
 
+    private MapViewModel mapViewModel;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -70,6 +73,7 @@ public class ExampleUnitTest {
         detailsViewModel = new DetailsViewModel();
         detailsViewModel.repository = repository;
         detailsViewModel.coworkerRepository = coworkerRepository;
+        mapViewModel = new MapViewModel(locationRepository, repository);
     }
 
     @Test
@@ -284,5 +288,69 @@ public class ExampleUnitTest {
         // Additional assertions can be added based on the expected behavior
     }
 
+    /**
+     * MapViewModel
+     */
+
+    @Test
+    public void testGetLastKnownLocationMapViewModel() {
+        // Create dummy location data
+        Location dummyLocation = new Location("dummyProvider");
+        dummyLocation.setLatitude(37.7749);
+        dummyLocation.setLongitude(-122.4194);
+
+        // Stub the behavior of getLastLocation() in the locationRepository
+        when(locationRepository.getLastLocation()).thenReturn(new MutableLiveData<>(dummyLocation));
+
+        // Call the method to be tested
+        LiveData<Location> resultLiveData = mapViewModel.getLastKnownLocation();
+
+        // Get the LiveData value
+        Location result = resultLiveData.getValue();
+
+        // Assert that the result matches the dummy location
+        assertEquals(dummyLocation, result);
+    }
+
+    @Test
+    public void testGetNearbyRestaurants() {
+        // Create dummy latitude and longitude values
+        double lat = 37.7749;
+        double lng = -122.4194;
+
+        // Create dummy list of nearby restaurants
+        ArrayList<ResultsItem> dummyNearbyRestaurants = new ArrayList<>();
+        // Add dummy data to the list if needed
+
+        // Stub the behavior of getNearbyRestaurants() in the repository
+        when(repository.getNearbyRestaurants(lat, lng)).thenReturn(new MutableLiveData<>(dummyNearbyRestaurants));
+
+        // Call the method to be tested
+        LiveData<ArrayList<ResultsItem>> resultLiveData = mapViewModel.getNearbyRestaurants(lat, lng);
+
+        // Get the LiveData value
+        ArrayList<ResultsItem> result = resultLiveData.getValue();
+
+        // Assert that the result matches the dummy list of nearby restaurants
+        assertEquals(dummyNearbyRestaurants, result);
+    }
+
+    // Ne passe pas
+    @Test
+    public void testSearchRestaurantsMapViewModel() {
+        // Define a search query
+        String query = "Your search query";
+
+        // Call the method to be tested
+        LiveData<ArrayList<ResultsItem>> resultLiveData = mapViewModel.searchRestaurants(query);
+
+        // Verify that searchRestaurant() in the repository was called with the correct query
+        verify(repository).searchRestaurant(query);
+
+        // Get the LiveData value
+        ArrayList<ResultsItem> result = resultLiveData.getValue();
+
+        // Additional assertions can be added based on the expected behavior
+    }
 
 }
