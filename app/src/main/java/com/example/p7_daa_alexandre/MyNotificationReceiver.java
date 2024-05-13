@@ -121,6 +121,40 @@ public class MyNotificationReceiver extends BroadcastReceiver {
         //showNotification(title, content);
     }
 
+    /**
+     * function qui parcour la liste des coworkers avec la liste de là où je vais manger
+     *
+     * id du restaurant correspond
+     *
+     *
+     */
+
+    public void coworkerList(String featuredRestaurantName) {
+        ArrayList<String> coworkerNames = new ArrayList<>();
+
+        for (Coworker coworker : allCoworkers) {
+            if (coworker.getRestaurantName().equals(featuredRestaurantName)) {
+                coworkerNames.add(coworker.getName());
+            }
+        }
+
+        if (!coworkerNames.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Coworkers who chose the same restaurant:\n");
+            for (String name : coworkerNames) {
+                sb.append(name).append("\n");
+            }
+
+            // Now you can use sb.toString() to get the string containing all coworker names
+            // You can display this information in the notification or log it for testing
+            Log.d("Coworkers", sb.toString());
+            // Or you can add it to the notification content
+            showNotification(featuredRestaurantName, sb.toString());
+        } else {
+            Log.d("Coworkers", "No coworkers chose the same restaurant");
+        }
+    }
+
     public void getAllCoworkers() {
         coworkerRepository.getCoworkersCollection()
                 .get()
@@ -147,6 +181,7 @@ public class MyNotificationReceiver extends BroadcastReceiver {
             if (coworker.getIdCoworker().equals(uId)){
                 currentCoworker = coworker;
                 restaurantName = currentCoworker.getRestaurantName();
+                coworkerList(restaurantName);
                 createNotificationChannel();
                 showNotification(restaurantName, restaurantName);
                 break;
