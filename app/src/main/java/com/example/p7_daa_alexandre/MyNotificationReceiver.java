@@ -100,6 +100,10 @@ public class MyNotificationReceiver extends BroadcastReceiver {
 
     private Context context;
 
+    private CoworkerRepository coworkerRepository;
+
+    private ArrayList<Coworker> allCoworkers;
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -109,9 +113,45 @@ public class MyNotificationReceiver extends BroadcastReceiver {
         String title = "Restaurant of the Day";
         String content = "Check out today's featured restaurant!";
 
+        coworkerRepository = CoworkerRepository.getInstance();
+        getAllCoworkers();
+
         //AppRepository appRepository = new AppRepository(context);
-        createNotificationChannel();
-        showNotification(title, content);
+        //createNotificationChannel();
+        //showNotification(title, content);
+    }
+
+    public void getAllCoworkers() {
+        coworkerRepository.getCoworkersCollection()
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        allCoworkers = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            allCoworkers.add(document.toObject(Coworker.class));
+                            Log.d("Error", "SIZE LIST RESTAURANT " + document.toObject(Coworker.class).getName());
+                        }
+                        getInfo();
+                    } else {
+                        Log.d("Error", "Error getting documents: ", task.getException());
+                    }
+                });
+
+    }
+
+    public void getInfo(){
+        Coworker currentCoworker = null;
+        String restaurantName;
+        String uId = coworkerRepository.getCurrentCoworker().getUid();
+        for (Coworker coworker:allCoworkers){
+            if (coworker.getIdCoworker().equals(uId)){
+                currentCoworker = coworker;
+                restaurantName = currentCoworker.getRestaurantName();
+                createNotificationChannel();
+                showNotification(restaurantName, restaurantName);
+                break;
+            }
+        }
     }
 
     public void createNotificationChannel() {
