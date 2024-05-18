@@ -78,7 +78,7 @@ public class CoworkerRepository {
     }
 
     // Create a Coworker in Firestore
-    public void createWorkmates() {
+    /**public void createWorkmates() {
         FirebaseUser coworkers = getCurrentCoworker();
         if (coworkers != null) {
             getUserProfile().addOnFailureListener(new OnFailureListener() {
@@ -90,6 +90,28 @@ public class CoworkerRepository {
                     String email = coworkers.getEmail();
                     Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "",false,  new ArrayList<>());
                     getCoworkersCollection().document(uid).set(workmatesToCreate);
+                }
+            });
+        }
+    }*/
+
+    public void createWorkmates() {
+        FirebaseUser coworker = getCurrentCoworker();
+        if (coworker != null) {
+            getUserProfile().addOnCompleteListener(task -> {
+                if (!task.isSuccessful() || !task.getResult().exists()) {
+                    // If the document does not exist or there was an error fetching it, create a new document
+                    String urlPicture = (coworker.getPhotoUrl() != null) ? coworker.getPhotoUrl().toString() : null;
+                    String name = coworker.getDisplayName();
+                    String uid = coworker.getUid();
+                    String email = coworker.getEmail();
+                    Coworker workmateToCreate = new Coworker(uid, name, email, urlPicture, "", "", "", false, new ArrayList<>());
+
+                    getCoworkersCollection().document(uid).set(workmateToCreate)
+                            .addOnSuccessListener(aVoid -> Log.d("createWorkmates", "Coworker successfully created"))
+                            .addOnFailureListener(e -> Log.e("createWorkmates", "Error creating coworker", e));
+                } else {
+                    Log.d("createWorkmates", "Coworker already exists");
                 }
             });
         }
