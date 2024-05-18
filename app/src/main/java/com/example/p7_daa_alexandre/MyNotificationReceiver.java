@@ -108,9 +108,10 @@ public class MyNotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         this.context = context;
-
+        coworkerRepository = CoworkerRepository.getInstance();
+        getAllCoworkers();
         // Assuming you have some logic to fetch restaurant details here
-        String title = "Restaurant of the Day";
+        /**String title = "Restaurant of the Day";
         String content = "Check out today's featured restaurant!";
 
         coworkerRepository = CoworkerRepository.getInstance();
@@ -118,18 +119,35 @@ public class MyNotificationReceiver extends BroadcastReceiver {
 
         //AppRepository appRepository = new AppRepository(context);
         //createNotificationChannel();
-        //showNotification(title, content);
+        //showNotification(title, content);*/
     }
 
-    /**
-     * function qui parcour la liste des coworkers avec la liste de là où je vais manger
-     *
-     * id du restaurant correspond
-     *
-     *
-     */
-
     public void coworkerList(String featuredRestaurantName) {
+        ArrayList<String> coworkerNames = new ArrayList<>();
+
+        for (Coworker coworker : allCoworkers) {
+            if (featuredRestaurantName != null && featuredRestaurantName.equals(coworker.getRestaurantName())) {
+                coworkerNames.add(coworker.getName());
+            }
+        }
+
+        String content;
+        if (!coworkerNames.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Coworkers who chose the same restaurant:\n");
+            for (String name : coworkerNames) {
+                sb.append(name).append("\n");
+            }
+            content = sb.toString();
+        } else {
+            content = "No coworkers chose the same restaurant";
+        }
+
+        // Display the notification with the list of coworkers
+        showNotification(featuredRestaurantName, content);
+    }
+
+    /**public void coworkerList(String featuredRestaurantName) {
         ArrayList<String> coworkerNames = new ArrayList<>();
 
         for (Coworker coworker : allCoworkers) {
@@ -153,7 +171,7 @@ public class MyNotificationReceiver extends BroadcastReceiver {
         } else {
             Log.d("Coworkers", "No coworkers chose the same restaurant");
         }
-    }
+    }*/
 
     public void getAllCoworkers() {
         coworkerRepository.getCoworkersCollection()
@@ -173,7 +191,18 @@ public class MyNotificationReceiver extends BroadcastReceiver {
 
     }
 
-    public void getInfo(){
+    public void getInfo() {
+        String uId = coworkerRepository.getCurrentCoworker().getUid();
+        for (Coworker coworker : allCoworkers) {
+            if (coworker.getIdCoworker().equals(uId)) {
+                String restaurantName = coworker.getRestaurantName();
+                coworkerList(restaurantName);
+                break;
+            }
+        }
+    }
+
+    /**public void getInfo(){
         Coworker currentCoworker = null;
         String restaurantName;
         String uId = coworkerRepository.getCurrentCoworker().getUid();
@@ -187,7 +216,7 @@ public class MyNotificationReceiver extends BroadcastReceiver {
                 break;
             }
         }
-    }
+    }*/
 
     public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -201,11 +230,24 @@ public class MyNotificationReceiver extends BroadcastReceiver {
         }
     }
 
-    public void showNotification(String title, String content) {
+    /**public void showNotification(String title, String content) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANNEL_ID")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(1, builder.build());
+    }*/
+
+    public void showNotification(String title, String content) {
+        createNotificationChannel(); // Ensure the notification channel is created
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANNEL_ID")
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(content)) // Support for longer text
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
