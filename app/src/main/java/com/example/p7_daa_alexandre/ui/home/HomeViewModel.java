@@ -29,11 +29,6 @@ public class HomeViewModel extends ViewModel {
         return coworkerRepository.signOut(context);
     }
 
-    // Méthode pour rechercher un restaurant
-    public void searchRestaurant(String query) {
-        repository.searchRestaurant(query);
-    }
-
     public Task<DocumentSnapshot>getUserProfil(){
         return coworkerRepository.getUserProfile();
     }

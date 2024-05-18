@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.p7_daa_alexandre.MainActivity;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.ViewModelFactory;
+import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.ActivityHomeBinding;
 import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerFragment;
@@ -36,6 +37,9 @@ import com.example.p7_daa_alexandre.ui.map.MapFragment;
 import com.example.p7_daa_alexandre.ui.settings.SettingsFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HomeActivity extends AppCompatActivity{
 
@@ -142,6 +146,13 @@ public class HomeActivity extends AppCompatActivity{
 
         if (id == R.id.search_btn) {
             return true;
+        }else if (id == R.id.sort_btn) {
+            Log.d("SORTBUTTON", "BUTTON");
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container_fragment);
+            if (currentFragment instanceof ListFragment) {
+                ((ListFragment) currentFragment).sortResultsAlphabetically();
+            }
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -177,10 +188,6 @@ public class HomeActivity extends AppCompatActivity{
         });
 
         return true;
-    }
-
-    private void performSearch(String query) {
-        viewModel.searchRestaurant(query);
     }
 
     private void LogOut() {

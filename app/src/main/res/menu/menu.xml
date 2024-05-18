@@ -11,4 +11,10 @@
         >
     </item>
 
+    <item
+        android:id="@+id/sort_btn"
+        android:icon="@drawable/ic_sort"
+        android:title="Sort"
+        app:showAsAction="ifRoom"/>
+
 </menu>
