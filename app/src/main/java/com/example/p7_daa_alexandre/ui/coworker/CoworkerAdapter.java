@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.p7_daa_alexandre.R;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.model.Coworker;
@@ -55,6 +56,17 @@ public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHo
             String restaurantName = coworker.getRestaurantName();
             String concatenedText = coworker.getName() + " (" + restaurantName + ")";
             coworkerRestaurantNameLiked.setText(concatenedText);
+            // Load the image using Glide
+            String imageUrl = coworker.getPicture(); // Assuming Coworker has a getProfileImageUrl method
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                Glide.with(imgCoworker.getContext())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.ic_anon_user_48dp) // Optional placeholder image
+                        .error(R.drawable.no_image_icon) // Optional error image
+                        .into(imgCoworker);
+            } else {
+                imgCoworker.setImageResource(R.drawable.ic_anon_user_48dp); // Placeholder if no image URL
+            }
             imgCoworker.setTag(coworker);
         }
     }
