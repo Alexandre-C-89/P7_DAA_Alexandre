@@ -15,15 +15,11 @@ import java.util.List;
 public class CoworkerViewModel extends ViewModel {
 
     private final CoworkerRepository repository;
-    //private final Executor executor;
 
     public CoworkerViewModel() {
         repository = new CoworkerRepository();
     };
 
-    /**
-     * Liste de Coworkers
-    */
     public LiveData<ArrayList<Coworker>> getAllCoworkers() {
         return repository.getAllCoworkers();
     }

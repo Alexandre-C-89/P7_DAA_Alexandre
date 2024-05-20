@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         handleResponseAfterSignIn(data);
                     } else {
-                        // Handle other result codes and errors
+                        Log.d("Error", "Oh no something went wrong !");
                     }
                 }
         );
@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.TwitterBuilder().build() // A enlever
+                new AuthUI.IdpConfig.EmailBuilder().build()
+                //new AuthUI.IdpConfig.TwitterBuilder().build()
         );
 
         // Launch the sign-in activity

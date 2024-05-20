@@ -55,7 +55,6 @@ public class CoworkerRepository {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    // Méthode pour récupérer les informations du profil de l'utilisateur
     public Task<DocumentSnapshot> getUserProfile() {
         FirebaseUser currentUser = getCurrentCoworker();
         if (currentUser != null) {
@@ -72,28 +71,9 @@ public class CoworkerRepository {
         return AuthUI.getInstance().signOut(context);
     }
 
-    // Get the Collection Reference
     public static CollectionReference getCoworkersCollection() {
         return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
     }
-
-    // Create a Coworker in Firestore
-    /**public void createWorkmates() {
-        FirebaseUser coworkers = getCurrentCoworker();
-        if (coworkers != null) {
-            getUserProfile().addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    String urlPicture = (coworkers.getPhotoUrl() != null) ? coworkers.getPhotoUrl().toString() : null;
-                    String name = coworkers.getDisplayName();
-                    String uid = coworkers.getUid();
-                    String email = coworkers.getEmail();
-                    Coworker workmatesToCreate = new Coworker(uid, name, email, urlPicture, "", "", "",false,  new ArrayList<>());
-                    getCoworkersCollection().document(uid).set(workmatesToCreate);
-                }
-            });
-        }
-    }*/
 
     public void createWorkmates() {
         FirebaseUser coworker = getCurrentCoworker();
@@ -127,7 +107,6 @@ public class CoworkerRepository {
                             coworkers.add(document.toObject(Coworker.class));
                             Log.d("LOOPFOR", "SIZE LIST COWORKERS " + document.toObject(Coworker.class).getName() + coworkers);
                         }
-                        //Log.d("AFTERFOR", "SIZE LIST RESTAURANT " + coworkers.size());
                         listOfCoworkers.setValue(coworkers);
                     } else {
                         Log.d("Error", "Error getting documents: ", task.getException());
@@ -138,35 +117,6 @@ public class CoworkerRepository {
 
     }
 
-    // Create a Like in Firestore
-    public void addLikeRestaurant(Restaurant restaurant) {
-        FirebaseUser Coworkers = getCurrentCoworker();
-        String uid = Coworkers.getUid();
-        this.getCoworkersCollection().document(uid).collection(COWORKERS_LIKED_RESTAURANT_COLLECTION).add(restaurant);
-    }
-
-    // Delete a Like in Firestore
-    public void deleteLikeRestaurant(Restaurant restaurant) {
-        FirebaseUser coworkers = getCurrentCoworker();
-        String uid = coworkers.getUid();
-        this.getCoworkersCollection().document(uid)
-                .collection(COWORKERS_LIKED_RESTAURANT_COLLECTION)
-                .whereEqualTo(COWORKERS_LIKED_RESTAURANT_COLLECTION_NAME_FIELD,restaurant.getName())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            document.getReference().delete();
-                        }
-                    }
-                    else {
-                        Log.d("Error", "Error delete documents: ", task.getException());
-                    }
-                });
-
-    }
-
-    // Add restaurantId in Firestore
     public void restaurantChoosed(String placeId,String restaurantName,String address) {
         FirebaseUser Coworkers = getCurrentCoworker();
         String uid = Coworkers.getUid();

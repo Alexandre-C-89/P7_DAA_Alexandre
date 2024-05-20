@@ -57,7 +57,7 @@ public class CoworkerAdapter extends RecyclerView.Adapter<CoworkerAdapter.ViewHo
             String concatenedText = coworker.getName() + " (" + restaurantName + ")";
             coworkerRestaurantNameLiked.setText(concatenedText);
             // Load the image using Glide
-            String imageUrl = coworker.getPicture(); // Assuming Coworker has a getProfileImageUrl method
+            String imageUrl = coworker.getPicture();
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Glide.with(imgCoworker.getContext())
                         .load(imageUrl)

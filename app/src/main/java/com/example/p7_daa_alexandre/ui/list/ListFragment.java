@@ -69,25 +69,6 @@ public class ListFragment extends Fragment {
         });
     }
 
-    /**private void loadData() {
-        viewModel.loadData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ResultsItem>>() {
-            @Override
-            public void onChanged(ArrayList<ResultsItem> resultsItems) {
-                restaurants.clear();
-                restaurants.addAll(resultsItems);
-                updateRestaurantLikes();
-                if (restaurants.isEmpty()) {
-                    binding.listRestaurants.setVisibility(View.GONE);
-                    binding.textViewNoRestaurant.setVisibility(View.VISIBLE);
-                } else {
-                    binding.listRestaurants.setVisibility(View.VISIBLE);
-                    binding.textViewNoRestaurant.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
-    }*/
-
     private void updateSearch() {
         viewModel.getSearchResults().observe(getViewLifecycleOwner(), resultsItems -> {
             restaurants.clear();
@@ -96,33 +77,6 @@ public class ListFragment extends Fragment {
             updateUI();
         });
     }
-
-    /**private void updateSearch(){
-        viewModel.getSearchResults().observe(getViewLifecycleOwner(), new Observer<ArrayList<ResultsItem>>() {
-            @Override
-            public void onChanged(ArrayList<ResultsItem> resultsItems) {
-                // Sort the search results alphabetically
-                Collections.sort(resultsItems, new Comparator<ResultsItem>() {
-                    @Override
-                    public int compare(ResultsItem item1, ResultsItem item2) {
-                        return item1.getName().compareTo(item2.getName());
-                    }
-                });
-
-                restaurants.clear();
-                restaurants.addAll(resultsItems);
-                updateRestaurantLikes();
-                if (restaurants.isEmpty()) {
-                    binding.listRestaurants.setVisibility(View.GONE);
-                    binding.textViewNoRestaurant.setVisibility(View.VISIBLE);
-                } else {
-                    binding.listRestaurants.setVisibility(View.VISIBLE);
-                    binding.textViewNoRestaurant.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
-    }*/
 
     private void updateRestaurantLikes() {
         for (ResultsItem restaurant : restaurants) {
@@ -144,30 +98,9 @@ public class ListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    /**private void initRecyclerViews() {
-        adapter = new RestaurantAdapter(restaurants, restaurantLikesMap, userLocation);
-        RecyclerView recyclerView = binding.listRestaurants;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), location -> new Observer<Location>() {
-            @Override
-            public void onChanged(Location location) {
-                // Now pass this location to your adapter
-                adapter = new RestaurantAdapter(restaurants, restaurantLikesMap, location);
-                binding.listRestaurants.setAdapter(adapter);
-            }
-        });
-        recyclerView.setAdapter(adapter);
-    }*/
-
     public void searchRestaurants(String query) {
         viewModel.searchRestaurants(query);
     }
-
-    /**public void updateRestaurantList(ArrayList<ResultsItem> results) {
-        this.restaurants.clear();
-        this.restaurants.addAll(results);
-        this.adapter.notifyDataSetChanged();
-    }*/
 
     public void sortResultsAlphabetically() {
         Collections.sort(restaurants, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));

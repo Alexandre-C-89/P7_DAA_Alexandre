@@ -23,13 +23,8 @@ public class Repository {
     private final MutableLiveData<ArrayList<ResultsItem>> allRestaurant;
     private final ArrayList<ResultsItem> restaurantList;
     private RestaurantApi restaurantApi;
-
-    //private static final String API_KEY = BuildConfig.API_KEY;
-
     private MutableLiveData<DetailsResponse> restaurantDetails;
-
     private final MutableLiveData<ArrayList<ResultsItem>> searchResults;
-
 
     public Repository() {
         restaurantList = new ArrayList<>();
@@ -86,8 +81,6 @@ public class Repository {
         return restaurantDetails;
     }
 
-    ;
-
     public void searchRestaurant(String query) {
         Call<NearbysearchResponse> call = restaurantApi.searchRestaurants(query, "48.936752,2.425377", "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow");
         call.enqueue(new Callback<NearbysearchResponse>() {
@@ -114,7 +107,6 @@ public class Repository {
     }
 
     public LiveData<ArrayList<ResultsItem>> getNearbyRestaurants(double lat, double lng) {
-        // Example API call with Retrofit
         String locationParam = lat + "," + lng; // Format the location query parameter
         restaurantApi.getListOfRestaurants(locationParam, 1500, "AIzaSyCdjoEFb1ArPZYQBXpBdkkmIMdUaGycFow").enqueue(new Callback<NearbysearchResponse>() {
             @Override

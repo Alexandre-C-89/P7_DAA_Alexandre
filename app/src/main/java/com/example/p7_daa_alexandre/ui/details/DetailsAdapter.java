@@ -56,9 +56,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
         holder.bind(coworker);
     }
 
-    /**
-     * Return number of ligne
-     */
     @Override
     public int getItemCount() {
         return mCoworkers.size();

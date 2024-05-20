@@ -180,9 +180,6 @@ public class HomeActivity extends AppCompatActivity{
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                /**searchHandler.removeCallbacks(searchRunnable);
-                 searchRunnable = () -> performSearch(newText);
-                 searchHandler.postDelayed(searchRunnable, 300);*/
                 return true;
             }
         });

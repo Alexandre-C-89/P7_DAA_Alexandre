@@ -91,7 +91,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        // clique sur phone
         binding.phoneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -108,7 +107,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        // clique sur website
         binding.websiteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +124,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        // click on button choice
         binding.choiceButton.setOnClickListener(v -> {
             if (details != null) {
                 String placeId = details.getResult().getPlaceId();
