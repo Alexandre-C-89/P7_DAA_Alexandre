@@ -40,17 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
     ActivityMainBinding binding;
-
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    Toast.makeText(MainActivity.this, R.string.notification_toast_message_success, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, R.string.notification_toast_message_error, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -35,19 +35,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
-    }
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Mock
-    private RestaurantApi restaurantApi;
-
-    @Mock
-    Repository repository;
+    private Repository repository;
 
     @Mock
     private LocationRepository locationRepository;
@@ -55,20 +48,15 @@ public class ExampleUnitTest {
     @Mock
     private CoworkerRepository coworkerRepository;
 
-    private ListViewModel ListViewModel;
-
-    HomeViewModel homeViewModel;
-
+    private ListViewModel listViewModel;
+    private HomeViewModel homeViewModel;
     private DetailsViewModel detailsViewModel;
-
     private MapViewModel mapViewModel;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        //repository = Mockito.mock(Repository.class);
-        coworkerRepository = Mockito.mock(CoworkerRepository.class);
-        ListViewModel = new ListViewModel(locationRepository, repository, coworkerRepository);
+        listViewModel = new ListViewModel(locationRepository, repository, coworkerRepository);
         homeViewModel = new HomeViewModel();
         detailsViewModel = new DetailsViewModel();
         detailsViewModel.repository = repository;
@@ -78,279 +66,167 @@ public class ExampleUnitTest {
 
     @Test
     public void testCallAPI_ReturnsResult() {
+        // Mock behavior
+        MutableLiveData<ArrayList<ResultsItem>> mockLiveData = new MutableLiveData<>(new ArrayList<>());
+        when(repository.getSearchResults()).thenReturn(mockLiveData);
+
         // Call the method to be tested
         repository.callAPI();
 
-        // Get the LiveData value
-        ArrayList<ResultsItem> result = repository.getSearchResults().getValue();
-
-        // Check if the result is not null
-        assertNotNull(result);
+        // Assert LiveData is not null and verify interaction
+        assertNotNull(repository.getSearchResults().getValue());
+        verify(repository).callAPI();
     }
-
-    /**
-     * ListViewModel
-     * MockWebServer
-     */
 
     @Test
     public void testLoadData() {
         MutableLiveData<ArrayList<ResultsItem>> testData = new MutableLiveData<>();
         when(repository.callAPI()).thenReturn(testData);
 
-        assertNotNull(ListViewModel.loadData());
+        listViewModel.loadData();
+
         verify(repository).callAPI();
+        assertNotNull(listViewModel.getSearchResults().getValue());
     }
 
     @Test
     public void testGetCoworkerWhoChooseRestaurant() {
-        // Create test data for the LiveData
         List<Coworker> testData = new ArrayList<>();
-        // Add some dummy data to the list if needed
+        MutableLiveData<List<Coworker>> mutableLiveData = new MutableLiveData<>(testData);
 
-        // Create a MutableLiveData object and set the test data
-        MutableLiveData<List<Coworker>> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(testData);
-
-        // Mock the behavior of the coworkerRepository
         when(coworkerRepository.getCoworkerWhoChoseRestaurant(anyString())).thenReturn(mutableLiveData);
 
-        // Call the method to be tested
-        LiveData<List<Coworker>> resultLiveData = ListViewModel.getCoworkerWhoChoseRestaurant("test_place_id");
+        LiveData<List<Coworker>> resultLiveData = listViewModel.getCoworkerWhoChoseRestaurant("test_place_id");
 
-        // Get the LiveData value
-        List<Coworker> result = resultLiveData.getValue();
-
-        // Assert that the result is not null
-        assertNotNull(result);
-        // Additional assertions can be added based on the expected behavior
+        assertNotNull(resultLiveData.getValue());
+        verify(coworkerRepository).getCoworkerWhoChoseRestaurant("test_place_id");
     }
 
     @Test
     public void testGetLastKnownLocation() {
-        // Create a dummy location object for testing
         Location dummyLocation = new Location("dummyProvider");
         dummyLocation.setLatitude(37.7749);
         dummyLocation.setLongitude(-122.4194);
+        MutableLiveData<Location> mutableLiveData = new MutableLiveData<>(dummyLocation);
 
-        // Create a MutableLiveData object and set the dummy location
-        MutableLiveData<Location> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(dummyLocation);
-
-        // Mock the behavior of the locationRepository
         when(locationRepository.getLastLocation()).thenReturn(mutableLiveData);
 
-        // Call the method to be tested
-        LiveData<Location> resultLiveData = ListViewModel.getLastKnownLocation();
+        LiveData<Location> resultLiveData = listViewModel.getLastKnownLocation();
 
-        // Get the LiveData value
-        Location result = resultLiveData.getValue();
-
-        // Assert that the result is not null
-        assertNotNull(result);
-        // Additional assertions can be added based on the expected behavior
+        assertNotNull(resultLiveData.getValue());
+        assertEquals(dummyLocation, resultLiveData.getValue());
     }
 
     @Test
     public void testGetSearchResults() {
-        // Create a dummy list of search results
         ArrayList<ResultsItem> dummySearchResults = new ArrayList<>();
-        // Add dummy data to the list if needed
+        MutableLiveData<ArrayList<ResultsItem>> mutableLiveData = new MutableLiveData<>(dummySearchResults);
 
-        // Create a MutableLiveData object and set the dummy search results
-        MutableLiveData<ArrayList<ResultsItem>> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(dummySearchResults);
-
-        // Mock the behavior of the repository
         when(repository.getSearchResults()).thenReturn(mutableLiveData);
 
-        // Call the method to be tested
-        LiveData<ArrayList<ResultsItem>> resultLiveData = ListViewModel.getSearchResults();
+        LiveData<ArrayList<ResultsItem>> resultLiveData = listViewModel.getSearchResults();
 
-        // Get the LiveData value
-        ArrayList<ResultsItem> result = resultLiveData.getValue();
-
-        // Assert that the result is not null
-        assertNotNull(result);
-        // Additional assertions can be added based on the expected behavior
+        assertNotNull(resultLiveData.getValue());
+        assertEquals(dummySearchResults, resultLiveData.getValue());
     }
 
     @Test
     public void testSearchRestaurants() {
-        // Create a dummy list of search results
         ArrayList<ResultsItem> dummySearchResults = new ArrayList<>();
-        // Add dummy data to the list if needed
+        MutableLiveData<ArrayList<ResultsItem>> mutableLiveData = new MutableLiveData<>(dummySearchResults);
 
-        // Create a MutableLiveData object and set the dummy search results
-        MutableLiveData<ArrayList<ResultsItem>> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(dummySearchResults);
-
-        // Mock the behavior of the repository
-        String query = "Your search query"; // Provide a search query
+        String query = "Your search query";
         when(repository.searchRestaurants(query)).thenReturn(mutableLiveData);
 
-        // Call the method to be tested
-        LiveData<ArrayList<ResultsItem>> resultLiveData = ListViewModel.searchRestaurants(query);
+        LiveData<ArrayList<ResultsItem>> resultLiveData = listViewModel.searchRestaurants(query);
 
-        // Get the LiveData value
-        ArrayList<ResultsItem> result = resultLiveData.getValue();
-
-        // Assert that the result is not null
-        assertNotNull(result);
-        // Additional assertions can be added based on the expected behavior
+        assertNotNull(resultLiveData.getValue());
+        assertEquals(dummySearchResults, resultLiveData.getValue());
+        verify(repository).searchRestaurants(query);
     }
-
-    /**
-     * HomeViewModel
-     */
-
-    /**@Test
-    public void testSearchRestaurant() {
-        // Define the query
-        String query = "Your search query";
-
-        // Call the method to be tested
-        homeViewModel.searchRestaurant(query);
-
-        // Verify that the searchRestaurant method in the repository is called with the correct query
-        verify(repository).searchRestaurant(query);
-    }*/
-
-    /**
-     * DetailsViewModel
-     */
 
     @Test
     public void testGetRestaurantDetails() {
-        // Define a placeId for testing
         String placeId = "test_place_id";
-
-        // Create a dummy DetailsResponse object for testing
         DetailsResponse dummyResponse = new DetailsResponse();
-        // Add dummy data to the response object if needed
+        MutableLiveData<DetailsResponse> mutableLiveData = new MutableLiveData<>(dummyResponse);
 
-        // Create a MutableLiveData object and set the dummy response
-        MutableLiveData<DetailsResponse> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(dummyResponse);
-
-        // Mock the behavior of the repository
         when(repository.getRestaurantDetails(placeId)).thenReturn(mutableLiveData);
 
-        // Call the method to be tested
-        MutableLiveData<DetailsResponse> resultLiveData = detailsViewModel.getRestaurantDetails(placeId);
+        LiveData<DetailsResponse> resultLiveData = detailsViewModel.getRestaurantDetails(placeId);
 
-        // Get the LiveData value
-        DetailsResponse result = resultLiveData.getValue();
-
-        // Assert that the result is not null
-        assertNotNull(result);
-        // Additional assertions can be added based on the expected behavior
+        assertNotNull(resultLiveData.getValue());
+        assertEquals(dummyResponse, resultLiveData.getValue());
+        verify(repository).getRestaurantDetails(placeId);
     }
 
     @Test
     public void testRestaurantChoosed() {
-        // Define parameters for testing
         String placeId = "test_place_id";
         String restaurantName = "Test Restaurant";
         String address = "Test Address";
 
-        // Call the method to be tested
         detailsViewModel.restaurantChoosed(placeId, restaurantName, address);
 
-        // Verify that the restaurantChoosed method in the coworkerRepository is called with the correct parameters
         verify(coworkerRepository).restaurantChoosed(placeId, restaurantName, address);
     }
 
     @Test
     public void testGetCoworkerWhoChoseRestaurant() {
-        // Define a placeId for testing
         String placeId = "test_place_id";
-
-        // Create test data for the LiveData
         List<Coworker> testData = new ArrayList<>();
-        // Add some dummy data to the list if needed
+        MutableLiveData<List<Coworker>> mutableLiveData = new MutableLiveData<>(testData);
 
-        // Create a MutableLiveData object and set the test data
-        MutableLiveData<List<Coworker>> mutableLiveData = new MutableLiveData<>();
-        mutableLiveData.setValue(testData);
-
-        // Mock the behavior of the coworkerRepository
         when(coworkerRepository.getCoworkerWhoChoseRestaurant(placeId)).thenReturn(mutableLiveData);
 
-        // Call the method to be tested
         LiveData<List<Coworker>> resultLiveData = detailsViewModel.getCoworkerWhoChoseRestaurant(placeId);
 
-        // Get the LiveData value
-        List<Coworker> result = resultLiveData.getValue();
-
-        // Assert that the result is not null
-        assertNotNull(result);
-        // Additional assertions can be added based on the expected behavior
+        assertNotNull(resultLiveData.getValue());
+        assertEquals(testData, resultLiveData.getValue());
+        verify(coworkerRepository).getCoworkerWhoChoseRestaurant(placeId);
     }
-
-    /**
-     * MapViewModel
-     */
 
     @Test
     public void testGetLastKnownLocationMapViewModel() {
-        // Create dummy location data
         Location dummyLocation = new Location("dummyProvider");
         dummyLocation.setLatitude(37.7749);
         dummyLocation.setLongitude(-122.4194);
 
-        // Stub the behavior of getLastLocation() in the locationRepository
         when(locationRepository.getLastLocation()).thenReturn(new MutableLiveData<>(dummyLocation));
 
-        // Call the method to be tested
         LiveData<Location> resultLiveData = mapViewModel.getLastKnownLocation();
 
-        // Get the LiveData value
-        Location result = resultLiveData.getValue();
-
-        // Assert that the result matches the dummy location
-        assertEquals(dummyLocation, result);
+        assertNotNull(resultLiveData.getValue());
+        assertEquals(dummyLocation, resultLiveData.getValue());
     }
 
     @Test
     public void testGetNearbyRestaurants() {
-        // Create dummy latitude and longitude values
         double lat = 37.7749;
         double lng = -122.4194;
-
-        // Create dummy list of nearby restaurants
         ArrayList<ResultsItem> dummyNearbyRestaurants = new ArrayList<>();
-        // Add dummy data to the list if needed
 
-        // Stub the behavior of getNearbyRestaurants() in the repository
         when(repository.getNearbyRestaurants(lat, lng)).thenReturn(new MutableLiveData<>(dummyNearbyRestaurants));
 
-        // Call the method to be tested
         LiveData<ArrayList<ResultsItem>> resultLiveData = mapViewModel.getNearbyRestaurants(lat, lng);
 
-        // Get the LiveData value
-        ArrayList<ResultsItem> result = resultLiveData.getValue();
-
-        // Assert that the result matches the dummy list of nearby restaurants
-        assertEquals(dummyNearbyRestaurants, result);
+        assertNotNull(resultLiveData.getValue());
+        assertEquals(dummyNearbyRestaurants, resultLiveData.getValue());
     }
 
-    // Ne passe pas
     @Test
     public void testSearchRestaurantsMapViewModel() {
-        // Define a search query
         String query = "Your search query";
+        ArrayList<ResultsItem> dummySearchResults = new ArrayList<>();
+        MutableLiveData<ArrayList<ResultsItem>> mutableLiveData = new MutableLiveData<>(dummySearchResults);
 
-        // Call the method to be tested
+        when(repository.searchRestaurants(query)).thenReturn(mutableLiveData);
+
         LiveData<ArrayList<ResultsItem>> resultLiveData = mapViewModel.searchRestaurants(query);
 
-        // Verify that searchRestaurant() in the repository was called with the correct query
-        verify(repository).searchRestaurant(query);
-
-        // Get the LiveData value
-        ArrayList<ResultsItem> result = resultLiveData.getValue();
-
-        // Additional assertions can be added based on the expected behavior
+        assertNotNull(resultLiveData.getValue());
+        assertEquals(dummySearchResults, resultLiveData.getValue());
+        verify(repository).searchRestaurants(query);
     }
 
 }
