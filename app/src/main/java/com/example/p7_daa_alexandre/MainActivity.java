@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -38,15 +39,29 @@ import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 123;
+    private ActivityResultLauncher<Intent> signInLauncher;
     ActivityMainBinding binding;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Define the launcher
+        signInLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        handleResponseAfterSignIn(data);
+                    } else {
+                        // Handle other result codes and errors
+                    }
+                }
+        );
+
+        // Request permissions if needed
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(MainActivity.this,
                     Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -55,66 +70,53 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        List<AuthUI.IdpConfig> providers =
-                Arrays.asList(
-                        new AuthUI.IdpConfig.GoogleBuilder().build(),
-                        new AuthUI.IdpConfig.EmailBuilder().build(),
-                        new AuthUI.IdpConfig.TwitterBuilder().build()
-                );
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.GoogleBuilder().build(),
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.TwitterBuilder().build() // A enlever
+        );
 
-        // Launch the activity
-        startActivityForResult(
+        // Launch the sign-in activity
+        signInLauncher.launch(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setTheme(R.style.LoginTheme)
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false, true)
                         .setLogo(R.drawable.go4lunch_logo)
-                        .build(),
-                RC_SIGN_IN);
+                        .build()
+        );
 
         AppRepository appRepository = new AppRepository(this);
-
         appRepository.scheduleDailyNotification();
-        
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        this.handleResponseAfterSignIn(requestCode, resultCode, data);
-    }
-
-    private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data){
-
+    private void handleResponseAfterSignIn(@Nullable Intent data) {
         IdpResponse response = IdpResponse.fromResultIntent(data);
-        if (requestCode == RC_SIGN_IN) {
-            Toast.makeText( this, "Succès de la réponse !", Toast.LENGTH_SHORT).show();
-            if (resultCode == RESULT_OK) {
+        if (response != null) {
+            Toast.makeText(this, "Succès de la réponse !", Toast.LENGTH_SHORT).show();
+            if (response.isSuccessful()) {
                 CoworkerRepository.getInstance().createWorkmates();
                 showSnackBar("connection_succeed");
-                Intent intent= new Intent(getApplicationContext(), HomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
-
             } else {
-                Toast.makeText( this,"Succès de la réponse !", Toast.LENGTH_SHORT).show();
-                if (response == null) {
-                    showSnackBar("Erreur de l'authentification annulé !");
-                } else if (response.getError()!= null) {
-                    if(response.getError().getErrorCode() == ErrorCodes.NO_NETWORK){
+                Toast.makeText(this, "Échec de la connexion !", Toast.LENGTH_SHORT).show();
+                if (response.getError() != null) {
+                    int errorCode = response.getError().getErrorCode();
+                    if (errorCode == ErrorCodes.NO_NETWORK) {
                         showSnackBar("Erreur avec internet");
-                    } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
+                    } else if (errorCode == ErrorCodes.UNKNOWN_ERROR) {
                         showSnackBar("Erreur inconnue");
                     }
                 }
             }
+        } else {
+            showSnackBar("Erreur de l'authentification annulé !");
         }
     }
 
-    private void showSnackBar( String message){
-        Toast.makeText( this, message, Toast.LENGTH_SHORT).show();
+    private void showSnackBar(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
-
 }
