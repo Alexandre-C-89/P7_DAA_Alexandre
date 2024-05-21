@@ -1,19 +1,14 @@
 package com.example.p7_daa_alexandre.ui.list;
 
-import static com.example.p7_daa_alexandre.ui.list.RestaurantAdapter.userLocation;
-
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,13 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.p7_daa_alexandre.ViewModelFactory;
 import com.example.p7_daa_alexandre.database.response.nearbysearch.ResultsItem;
 import com.example.p7_daa_alexandre.databinding.FragmentListBinding;
-import com.example.p7_daa_alexandre.repository.LocationRepository;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
