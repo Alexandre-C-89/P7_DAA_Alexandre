@@ -1,6 +1,7 @@
 package com.example.p7_daa_alexandre.ui.details;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +47,6 @@ public class DetailsActivity extends AppCompatActivity {
         binding.listworkmatesjoining.setLayoutManager(new LinearLayoutManager(this));
         binding.listworkmatesjoining.setAdapter(adapter);
         String restaurant = getIntent().getStringExtra("restaurant");
-        Log.d("DetailsActivity", "Retrieving restaurant details for: " + restaurant);
         viewModel.getRestaurantDetails(restaurant).observe(this, new Observer<DetailsResponse>() {
             @Override
             public void onChanged(DetailsResponse details) {
@@ -96,11 +96,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 if (details != null && details.getResult().getFormattedPhoneNumber() != null) {
                     Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + details.getResult().getFormattedPhoneNumber()));
-                    if (dialIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(dialIntent);
-                    } else {
-                        Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_call_button, Toast.LENGTH_SHORT).show();
-                    }
+                    startActivity(dialIntent);
                 } else {
                     Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_call_number_button, Toast.LENGTH_SHORT).show();
                 }
@@ -112,12 +108,9 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (details != null && details.getResult().getWebsite() != null) {
                     String websiteUrl = details.getResult().getWebsite();
+                    Log.d("DetailsActivity", "Website URL: " + details.getResult().getWebsite());
                     Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl));
-                    if (webIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(webIntent);
-                    } else {
-                        Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_website_button, Toast.LENGTH_SHORT).show();
-                    }
+                    startActivity(webIntent);
                 } else {
                     Toast.makeText(DetailsActivity.this, R.string.toast_details_activity_message_website, Toast.LENGTH_SHORT).show();
                 }

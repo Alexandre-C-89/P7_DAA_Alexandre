@@ -34,11 +34,8 @@ import java.util.concurrent.CompletableFuture;
 public class CoworkerRepository {
 
     private static final String COLLECTION_NAME = "Coworkers";
-    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION = "liked_restaurant";
-    private static final String COWORKERS_LIKED_RESTAURANT_COLLECTION_NAME_FIELD = "nom";
     private static volatile CoworkerRepository instance;
     private final MutableLiveData<ArrayList<Coworker>> listOfCoworkers = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isLiked=new MutableLiveData<>();
 
 
     public CoworkerRepository() {
