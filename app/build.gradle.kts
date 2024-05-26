@@ -15,7 +15,6 @@ plugins {
     // Add the Google services Gradle plugin
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-    //id ("dagger.hilt.android.plugin")
 }
 
 android {
@@ -38,7 +37,7 @@ android {
     }
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
