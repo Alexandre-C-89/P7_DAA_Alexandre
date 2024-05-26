@@ -3,6 +3,8 @@ package com.example.p7_daa_alexandre.ui.home;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,11 +20,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p7_daa_alexandre.MainActivity;
 import com.example.p7_daa_alexandre.R;
@@ -33,27 +38,36 @@ import com.example.p7_daa_alexandre.model.Coworker;
 import com.example.p7_daa_alexandre.ui.coworker.CoworkerFragment;
 import com.example.p7_daa_alexandre.ui.details.DetailsActivity;
 import com.example.p7_daa_alexandre.ui.list.ListFragment;
+import com.example.p7_daa_alexandre.ui.list.RestaurantAdapter;
 import com.example.p7_daa_alexandre.ui.map.MapFragment;
 import com.example.p7_daa_alexandre.ui.settings.SettingsFragment;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity{
 
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
     ActivityHomeBinding binding;
-
     HomeViewModel viewModel;
-
-    private Handler searchHandler = new Handler(Looper.getMainLooper());
-
-    private Runnable searchRunnable;
+    private FusedLocationProviderClient fusedLocationClient;
+    private Location userLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize variables
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        requestLocationPermission();
+
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -212,6 +226,43 @@ public class HomeActivity extends AppCompatActivity{
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
+    }
+
+    private void requestLocationPermission() {
+        ActivityResultLauncher<String[]> locationPermissionRequest =
+                registerForActivityResult(new ActivityResultContracts
+                                .RequestMultiplePermissions(), result -> {
+                            Boolean fineLocationGranted = result.getOrDefault(
+                                    Manifest.permission.ACCESS_FINE_LOCATION, false);
+                            Boolean coarseLocationGranted = result.getOrDefault(
+                                    Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                            if (fineLocationGranted != null && fineLocationGranted) {
+                                getUserLocation();
+                            } else if (coarseLocationGranted != null && coarseLocationGranted) {
+                                getUserLocation();
+                            } else {
+                                Toast.makeText(HomeActivity.this, R.string.toast_home_activity_message_fine_permission, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
+        locationPermissionRequest.launch(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
+    }
+
+    private void getUserLocation() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    if (location != null) {
+                        userLocation = location;
+                        // Update ListFragment with user location
+                        replaceFragment(ListFragment.newInstance(userLocation));
+                    } else {
+                        // Handle location not found scenario
+                        replaceFragment(new ListFragment()); // Fallback in case location is not found
+                    }
+                });
     }
 
 }

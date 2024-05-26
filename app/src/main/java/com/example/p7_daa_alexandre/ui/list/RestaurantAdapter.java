@@ -26,7 +26,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     private ArrayList<ResultsItem> mRestaurant;
     private static Map<String, Integer> likesMap = new HashMap<>();
-
     static Location userLocation;
 
     public RestaurantAdapter(ArrayList<ResultsItem> restaurants, Map<String, Integer> likesMap, Location userLocation) {
@@ -60,12 +59,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         public void bind(ResultsItem restaurant) {
             restaurantName.setText(restaurant.getName());
-            if (userLocation != null) {
+            //if (userLocation != null) {
                 String distanceText = calculateDistance(userLocation, restaurant.getGeometry().getLocation().getLat(), restaurant.getGeometry().getLocation().getLng());
                 restaurantDistance.setText(distanceText);
-            } else {
+            /*} else {
                 restaurantDistance.setText("Distance not available");
-            }
+            }*/
             if (restaurant.getPhotos() != null && !restaurant.getPhotos().isEmpty()) {
                 imgRestaurant.setTag(restaurant.getPhotos());
                 String urlPhoto = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="
@@ -137,5 +136,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         this.likesMap = likesMap;
         notifyDataSetChanged(); // Refresh data when the likes map is updated
     }
+
+    public void setUserLocation(Location location) {
+        userLocation = location;
+        notifyDataSetChanged();
+    }
+
 }
 

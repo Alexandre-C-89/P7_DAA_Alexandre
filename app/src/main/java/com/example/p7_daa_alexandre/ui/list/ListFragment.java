@@ -31,9 +31,21 @@ public class ListFragment extends Fragment {
     private Map<String, Integer> restaurantLikesMap = new HashMap<>();
     private Location userLocation;
 
+    public static ListFragment newInstance(Location userLocation) {
+        ListFragment fragment = new ListFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("userLocation", userLocation);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @NonNull
     public void onCreate (Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
+        if (getArguments() != null) {
+            userLocation = getArguments().getParcelable("userLocation");
+        }
     }
 
     @Override
@@ -83,8 +95,10 @@ public class ListFragment extends Fragment {
         RecyclerView recyclerView = binding.listRestaurants;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         viewModel.getLastKnownLocation().observe(getViewLifecycleOwner(), location -> {
-            userLocation = location;
-            //adapter.setUserLocation(location);
+            if (location != null) {
+                userLocation = location;
+                adapter.setUserLocation(location);
+            }
         });
         recyclerView.setAdapter(adapter);
     }
